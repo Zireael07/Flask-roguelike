@@ -7,6 +7,8 @@ from .velocity import Velocity
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
 
+from . import arenamap
+
 from . import game_vars
 
 def main():
@@ -25,11 +27,16 @@ def main():
     world.add_component(player, Position(x=1, y=1))
     world.add_component(player, Velocity())
 
+    # Generate map
+    mapa = arenamap.map_create([(10,10), (15,15)])
+    #arenamap.print_map_string(mapa)
+
     # Save state 
     game_vars.world = world
+    game_vars.mapa = mapa
 
     print("Main logic")
-    # traditional loop
+    # traditional loop is not necessary in Flask
     #try:
     #    while True:
     #        world.process()
