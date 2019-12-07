@@ -68,6 +68,20 @@ def get_map_string(inc_map):
     return string
 
 # this is for map display
+# just store map glyphs
+def map_as_displayed(inc_map):
+    mapa = []
+
+    # dummy
+    mapa = [[get_map_str(get_index(TileTypes.FLOOR)) for _ in range(constants.MAP_HEIGHT)] for _ in range(constants.MAP_WIDTH)]
+
+    for y in range(len(inc_map[0])):
+        for x in range(len(inc_map)):
+            mapa[x][y] = get_map_str(inc_map[x][y])
+
+    return mapa
+
+
 def get_map_HTML(inc_map):
     list_str = []
 

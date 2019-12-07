@@ -13,7 +13,19 @@
   <script  src="{{url_for('static', filename='jquery-3.3.1.js') }}" ></script>
   <script  src="{{url_for('static', filename='keypad.js') }}"></script>
   <p>Position: x {{position['x'] }}  y {{ position['y'] }}</p>
-  <p id="mapa" style="font-family: monospace;">{{mapa |safe}}</p>
+  <!-- simple HTML console-->
+  <div id="console" style="font-family: monospace;">
+    <!-- For loop logic of jinja template -->
+        <!-- 18 px for Consolas-->
+    <!--https://stackoverflow.com/questions/45719062/jinja-docx-template-avoiding-new-line-in-nested-for-->
+  {%for i in range(0, 20)%} 
+  <div style="height:18px;">
+
+  {%for j in range(0, 20)%}<span style="background-color: black; color: white;">{{mapa[i][j]}}</span>{%endfor%}
+  </div>
+  {%endfor%} 
+  </div>
+
   <div id="keypad" class="keypad">
 
       <table id="main">

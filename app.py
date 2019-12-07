@@ -14,7 +14,8 @@ def hello_world():
     # Initial page draw
     data = game.represent_world(game_vars.world, Position)
     pos = game.get_position(data)
-    mapa = arenamap.get_map_HTML(game_vars.mapa)
+    #mapa = arenamap.get_map_HTML(game_vars.mapa)
+    mapa = arenamap.map_as_displayed(game_vars.mapa)
 
     return render_template('index.html', position = pos, mapa=mapa)
     #return game.represent_world(game_vars.world, Position)
