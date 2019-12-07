@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 app = Flask(__name__)
 
 from logic import game
@@ -17,4 +17,19 @@ def hello_world():
     #    "location": (1,1)
     #}
     #return 'Hello, World!'
+
+
+# Thanks to https://repl.it/@EthanGoldman/Python-Flask-Website-with-Ajax-and-Jquery for figuring this out!
+#When HTML button is clicked, execute the function
+@app.route('/move/<x>/<y>', methods = ['GET'])
+def move(x=None, y=None):
+    print("Move: " + str(x) + " " + str(y)) 
+
+    action = {'move': (int(x), int(y))}
+
+    game.move_and_update(game_vars.world, action)
+    data = game.represent_world(game_vars.world, Position)
+    pos = game.get_position(data)
+
+    return jsonify({'data': render_template('response.html', position=pos)})
 
