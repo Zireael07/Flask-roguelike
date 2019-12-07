@@ -8,7 +8,7 @@ $( document ).ready(function() {
             type: "GET",
             success: function(response){
                 console.log("Success");
-                $('p').html(response.data);
+                $('#output').html(response.data);
                 //this does update the page but buttons no longer work
                 //document.write(html)
             }
@@ -23,7 +23,7 @@ $( document ).ready(function() {
             type: "GET",
             success: function(response){
                 console.log("Success");
-                $('p').html(response.data);
+                $('#output').html(response.data);
                 //this does update the page but buttons no longer work
                 //document.write(html)
             }
@@ -38,7 +38,7 @@ $( document ).ready(function() {
             type: "GET",
             success: function(response){
                 console.log("Success");
-                $('p').html(response.data);
+                $('#output').html(response.data);
                 //this does update the page but buttons no longer work
                 //document.write(html)
             }
@@ -53,7 +53,7 @@ $( document ).ready(function() {
             type: "GET",
             success: function(response){
                 console.log("Success");
-                $('p').html(response.data);
+                $('#output').html(response.data);
                 //this does update the page but buttons no longer work
                 //document.write(html)
             }
@@ -68,7 +68,7 @@ $( document ).ready(function() {
             type: "GET",
             success: function(response){
                 console.log("Success");
-                $('p').html(response.data);
+                $('#output').html(response.data);
                 //this does update the page but buttons no longer work
                 //document.write(html)
             }
@@ -83,7 +83,7 @@ $( document ).ready(function() {
             type: "GET",
             success: function(response){
                 console.log("Success");
-                $('p').html(response.data);
+                $('#output').html(response.data);
                 //this does update the page but buttons no longer work
                 //document.write(html)
             }
@@ -98,7 +98,7 @@ $( document ).ready(function() {
             type: "GET",
             success: function(response){
                 console.log("Success");
-                $('p').html(response.data);
+                $('#output').html(response.data);
                 //this does update the page but buttons no longer work
                 //document.write(html)
             }
@@ -113,7 +113,7 @@ $( document ).ready(function() {
             type: "GET",
             success: function(response){
                 console.log("Success");
-                $('p').html(response.data);
+                $('#output').html(response.data);
                 //this does update the page but buttons no longer work
                 //document.write(html)
             }

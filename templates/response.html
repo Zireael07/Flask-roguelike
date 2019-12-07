@@ -1,1 +1,15 @@
+<div id="output">
 <p>Position: x {{position['x'] }}  y {{ position['y'] }}</p>
+<!-- simple HTML console-->
+<div id="console" style="font-family: monospace;">
+    <!-- For loop logic of jinja template -->
+        <!-- 18 px for Consolas-->
+    <!--https://stackoverflow.com/questions/45719062/jinja-docx-template-avoiding-new-line-in-nested-for-->
+{%for y in range(0, 20)%} 
+<div style="height:18px;">
+
+{%for x in range(0, 20)%}<span style="background-color: black; color: white;">{{mapa[x][y]}}</span>{%endfor%}
+</div>
+{%endfor%} 
+</div>
+</div>

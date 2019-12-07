@@ -16,6 +16,8 @@ def hello_world():
     pos = game.get_position(data)
     #mapa = arenamap.get_map_HTML(game_vars.mapa)
     mapa = arenamap.map_as_displayed(game_vars.mapa)
+    # draw player at his position
+    mapa[pos.x][pos.y] = '@'
 
     return render_template('index.html', position = pos, mapa=mapa)
     #return game.represent_world(game_vars.world, Position)
@@ -35,8 +37,12 @@ def move(x=None, y=None):
     action = {'move': (int(x), int(y))}
 
     game.move_and_update(game_vars.world, action)
+    # redraw
     data = game.represent_world(game_vars.world, Position)
     pos = game.get_position(data)
+    mapa = arenamap.map_as_displayed(game_vars.mapa)
+    # draw player at his position
+    mapa[pos.x][pos.y] = '@'
 
-    return jsonify({'data': render_template('response.html', position=pos)})
+    return jsonify({'data': render_template('response.html', position=pos, mapa=mapa)})
 
