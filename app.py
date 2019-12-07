@@ -4,13 +4,19 @@ app = Flask(__name__)
 from logic import game
 from logic import game_vars
 from logic.position import Position
+from logic import arenamap
 
 @app.route('/')
 def hello_world():
+    # Init game
     game.main()
+
+    # Initial page draw
     data = game.represent_world(game_vars.world, Position)
     pos = game.get_position(data)
-    return render_template('index.html', position = pos)
+    mapa = arenamap.get_map_HTML(game_vars.mapa)
+
+    return render_template('index.html', position = pos, mapa=mapa)
     #return game.represent_world(game_vars.world, Position)
     # dict is converted to JSON automatically
     #return {
