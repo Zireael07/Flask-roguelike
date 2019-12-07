@@ -4,6 +4,8 @@ from . import esper # the one Python3 library we're using
 
 from .position import Position
 from .velocity import Velocity
+from .movement_processor import MovementProcessor
+from .action_processor import ActionProcessor
 
 from . import game_vars
 
@@ -12,7 +14,12 @@ def main():
     world = esper.World()
 
     # Instantiate processors
-    
+    movement_processor = MovementProcessor()
+    action_processor = ActionProcessor()
+
+    world.add_processor(action_processor, 100)
+    world.add_processor(movement_processor, 50)    
+
     # Create entities and assign components
     player = world.create_entity()
     world.add_component(player, Position(x=1, y=1))
@@ -29,6 +36,10 @@ def main():
     #        time.sleep(1)
   
 # Functions called by the Flask API
+def move_and_update(world, action):
+    world.get_processor(ActionProcessor).action = action
+    world.process()
+
 def get_position(data):
     # raw JSON
     #return data['list'][0]
