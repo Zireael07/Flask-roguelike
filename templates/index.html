@@ -1,0 +1,63 @@
+<html>
+
+  <head>
+
+    <meta charset="UTF-8">
+
+    <title>My Flask project!</title>
+
+  </head>
+
+  <body>
+  <p>Position: x {{position['x'] }}  y {{ position['y'] }}</p>
+  <div id="keypad" class="keypad">
+
+      <table id="main">
+
+      <tbody>
+
+      <tr>
+
+        <!-- button tag can be buggy so we use input type=button -->
+
+        <!-- using hex values for Unicode characters -->
+
+        <td><input id="go_nw" type="button" value="&#9700" > </td>
+
+        <!-- for consistency -->
+
+        <td><input id="go_n" type="button" value="&#9650"> </td>
+
+        <td><input id="go_ne" type="button" value="&#9701" > </td>
+
+        </tr>
+
+        <tr>
+
+        <td><input id="go_w" type="button" value= "&#9664"> </td>
+
+        <!-- midline ellipsis -->
+
+        <td><input id="go_wait" type="button" value= "&#8943"> </td>
+
+        <td><input id="go_e" type="button" value= "&#9654"> </td>
+
+        </tr>
+
+        <tr>
+
+        <td><input id="go_sw" type="button" value= "&#9699"> </td>
+
+        <!-- for consistency -->
+
+        <td><input id="go_s" type="button" value= "&#9660"> </td>
+
+        <td><input id="go_se" type="button" value="&#9698"> </td>
+
+      </tr>
+
+      </tbody>
+
+      </table>
+      </body>
+</html>

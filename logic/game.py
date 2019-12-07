@@ -1,4 +1,6 @@
-from . import esper
+import jsonpickle  # because we're lazy and don't want to manually serialize everything
+
+from . import esper # the one Python3 library we're using
 
 from .position import Position
 from .velocity import Velocity
@@ -8,6 +10,7 @@ from . import game_vars
 def main():
     # Prepare world
     world = esper.World()
+
     # Instantiate processors
     
     # Create entities and assign components
@@ -25,8 +28,15 @@ def main():
     #        world.process()
     #        time.sleep(1)
   
+# Functions called by the Flask API
+def get_position(data):
+    # raw JSON
+    #return data['list'][0]
+    return jsonpickle.decode(data['list'][0])
+
 def json_info(comp):
-    return str(comp)
+    return jsonpickle.encode(comp)
+    #return str(comp)
     #return str(type(comp))
 
 
@@ -45,5 +55,5 @@ def represent_world(world, *with_components):
         data.update({"list" : list})
 
     return data
-    print(tabulate.tabulate(data))
+#    print(tabulate.tabulate(data))
 
