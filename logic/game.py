@@ -5,6 +5,9 @@ from . import esper # the one Python3 library we're using
 from .position import Position
 from .velocity import Velocity
 from .player import Player
+from .turn_component import TurnComponent
+from .renderable import RenderableComponent
+
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
 from .fov_processor import FovProcessor
@@ -38,8 +41,21 @@ def main():
     # Create entities and assign components
     player = world.create_entity()
     world.add_component(player, Player())
+    world.add_component(player, TurnComponent())
     world.add_component(player, Position(x=1, y=1))
     world.add_component(player, Velocity())
+
+    # Create some npcs
+    world.create_entity(
+        Position(x=4, y=4),
+        RenderableComponent(char='h', color=(255, 255, 255)),
+        Velocity()
+    ) 
+    world.create_entity(
+        Position(x=12, y=6),
+        RenderableComponent(char='h', color=(255, 255, 255)),
+        Velocity()
+    ) 
 
     # Generate map
     mapa = arenamap.map_create([(10,10), (15,15)])
@@ -77,7 +93,7 @@ def move_and_update(world, action):
 def get_position(data):
     # raw JSON
     #return data['list'][0]
-    return jsonpickle.decode(data['list'][1])
+    return jsonpickle.decode(data['list'][2])
 
 def json_info(comp):
     return jsonpickle.encode(comp)

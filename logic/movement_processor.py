@@ -2,7 +2,7 @@ from . import esper
 
 from .position import Position
 from .velocity import Velocity
-
+from .turn_component import TurnComponent
 
 class MovementProcessor(esper.Processor):
 
@@ -10,7 +10,12 @@ class MovementProcessor(esper.Processor):
         super().__init__()
 
     def process(self):
-        for ent, (vel, pos) in self.world.get_components(Velocity, Position):
+        for ent, (turn, vel, pos) in self.world.get_components(TurnComponent, Velocity, Position):
+            print("Ent: " + str(ent) + " vel " + str(vel))
+            if vel.dx == 0 and vel.dy == 0:
+                # skip entity
+                continue 
+            
             tx = pos.x + vel.dx 
             ty = pos.y + vel.dy
 
