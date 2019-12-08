@@ -15,7 +15,8 @@ def hello_world():
     data = game.represent_world(game_vars.world, Position)
     pos = game.get_position(data)
     #mapa = arenamap.get_map_HTML(game_vars.mapa)
-    console = arenamap.get_map_glyphs(game_vars.mapa)
+    #console = arenamap.get_map_glyphs(game_vars.mapa)
+    console = arenamap.map_to_draw(game_vars.mapa, game_vars.fov)
     # draw player at his position
     console[pos.x][pos.y] = '@'
 
@@ -40,7 +41,8 @@ def move(x=None, y=None):
     # redraw
     data = game.represent_world(game_vars.world, Position)
     pos = game.get_position(data)
-    console = arenamap.get_map_glyphs(game_vars.mapa)
+    #console = arenamap.get_map_glyphs(game_vars.mapa)
+    console = arenamap.map_to_draw(game_vars.mapa, game_vars.fov)
     # draw player at his position
     console[pos.x][pos.y] = '@'
 
