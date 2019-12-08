@@ -69,7 +69,7 @@ def get_map_string(inc_map):
 
 # this is for map display
 # just store map glyphs
-def map_as_displayed(inc_map):
+def get_map_glyphs(inc_map):
     mapa = []
 
     # dummy
@@ -81,6 +81,22 @@ def map_as_displayed(inc_map):
 
     return mapa
 
+
+def map_to_draw(inc_map, fov):
+    mapa = get_map_glyphs(inc_map)
+
+    # dummy
+    mapa = [[get_map_str(get_index(TileTypes.FLOOR)) for _ in range(constants.MAP_HEIGHT)] for _ in range(constants.MAP_WIDTH)]
+
+    for y in range(len(inc_map[0])):
+        for x in range(len(inc_map)):
+            if fov[x][y] == 1: # visible
+                mapa[x][y] = get_map_str(inc_map[x][y])
+            else:
+                mapa[x][y] = "&nbsp;"
+                # blank span later escaped by |safe Jinja template markup
+
+    return mapa
 
 def get_map_HTML(inc_map):
     list_str = []

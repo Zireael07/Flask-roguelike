@@ -23,3 +23,4 @@ class MovementProcessor(esper.Processor):
 
             pos.x = tx
             pos.y = ty
+            #print("Pos after move process: " + str(pos.x) + " " + str(pos.y))
