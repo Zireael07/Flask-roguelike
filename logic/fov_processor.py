@@ -12,6 +12,7 @@ from . import game_vars
  # FOV interface
 def explore(x,y):
     game_vars.fov[x][y] = 1
+    game_vars.explored[x][y] = 1
 
 def block_sight(x,y):
     return get_block_path(game_vars.mapa[x][y])

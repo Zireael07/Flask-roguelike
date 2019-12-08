@@ -7,3 +7,4 @@ world = None
 # unfortunately, 'map' is a reserved keyword in Python
 mapa = None
 fov = None
+explored = None

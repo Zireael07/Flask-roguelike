@@ -3,6 +3,8 @@ import sys
 from . import constants
 from .tile_lookups import TileTypes, get_index, get_map_str
 
+from . import game_vars
+
 def map_create(pillars):
     #new_map = [[struc_Tile(False) for y in range(0, constants.MAP_HEIGHT)] for x in range(0, constants.MAP_WIDTH)]
     new_map = [[ get_index(TileTypes.FLOOR) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
@@ -82,7 +84,7 @@ def get_map_glyphs(inc_map):
     return mapa
 
 
-def map_to_draw(inc_map, fov):
+def map_to_draw(inc_map, fov, explored):
     mapa = get_map_glyphs(inc_map)
 
     # dummy
@@ -90,13 +92,24 @@ def map_to_draw(inc_map, fov):
 
     for y in range(len(inc_map[0])):
         for x in range(len(inc_map)):
-            if fov[x][y] == 1: # visible
+            # visible or explored
+            if fov[x][y] == 1 or explored[x][y]: 
                 mapa[x][y] = get_map_str(inc_map[x][y])
             else:
                 mapa[x][y] = "&nbsp;"
                 # blank span later escaped by |safe Jinja template markup
 
     return mapa
+
+"""
+Returns CSS classes
+Kudos to https://teamtreehouse.com/community/how-do-you-add-classes-and-ids-to-template-blocks-in-flask for figuring that out
+"""
+def map_style(x, y):
+    if game_vars.explored[x][y] == 1 and game_vars.fov[x][y] == 0:
+        return "explored"
+    else:
+        return "normal"
 
 def get_map_HTML(inc_map):
     list_str = []

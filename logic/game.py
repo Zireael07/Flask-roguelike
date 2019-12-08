@@ -22,7 +22,9 @@ def main():
 
     # Initial FOV setup
     fov_map = [[0 for _ in range(constants.MAP_HEIGHT)] for _ in range(constants.MAP_WIDTH)]
+    explored = [[0 for _ in range(constants.MAP_HEIGHT)] for _ in range(constants.MAP_WIDTH)]
     game_vars.fov = fov_map
+    game_vars.explored = explored
 
     # Instantiate processors
     movement_processor = MovementProcessor()
@@ -62,6 +64,7 @@ def main():
 # FOV interface
 def explore(x,y):
     game_vars.fov[x][y] = 1
+    game_vars.explored[x][y] = 1
 
 def block_sight(x,y):
     return get_block_path(game_vars.mapa[x][y])
