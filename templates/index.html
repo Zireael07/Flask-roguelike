@@ -3,7 +3,7 @@
   <head>
 
     <meta charset="UTF-8">
-
+    <link rel="stylesheet" href="{{url_for('static', filename='main.css') }}">
     <title>My Flask project!</title>
 
   </head>
@@ -21,7 +21,7 @@
     <!--https://stackoverflow.com/questions/45719062/jinja-docx-template-avoiding-new-line-in-nested-for-->
   {%for y in range(0, 20)%} 
   <div style="height:18px;">
-  {%for x in range(0, 20)%}<span style="background-color: black; color: white;">{{console[x][y]|safe}}</span>{%endfor%}
+  {%for x in range(0, 20)%}<span class="{{style(x,y)}}" style="background-color: black;">{{console[x][y]|safe}}</span>{%endfor%}
   </div>
   {%endfor%} 
   </div>

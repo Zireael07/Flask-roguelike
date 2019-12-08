@@ -16,11 +16,11 @@ def hello_world():
     pos = game.get_position(data)
     #mapa = arenamap.get_map_HTML(game_vars.mapa)
     #console = arenamap.get_map_glyphs(game_vars.mapa)
-    console = arenamap.map_to_draw(game_vars.mapa, game_vars.fov)
+    console = arenamap.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
     # draw player at his position
     console[pos.x][pos.y] = '@'
 
-    return render_template('index.html', position = pos, console=console)
+    return render_template('index.html', position = pos, console=console, style=arenamap.map_style)
     #return game.represent_world(game_vars.world, Position)
     # dict is converted to JSON automatically
     #return {
@@ -42,9 +42,9 @@ def move(x=None, y=None):
     data = game.represent_world(game_vars.world, Position)
     pos = game.get_position(data)
     #console = arenamap.get_map_glyphs(game_vars.mapa)
-    console = arenamap.map_to_draw(game_vars.mapa, game_vars.fov)
+    console = arenamap.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
     # draw player at his position
     console[pos.x][pos.y] = '@'
 
-    return jsonify({'data': render_template('response.html', position=pos, console=console)})
+    return jsonify({'data': render_template('response.html', position=pos, console=console, style=arenamap.map_style)})
 
