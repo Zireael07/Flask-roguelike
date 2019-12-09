@@ -7,10 +7,12 @@ from .velocity import Velocity
 from .player import Player
 from .turn_component import TurnComponent
 from .renderable import RenderableComponent
+from .NPC_component import NPC_Component
 
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
 from .fov_processor import FovProcessor
+##from .AI_processor import AIProcessor
 
 from . import arenamap
 from . import constants
@@ -49,12 +51,14 @@ def main():
     world.create_entity(
         Position(x=4, y=4),
         RenderableComponent(char='h', color=(255, 255, 255)),
-        Velocity()
+        Velocity(),
+        NPC_Component()
     ) 
     world.create_entity(
         Position(x=12, y=6),
         RenderableComponent(char='h', color=(255, 255, 255)),
-        Velocity()
+        Velocity(),
+        NPC_Component()
     ) 
 
     # Generate map
@@ -90,10 +94,10 @@ def move_and_update(world, action):
     world.get_processor(ActionProcessor).action = action
     world.process()
 
-def get_position(data):
-    # raw JSON
-    #return data['list'][0]
-    return jsonpickle.decode(data['list'][2])
+def get_position(world):
+    # we can get it straight from the world
+    for ent, (player, pos) in world.get_components(Player, Position):
+        return pos
 
 def json_info(comp):
     return jsonpickle.encode(comp)

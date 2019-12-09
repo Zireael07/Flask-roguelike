@@ -1,6 +1,9 @@
 from . import esper
 
+from .AI_processor import AIProcessor
+
 from .velocity import Velocity
+from .turn_component import TurnComponent
 
 class ActionProcessor(esper.Processor):
 
@@ -9,17 +12,19 @@ class ActionProcessor(esper.Processor):
         self.action = None
 
     def process(self):
-
         # Assign the appropriate component.
         # For example, for action == {'move': (0, -1)}, set the vel.dx and vel.dy.
 
         _move = self.action.get('move')
 
-        for ent, (vel) in self.world.get_components(Velocity):
-
+        for ent, (turn) in self.world.get_components(TurnComponent):
+            print("Entity has turn...")
             if _move:
                 dx, dy = _move
-                # Flatten
-                vel[0].dx = dx
-                vel[0].dy = dy
+                print("We have a move to execute " + str(dx) + " " + str(dy))
+                self.world.add_component(ent, Velocity(dx=dx, dy=dy))
+
+            # no longer our turn, AI now acts
+            self.world.remove_component(ent, TurnComponent)
+            self.world.add_processor(AIProcessor())
 
