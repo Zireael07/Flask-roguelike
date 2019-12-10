@@ -8,3 +8,5 @@ world = None
 mapa = None
 fov = None
 explored = None
+
+messages = None

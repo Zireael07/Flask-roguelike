@@ -10,10 +10,13 @@ from .renderable import RenderableComponent
 from .NPC_component import NPC_Component
 from .blocks_tile import TileBlocker
 from .combat_stats import StatsComponent
+from .name_component import NameComponent
 
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
 from .fov_processor import FovProcessor
+from .combat_processor import CombatProcessor
+from .death_processor import DeathProcessor
 ##from .AI_processor import AIProcessor
 
 from . import arenamap
@@ -37,10 +40,14 @@ def main():
     movement_processor = MovementProcessor()
     action_processor = ActionProcessor()
     fov_processor = FovProcessor()
+    combat_processor = CombatProcessor()
+    death_processor = DeathProcessor()
 
     world.add_processor(action_processor, 100)
     world.add_processor(movement_processor, 50)
-    world.add_processor(fov_processor, 45)
+    world.add_processor(combat_processor, 49)
+    world.add_processor(death_processor, 20)
+    world.add_processor(fov_processor, 15)
 
     # Create entities and assign components
     player = world.create_entity()
@@ -49,6 +56,7 @@ def main():
     world.add_component(player, Position(x=1, y=1))
     world.add_component(player, Velocity())
     world.add_component(player, StatsComponent(hp=20, power=4))
+    world.add_component(player, NameComponent("Player"))
 
     # Create some npcs
     world.create_entity(
@@ -57,7 +65,8 @@ def main():
         Velocity(),
         TileBlocker(),
         NPC_Component(),
-        StatsComponent(hp=11, power=2)
+        StatsComponent(hp=11, power=2),
+        NameComponent("Human")
     ) 
     world.create_entity(
         Position(x=12, y=6),
@@ -65,7 +74,8 @@ def main():
         Velocity(),
         TileBlocker(),
         NPC_Component(),
-        StatsComponent(hp=11, power=2)
+        StatsComponent(hp=11, power=2),
+        NameComponent("Human")
     ) 
 
     # Generate map
@@ -79,6 +89,8 @@ def main():
     # Save state 
     game_vars.world = world
     game_vars.fov = fov_map
+    # Init messages
+    game_vars.messages = []
 
     print("Initialized game...")
 
