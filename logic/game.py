@@ -8,6 +8,7 @@ from .player import Player
 from .turn_component import TurnComponent
 from .renderable import RenderableComponent
 from .NPC_component import NPC_Component
+from .blocks_tile import TileBlocker
 
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
@@ -52,12 +53,14 @@ def main():
         Position(x=4, y=4),
         RenderableComponent(char='h', color=(255, 255, 255)),
         Velocity(),
+        TileBlocker(),
         NPC_Component()
     ) 
     world.create_entity(
         Position(x=12, y=6),
         RenderableComponent(char='h', color=(255, 255, 255)),
         Velocity(),
+        TileBlocker(),
         NPC_Component()
     ) 
 
@@ -99,6 +102,8 @@ def get_position(world):
     for ent, (player, pos) in world.get_components(Player, Position):
         return pos
 
+
+# debugging
 def json_info(comp):
     return jsonpickle.encode(comp)
     #return str(comp)

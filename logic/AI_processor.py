@@ -4,8 +4,10 @@ from .NPC_component import NPC_Component
 from .turn_component import TurnComponent
 from .position import Position
 from .player import Player
+from .blocks_tile import TileBlocker
 
 from . import game_vars
+from .tile_lookups import TileTypes, get_index
 from . import astar
 
 class AIProcessor(esper.Processor):
@@ -33,8 +35,15 @@ class AIProcessor(esper.Processor):
         # FOV is symmetric: if we're in FOV, player is in NPC's sights too
         if game_vars.fov[position.x][position.y]:
             print("We can see player")
-            # pathfind
-            path = astar.astar(game_vars.mapa, (position.x, position.y), (player_pos.x, player_pos.y))
+            # pathfinding
+            # avoid changing the real map
+            import copy
+            path_map = copy.deepcopy(game_vars.mapa)
+            # mark spots with blocking entities as "walls"
+            for entity, (block, pos) in self.world.get_components(TileBlocker, Position):
+                path_map[pos.x][pos.y] = get_index(TileTypes.WALL)
+
+            path = astar.astar(path_map, (position.x, position.y), (player_pos.x, player_pos.y))
             print("Path: " + str(path))
             # #0 is our current position
             if len(path) > 1:
