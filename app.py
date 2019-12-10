@@ -4,11 +4,13 @@ app = Flask(__name__)
 # generic
 from logic import game
 from logic import game_vars
+from logic import constants
 
 # more specific stuff we need
 from logic.player import Player
 from logic.position import Position
 from logic.renderable import RenderableComponent
+from logic.dead_component import DeadComponent
 from logic import arenamap
 
 @app.route('/')
@@ -62,8 +64,18 @@ def move(x=None, y=None):
         if not game_vars.fov[pos.x][pos.y]:
             # skip
             continue
+        if game_vars.world.has_component(ent, DeadComponent):
+            # skip
+            continue
         # draw
         console[pos.x][pos.y] = visual.char
 
-    return jsonify({'data': render_template('response.html', position=position, console=console, style=arenamap.map_style)})
+    # messages
+    if len(game_vars.messages) <= constants.NUM_MESSAGES:
+        messages = game_vars.messages
+    else:
+        # slicing
+        messages = game_vars.messages[-constants.NUM_MESSAGES:]
+
+    return jsonify({'data': render_template('response.html', position=position, console=console, style=arenamap.map_style, messages=messages)})
 
