@@ -9,6 +9,7 @@ from .turn_component import TurnComponent
 from .renderable import RenderableComponent
 from .NPC_component import NPC_Component
 from .blocks_tile import TileBlocker
+from .combat_stats import StatsComponent
 
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
@@ -47,6 +48,7 @@ def main():
     world.add_component(player, TurnComponent())
     world.add_component(player, Position(x=1, y=1))
     world.add_component(player, Velocity())
+    world.add_component(player, StatsComponent(hp=20, power=4))
 
     # Create some npcs
     world.create_entity(
@@ -54,14 +56,16 @@ def main():
         RenderableComponent(char='h', color=(255, 255, 255)),
         Velocity(),
         TileBlocker(),
-        NPC_Component()
+        NPC_Component(),
+        StatsComponent(hp=11, power=2)
     ) 
     world.create_entity(
         Position(x=12, y=6),
         RenderableComponent(char='h', color=(255, 255, 255)),
         Velocity(),
         TileBlocker(),
-        NPC_Component()
+        NPC_Component(),
+        StatsComponent(hp=11, power=2)
     ) 
 
     # Generate map
