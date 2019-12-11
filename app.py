@@ -47,6 +47,10 @@ def hello_world():
 #When HTML button is clicked, execute the function
 @app.route('/move/<x>/<y>', methods = ['GET'])
 def move(x=None, y=None):
+    if not game.is_player_alive(game_vars.world):
+        print("Abort early, player dead")
+        # This is a crash in Flask code, but it doesn't matter as we're dead either way
+        return
     print("Move: " + str(x) + " " + str(y)) 
 
     action = {'move': (int(x), int(y))}
