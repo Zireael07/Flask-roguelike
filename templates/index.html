@@ -14,6 +14,10 @@
   <script  src="{{url_for('static', filename='keypad.js') }}"></script>
   <div id="output">
   <p>Position: x {{position.x }}  y {{ position.y }}</p>
+  <table>
+    <tbody>
+      <tr>
+        <td>
   <!-- simple HTML console-->
   <div id="console" style="font-family: monospace;">
     <!-- For loop logic of jinja template -->
@@ -25,6 +29,15 @@
   </div>
   {%endfor%} 
   </div>
+        </td>
+        <td style="vertical-align: top;">
+          <div> HP: 20/20 </div>
+          <div style="background-color: red; width: 100px; height: 20px;"></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
   </div>
 
   <div id="keypad" class="keypad">

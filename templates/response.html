@@ -1,21 +1,34 @@
 <div id="output">
 <p>Position: x {{position.x }}  y {{ position.y }}</p>
-<!-- simple HTML console-->
-<div id="console" style="font-family: monospace;">
+<table>
+    <tbody>
+      <tr>
+        <td>
+  <!-- simple HTML console-->
+  <div id="console" style="font-family: monospace;">
     <!-- For loop logic of jinja template -->
         <!-- 18 px for Consolas-->
     <!--https://stackoverflow.com/questions/45719062/jinja-docx-template-avoiding-new-line-in-nested-for-->
-{%for y in range(0, 20)%} 
-<div style="height:18px;">
-{%for x in range(0, 20)%}<span class="{{style(x,y)}}" style="background-color: black;">{{console[x][y]|safe}}</span>{%endfor%}
-</div>
-{%endfor%} 
-</div>
-<div id="messages" style="font-family: monospace; padding-top: 20px;">
-{%for message in messages %}
-<div>
-<span style="background-color: black; color:white">{{message}}</span>
-</div>
-{%endfor%}
-</div>
+  {%for y in range(0, 20)%} 
+  <div style="height:18px;">
+  {%for x in range(0, 20)%}<span class="{{style(x,y)}}" style="background-color: black;">{{console[x][y]|safe}}</span>{%endfor%}
+  </div>
+  {%endfor%} 
+  </div>
+        </td>
+        <td style="vertical-align: top;">
+          <div> HP: {{stats.hp}}/{{stats.hp_max}} </div>
+          <div style="background-color: red; height: 20px; width: {{ stats.hp*5}}px"></div>
+        </td>
+    </tbody>
+  </table>
+
+      <div id="messages" style="font-family: monospace; padding-top: 20px;">
+      {%for message in messages %}
+      <div>
+      <span style="background-color: black; color:white">{{message}}</span>
+      </div>
+      {%endfor%}
+      </div>
+
 </div>

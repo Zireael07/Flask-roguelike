@@ -120,6 +120,10 @@ def get_position(world):
     for ent, (player, pos) in world.get_components(Player, Position):
         return pos
 
+def get_stats(world):
+    for ent, (player, fighter) in world.get_components(Player, StatsComponent):
+        return fighter
+
 def is_player_alive(world):
     for ent, (player) in world.get_components(Player, Position):
         alive = not world.has_component(ent, DeadComponent)

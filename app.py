@@ -81,5 +81,9 @@ def move(x=None, y=None):
         # slicing
         messages = game_vars.messages[-constants.NUM_MESSAGES:]
 
-    return jsonify({'data': render_template('response.html', position=position, console=console, style=arenamap.map_style, messages=messages)})
+    # HUD
+    fighter = game.get_stats(game_vars.world)
+
+    return jsonify({'data': render_template('response.html', 
+    position=position, console=console, style=arenamap.map_style, messages=messages, stats=fighter)})
 
