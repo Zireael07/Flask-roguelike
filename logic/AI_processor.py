@@ -6,6 +6,8 @@ from .position import Position
 from .player import Player
 from .blocks_tile import TileBlocker
 
+from .combat_component import CombatComponent
+
 from . import game_vars
 from .tile_lookups import TileTypes, get_index
 from . import astar
@@ -15,17 +17,19 @@ class AIProcessor(esper.Processor):
         super().__init__()
 
     def process(self):
+        print("AI processor...")
         player_id = None
         for ent, (player) in self.world.get_components(Player):
             player_id = ent
 
-        for ent, (brain) in self.world.get_components(NPC_Component):
-            if not self.world.has_component(ent, Player):
-                self.take_turn(ent, player_id)
+        if not self.world.has_component(player_id, TurnComponent):
+            for ent, (brain) in self.world.get_components(NPC_Component):
+                if not self.world.has_component(ent, Player):
+                    self.take_turn(ent, player_id)
 
-        # player takes the next turn
-        self.world.add_component(player_id, TurnComponent())
-        self.world.remove_processor(AIProcessor)
+            # player takes the next turn
+            self.world.add_component(player_id, TurnComponent())
+        #self.world.remove_processor(AIProcessor)
 
 
     def take_turn(self, ent, player_id):
@@ -34,7 +38,7 @@ class AIProcessor(esper.Processor):
         player_pos = self.world.component_for_entity(player_id, Position)
         # FOV is symmetric: if we're in FOV, player is in NPC's sights too
         if game_vars.fov[position.x][position.y]:
-            print("We can see player")
+            #print("We can see player")
             # pathfinding
             # avoid changing the real map
             import copy
@@ -51,4 +55,7 @@ class AIProcessor(esper.Processor):
                     # just move (the path only works on walkable tiles anyway)
                     position.x, position.y = path[1]
                 else:
-                    print("AI kicks at your shins")
+                    #print("AI kicks at your shins")
+                    # Trigger a bump-attack here.
+                    print("Attacking " + str(player_id) + " @ " + str(player_pos))
+                    self.world.add_component(ent, CombatComponent(target_ID=player_id))

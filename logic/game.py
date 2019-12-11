@@ -11,13 +11,14 @@ from .NPC_component import NPC_Component
 from .blocks_tile import TileBlocker
 from .combat_stats import StatsComponent
 from .name_component import NameComponent
+from .dead_component import DeadComponent
 
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
 from .fov_processor import FovProcessor
 from .combat_processor import CombatProcessor
 from .death_processor import DeathProcessor
-##from .AI_processor import AIProcessor
+from .AI_processor import AIProcessor
 
 from . import arenamap
 from . import constants
@@ -45,7 +46,8 @@ def main():
 
     world.add_processor(action_processor, 100)
     world.add_processor(movement_processor, 50)
-    world.add_processor(combat_processor, 49)
+    world.add_processor(AIProcessor(), 48)
+    world.add_processor(combat_processor, 45)
     world.add_processor(death_processor, 20)
     world.add_processor(fov_processor, 15)
 
@@ -118,6 +120,11 @@ def get_position(world):
     for ent, (player, pos) in world.get_components(Player, Position):
         return pos
 
+def is_player_alive(world):
+    for ent, (player) in world.get_components(Player, Position):
+        alive = not world.has_component(ent, DeadComponent)
+        print("Alive? " + str(alive))
+        return alive
 
 # debugging
 def json_info(comp):

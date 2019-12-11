@@ -15,7 +15,8 @@ class DeathProcessor(esper.Processor):
     def process(self):
         for ent, (name, dead) in self.world.get_components(NameComponent, DeadComponent):
             if self.world.has_component(ent, Player):
-                print("Player is dead!!!")
+                #print("Player is dead!!!")
+                game_vars.messages.append("YOU DIED!!")
                 # skip
                 continue
 

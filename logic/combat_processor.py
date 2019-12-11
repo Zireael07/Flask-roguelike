@@ -11,6 +11,7 @@ class CombatProcessor(esper.Processor):
         super().__init__()
 
     def process(self):
+        print("Combat processor...")
         for ent, (com) in self.world.get_component(CombatComponent):
             attacker_ID = ent
             target_ID = self.world.component_for_entity(attacker_ID, CombatComponent).target_ID
