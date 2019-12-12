@@ -120,4 +120,16 @@ $( document ).ready(function() {
         });
 
     });
+    $("#get").click(function(e) {
+        console.log("Clicked get");
+        $.ajax({
+            url: "/get",
+            type: "GET",
+            success: function(response) {
+                $("#output").html(response.data);
+            }
+        });
+
+    });
+    });
 });
