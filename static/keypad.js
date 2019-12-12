@@ -126,7 +126,8 @@ $( document ).ready(function() {
             url: "/get",
             type: "GET",
             success: function(response) {
-                $(".modal").html(response.data);
+                $('#output').html(response.data);
+                $(".modal").html(response.inven);
                 //reattach click hook to close inventory button
                 //thanks to https://aiocollective.com/blog/click-doesn-t-work-after-ajax-load-jquery/
                 $("#close_btn").click(function(e) {

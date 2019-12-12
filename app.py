@@ -127,5 +127,6 @@ def get():
     game.act_and_update(game_vars.world, action)
     data = data_to_redraw()
 
-    return jsonify({'data': render_template('inventory.html', inventory=data['inventory'])})
-    #position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'], inventory=data['inventory'])})
+    return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])
+    })
