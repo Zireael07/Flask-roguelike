@@ -12,6 +12,8 @@ from .blocks_tile import TileBlocker
 from .combat_stats import StatsComponent
 from .name_component import NameComponent
 from .dead_component import DeadComponent
+from .equipment_component import EquipmentComponent
+from .item_component import ItemComponent
 
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
@@ -19,6 +21,7 @@ from .fov_processor import FovProcessor
 from .combat_processor import CombatProcessor
 from .death_processor import DeathProcessor
 from .AI_processor import AIProcessor
+from .equip_processor import EquipProcessor
 
 from . import arenamap
 from . import constants
@@ -43,8 +46,10 @@ def main():
     fov_processor = FovProcessor()
     combat_processor = CombatProcessor()
     death_processor = DeathProcessor()
+    equip_processor = EquipProcessor()
 
     world.add_processor(action_processor, 100)
+    world.add_processor(equip_processor, 52)
     world.add_processor(movement_processor, 50)
     world.add_processor(AIProcessor(), 48)
     world.add_processor(combat_processor, 45)
@@ -59,6 +64,7 @@ def main():
     world.add_component(player, Velocity())
     world.add_component(player, StatsComponent(hp=20, power=4))
     world.add_component(player, NameComponent("Player"))
+    world.add_component(player, EquipmentComponent())
 
     # Create some npcs
     world.create_entity(
@@ -79,6 +85,13 @@ def main():
         StatsComponent(hp=11, power=2),
         NameComponent("Human")
     ) 
+
+    # Some items
+    world.create_entity(
+        ItemComponent(),
+        Position(x=6, y=5),
+        RenderableComponent(char='/', color=(0, 255, 255))
+    )
 
     # Generate map
     mapa = arenamap.map_create([(10,10), (15,15)])
