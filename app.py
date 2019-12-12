@@ -13,6 +13,45 @@ from logic.renderable import RenderableComponent
 from logic.dead_component import DeadComponent
 from logic import arenamap
 
+# helpers
+'''
+Collects all the info that is needed for Flask internal API to redraw the game
+'''
+def data_to_redraw():
+    # redraw
+    ##data = game.represent_world(game_vars.world, Player)
+    position = game.get_position(game_vars.world)
+    #console = arenamap.get_map_glyphs(game_vars.mapa)
+    console = arenamap.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
+
+    # draw other entities
+    for ent, (pos, visual) in game_vars.world.get_components(Position, RenderableComponent):
+        if not game_vars.fov[pos.x][pos.y]:
+            # skip
+            continue
+        if game_vars.world.has_component(ent, DeadComponent):
+            # skip
+            continue
+        # draw
+        console[pos.x][pos.y] = visual.char
+
+    # draw player at his position
+    console[position.x][position.y] = '@'
+
+    # messages
+    if len(game_vars.messages) <= constants.NUM_MESSAGES:
+        messages = game_vars.messages
+    else:
+        # slicing
+        messages = game_vars.messages[-constants.NUM_MESSAGES:]
+
+    # HUD
+    fighter = game.get_stats(game_vars.world)
+
+    return { "position" : position, "console": console, "messages" : messages, "fighter" : fighter}
+
+
+
 @app.route('/')
 def hello_world():
     # Init game
@@ -55,24 +94,12 @@ def move(x=None, y=None):
 
     action = {'move': (int(x), int(y))}
 
-    game.move_and_update(game_vars.world, action)
-    # redraw
-    ##data = game.represent_world(game_vars.world, Player)
-    position = game.get_position(game_vars.world)
-    #console = arenamap.get_map_glyphs(game_vars.mapa)
-    console = arenamap.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
-    # draw player at his position
-    console[position.x][position.y] = '@'
-    # draw other entities
-    for ent, (pos, visual) in game_vars.world.get_components(Position, RenderableComponent):
-        if not game_vars.fov[pos.x][pos.y]:
-            # skip
-            continue
-        if game_vars.world.has_component(ent, DeadComponent):
-            # skip
-            continue
-        # draw
-        console[pos.x][pos.y] = visual.char
+    game.act_and_update(game_vars.world, action)
+    data = data_to_redraw()
+
+    return jsonify({'data': render_template('response.html', 
+    position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])})
+
 
     # messages
     if len(game_vars.messages) <= constants.NUM_MESSAGES:

@@ -111,7 +111,7 @@ def block_sight(x,y):
     return get_block_path(game_vars.mapa[x][y])
 
 # Functions called by the Flask API
-def move_and_update(world, action):
+def act_and_update(world, action):
     world.get_processor(ActionProcessor).action = action
     world.process()
 
@@ -127,7 +127,7 @@ def get_stats(world):
 def is_player_alive(world):
     for ent, (player) in world.get_components(Player, Position):
         alive = not world.has_component(ent, DeadComponent)
-        print("Alive? " + str(alive))
+        #print("Alive? " + str(alive))
         return alive
 
 # debugging
