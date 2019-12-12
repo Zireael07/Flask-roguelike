@@ -11,6 +11,7 @@ from logic.player import Player
 from logic.position import Position
 from logic.renderable import RenderableComponent
 from logic.in_backpack import InBackpackComponent
+from logic.name_component import NameComponent
 from logic.dead_component import DeadComponent
 from logic import arenamap
 
@@ -52,7 +53,14 @@ def data_to_redraw():
     # HUD
     fighter = game.get_stats(game_vars.world)
 
-    return { "position" : position, "console": console, "messages" : messages, "fighter" : fighter}
+    # inventory
+    inventory = []
+    letter_index = ord('a')
+    for ent, (name, inbackpack) in game_vars.world.get_components(NameComponent, InBackpackComponent):
+        inventory.append((chr(letter_index), name.name))
+        letter_index += 1
+
+    return { "position" : position, "console": console, "messages" : messages, "fighter" : fighter, "inventory" : inventory}
 
 
 
@@ -119,5 +127,5 @@ def get():
     game.act_and_update(game_vars.world, action)
     data = data_to_redraw()
 
-    return jsonify({'data': render_template('response.html', 
-    position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])})
+    return jsonify({'data': render_template('inventory.html', inventory=data['inventory'])})
+    #position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'], inventory=data['inventory'])})

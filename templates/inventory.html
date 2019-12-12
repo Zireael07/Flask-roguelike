@@ -1,0 +1,9 @@
+    <div class="modal-content" style="background-color: #b3b3b3;">
+      <input id="close_btn" style="color: darkgray;" type="button" value="&times;" >
+      <p>INVENTORY</p>
+      {%for inv in inventory %}
+      <div>
+      <span style="background-color: black; color:white">({{inv[0]}}) {{inv[1]}}</span>
+      </div>
+      {%endfor%}
+    </div>

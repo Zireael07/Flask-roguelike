@@ -90,7 +90,8 @@ def main():
     world.create_entity(
         ItemComponent(),
         Position(x=6, y=5),
-        RenderableComponent(char='/', color=(0, 255, 255))
+        RenderableComponent(char='/', color=(0, 255, 255)),
+        NameComponent("Combat Knife")
     )
 
     # Generate map

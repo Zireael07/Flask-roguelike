@@ -126,10 +126,24 @@ $( document ).ready(function() {
             url: "/get",
             type: "GET",
             success: function(response) {
-                $("#output").html(response.data);
+                $(".modal").html(response.data);
+                //reattach click hook to close inventory button
+                //thanks to https://aiocollective.com/blog/click-doesn-t-work-after-ajax-load-jquery/
+                $("#close_btn").click(function(e) {
+                    console.log("Clicked close")
+                    $(".modal").attr("style", "display:none");
+                });
             }
         });
 
     });
+    
+    $("#inven").click(function(e) {
+        console.log("Clicked inven");
+        $(".modal").attr("style", "display:block")
+    });
+    $("#close_btn").click(function(e) {
+        console.log("Clicked close")
+        $(".modal").attr("style", "display:none");
     });
 });
