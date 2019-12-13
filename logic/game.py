@@ -24,6 +24,7 @@ from .death_processor import DeathProcessor
 from .AI_processor import AIProcessor
 from .equip_processor import EquipProcessor
 from .use_item_processor import UseItemProcessor
+from .drop_processor import DropProcessor
 
 from . import arenamap
 from . import constants
@@ -50,10 +51,12 @@ def main():
     death_processor = DeathProcessor()
     equip_processor = EquipProcessor()
     useitem_processor = UseItemProcessor()
+    drop_processor = DropProcessor()
 
     world.add_processor(action_processor, 100)
     world.add_processor(equip_processor, 52)
     world.add_processor(useitem_processor, 52)
+    world.add_processor(drop_processor, 52)
     world.add_processor(movement_processor, 50)
     world.add_processor(AIProcessor(), 48)
     world.add_processor(combat_processor, 45)
