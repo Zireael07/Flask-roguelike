@@ -13,6 +13,8 @@ from logic.renderable import RenderableComponent
 from logic.in_backpack import InBackpackComponent
 from logic.name_component import NameComponent
 from logic.dead_component import DeadComponent
+from logic.skip_component import SkipComponent
+
 from logic import arenamap
 
 # helpers
@@ -57,7 +59,11 @@ def data_to_redraw():
     inventory = []
     letter_index = ord('a')
     for ent, (name, inbackpack) in game_vars.world.get_components(NameComponent, InBackpackComponent):
-        inventory.append((chr(letter_index), name.name))
+        # skips entities that are being removed
+        if game_vars.world.has_component(ent, SkipComponent):
+            continue
+
+        inventory.append((chr(letter_index), name.name, ent))
         letter_index += 1
 
     return { "position" : position, "console": console, "messages" : messages, "fighter" : fighter, "inventory" : inventory}
@@ -123,6 +129,24 @@ def get():
     print("Get action!") 
 
     action = {'pick_up': True}
+
+    game.act_and_update(game_vars.world, action)
+    data = data_to_redraw()
+
+    return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])
+    })
+
+
+@app.route('/use/<id>', methods = ["GET"])
+def use_item(id=None):
+    if not game.is_player_alive(game_vars.world):
+        print("Abort early, player dead")
+        # This is a crash in Flask code, but it doesn't matter as we're dead either way
+        return
+    print("Use action! - " + str(id))
+
+    action = {'use_item': int(id)}
 
     game.act_and_update(game_vars.world, action)
     data = data_to_redraw()
