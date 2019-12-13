@@ -6,6 +6,7 @@ from .velocity import Velocity
 from .turn_component import TurnComponent
 
 from .want_to_pickup import WantToPickupComponent
+from .want_to_use_med import WantToUseMed
 
 class ActionProcessor(esper.Processor):
 
@@ -19,6 +20,7 @@ class ActionProcessor(esper.Processor):
 
         _move = self.action.get('move')
         _pick_up = self.action.get('pick_up')
+        _use_item = self.action.get('use_item')
 
         for ent, (turn) in self.world.get_components(TurnComponent):
             #print("Entity has turn...")
@@ -30,6 +32,10 @@ class ActionProcessor(esper.Processor):
             if _pick_up:
                 print("Pick up to execute...")
                 self.world.add_component(ent, WantToPickupComponent())
+
+            if _use_item:
+                print("Use item to execute...")
+                self.world.add_component(ent, WantToUseMed(_use_item))
 
             # no longer our turn, AI now acts
             self.world.remove_component(ent, TurnComponent)

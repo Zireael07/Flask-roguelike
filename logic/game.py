@@ -14,6 +14,7 @@ from .name_component import NameComponent
 from .dead_component import DeadComponent
 from .equipment_component import EquipmentComponent
 from .item_component import ItemComponent
+from .meditem_component import MedItemComponent
 
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
@@ -22,6 +23,7 @@ from .combat_processor import CombatProcessor
 from .death_processor import DeathProcessor
 from .AI_processor import AIProcessor
 from .equip_processor import EquipProcessor
+from .use_item_processor import UseItemProcessor
 
 from . import arenamap
 from . import constants
@@ -47,9 +49,11 @@ def main():
     combat_processor = CombatProcessor()
     death_processor = DeathProcessor()
     equip_processor = EquipProcessor()
+    useitem_processor = UseItemProcessor()
 
     world.add_processor(action_processor, 100)
     world.add_processor(equip_processor, 52)
+    world.add_processor(useitem_processor, 52)
     world.add_processor(movement_processor, 50)
     world.add_processor(AIProcessor(), 48)
     world.add_processor(combat_processor, 45)
@@ -90,8 +94,9 @@ def main():
     world.create_entity(
         ItemComponent(),
         Position(x=6, y=5),
-        RenderableComponent(char='/', color=(0, 255, 255)),
-        NameComponent("Combat Knife")
+        RenderableComponent(char='!', color=(255, 0, 0)),
+        MedItemComponent(6),
+        NameComponent("Medkit")
     )
 
     # Generate map
