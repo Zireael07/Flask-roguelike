@@ -154,3 +154,41 @@ def use_item(id=None):
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
     'data' : render_template('response.html', position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])
     })
+
+# this is an additional route because it shows a special screen
+@app.route('/drop_view', methods = ["GET"])
+def drop_view():
+    if not game.is_player_alive(game_vars.world):
+        print("Abort early, player dead")
+        # This is a crash in Flask code, but it doesn't matter as we're dead either way
+        return
+
+    # inventory data
+    inventory = []
+    letter_index = ord('a')
+    for ent, (name, inbackpack) in game_vars.world.get_components(NameComponent, InBackpackComponent):
+        # skips entities that are being removed
+        if game_vars.world.has_component(ent, SkipComponent):
+            continue
+
+        inventory.append((chr(letter_index), name.name, ent))
+        letter_index += 1
+
+    return jsonify({'inven': render_template('drop_inventory.html', inventory=inventory)})
+
+@app.route('/drop/<id>', methods = ["GET"])
+def drop_item(id=None):
+    if not game.is_player_alive(game_vars.world):
+        print("Abort early, player dead")
+        # This is a crash in Flask code, but it doesn't matter as we're dead either way
+        return
+    print("Drop action! - " + str(id))
+
+    action = {'drop_item': int(id)}
+
+    game.act_and_update(game_vars.world, action)
+    data = data_to_redraw()
+
+    return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])
+    })

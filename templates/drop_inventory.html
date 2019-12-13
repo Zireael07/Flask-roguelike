@@ -1,0 +1,41 @@
+{% block javascript %}
+<script type="text/javascript">
+  //Yes, Jinja can process JS just fine, too!
+  {% for inv in inventory %}
+   $("#button-{{inv[0]}}").click(function(e) {
+        console.log("Clicked letter");
+
+        $.ajax({
+            url: "/drop/{{inv[2]}}", //this is the only difference to the inventory.html modal...
+            type: "GET",
+            success: function(response) {
+                $('#output').html(response.data);
+                //updates inventory too because items are consumed on use
+                $(".modal").html(response.inven);
+                //reattach click hook to close inventory button
+                //thanks to https://aiocollective.com/blog/click-doesn-t-work-after-ajax-load-jquery/
+                $("#close_btn").click(function(e) {
+                    console.log("Clicked close")
+                    $(".modal").attr("style", "display:none");
+                });
+            }
+        });
+
+        //hide inventory menu regardless of effect
+        $(".modal").attr("style", "display:none");
+    });
+  {%endfor%}
+</script>
+
+{% endblock %}
+    
+    <div class="modal-content" style="background-color: #b3b3b3;">
+      <input id="close_btn" style="color: darkgray;" type="button" value="&times;" >
+      <p>INVENTORY</p>
+      {%for inv in inventory %}
+      <div>
+      <input id="button-{{inv[0]}}" type="button" value="{{inv[0]}}">
+      <span style="background-color: black; color:white">{{inv[1]}}</span>
+      </div>
+      {%endfor%}
+    </div>

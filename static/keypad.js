@@ -138,6 +138,27 @@ $( document ).ready(function() {
         });
 
     });
+
+    $("#drop").click(function(e) {
+        console.log("Clicked drop");
+        $.ajax({
+            url: "/drop_view",
+            type: "GET",
+            success: function(response) {
+                $(".modal").html(response.inven);
+                //reattach click hook to close inventory button
+                //thanks to https://aiocollective.com/blog/click-doesn-t-work-after-ajax-load-jquery/
+                $("#close_btn").click(function(e) {
+                    console.log("Clicked close")
+                    $(".modal").attr("style", "display:none");
+                });
+
+                //show screen
+                $(".modal").attr("style", "display:block")
+            }
+        });
+
+    });
     
     $("#inven").click(function(e) {
         console.log("Clicked inven");
