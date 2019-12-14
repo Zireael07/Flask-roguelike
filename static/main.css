@@ -1,9 +1,15 @@
 .explored {
-    color: #b3b3b3
+    color: #b3b3b3;
+    background-color: black;
 }
 
 .normal {
     color: white;
+    background-color: black;
+}
+
+.cursor {
+    background-color: blue;
 }
 
 /* Styling for modal */

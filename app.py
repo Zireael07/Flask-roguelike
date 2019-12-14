@@ -8,12 +8,14 @@ from logic import constants
 
 # more specific stuff we need
 from logic.player import Player
+from logic.cursor_component import CursorComponent
 from logic.position import Position
 from logic.renderable import RenderableComponent
 from logic.in_backpack import InBackpackComponent
 from logic.name_component import NameComponent
 from logic.dead_component import DeadComponent
 from logic.skip_component import SkipComponent
+
 
 from logic import arenamap
 
@@ -188,6 +190,33 @@ def drop_item(id=None):
 
     game.act_and_update(game_vars.world, action)
     data = data_to_redraw()
+
+    return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])
+    })
+
+@app.route('/target_confirm', methods = ["GET"])
+def target_confirm(x=None, y=None):
+    if not game.is_player_alive(game_vars.world):
+        print("Abort early, player dead")
+        # This is a crash in Flask code, but it doesn't matter as we're dead either way
+        return
+
+    cursor = None
+    for ent, (player, cur) in game_vars.world.get_components(Player, CursorComponent):
+        cursor = cur
+    
+    # if no cursor, we clicked it by mistake = ignore
+    if cursor is not None:
+        # get x,y from cursor
+        x = cursor.x
+        y = cursor.y
+        print("Confirmed target: " + str(x) + " " + str(y))
+
+        action = {'target': (int(x), int(y))}
+
+        game.act_and_update(game_vars.world, action)
+        data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
     'data' : render_template('response.html', position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])

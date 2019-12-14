@@ -4,6 +4,8 @@ from . import constants
 from .tile_lookups import TileTypes, get_index, get_map_str
 
 from . import game_vars
+from .player import Player
+from .cursor_component import CursorComponent
 
 def map_create(pillars):
     #new_map = [[struc_Tile(False) for y in range(0, constants.MAP_HEIGHT)] for x in range(0, constants.MAP_WIDTH)]
@@ -106,6 +108,14 @@ Returns CSS classes
 Kudos to https://teamtreehouse.com/community/how-do-you-add-classes-and-ids-to-template-blocks-in-flask for figuring that out
 """
 def map_style(x, y):
+    cursor = None
+    for ent, (player, cur) in game_vars.world.get_components(Player, CursorComponent):
+        cursor = cur
+    
+    if cursor is not None:
+        if x == cursor.x and y == cursor.y:
+            return "cursor"
+
     if game_vars.explored[x][y] == 1 and game_vars.fov[x][y] == 0:
         return "explored"
     else:
