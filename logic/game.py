@@ -15,6 +15,7 @@ from .dead_component import DeadComponent
 from .equipment_component import EquipmentComponent
 from .item_component import ItemComponent
 from .meditem_component import MedItemComponent
+from .ranged_component import RangedComponent
 
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
@@ -100,6 +101,14 @@ def main():
         RenderableComponent(char='!', color=(255, 0, 0)),
         MedItemComponent(6),
         NameComponent("Medkit")
+    )
+
+    world.create_entity(
+        ItemComponent(),
+        Position(x=4, y=4),
+        RangedComponent(6),
+        RenderableComponent(char="/", color=(0, 255, 0)),
+        NameComponent("Pistol")
     )
 
     # Generate map
