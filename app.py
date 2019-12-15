@@ -17,7 +17,7 @@ from logic.dead_component import DeadComponent
 from logic.skip_component import SkipComponent
 
 
-from logic import arenamap
+from logic import map_common
 
 # helpers
 '''
@@ -27,8 +27,8 @@ def data_to_redraw():
     # redraw
     ##data = game.represent_world(game_vars.world, Player)
     position = game.get_position(game_vars.world)
-    #console = arenamap.get_map_glyphs(game_vars.mapa)
-    console = arenamap.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
+    #console = map_common.get_map_glyphs(game_vars.mapa)
+    console = map_common.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
 
     # draw other entities
     for ent, (pos, visual) in game_vars.world.get_components(Position, RenderableComponent):
@@ -80,9 +80,8 @@ def hello_world():
     # Initial page draw
     ##data = game.represent_world(game_vars.world, Player)
     position = game.get_position(game_vars.world)
-    #mapa = arenamap.get_map_HTML(game_vars.mapa)
-    #console = arenamap.get_map_glyphs(game_vars.mapa)
-    console = arenamap.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
+
+    console = map_common.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
     # draw player at his position
     console[position.x][position.y] = '@'
     # draw other entities
@@ -93,7 +92,7 @@ def hello_world():
         # draw
         console[pos.x][pos.y] = visual.char
 
-    return render_template('index.html', position = position, console=console, style=arenamap.map_style)
+    return render_template('index.html', position = position, console=console, style=map_common.map_style)
     #return game.represent_world(game_vars.world, Position)
     # dict is converted to JSON automatically
     #return {
@@ -118,7 +117,7 @@ def move(x=None, y=None):
     data = data_to_redraw()
 
     return jsonify({'data': render_template('response.html', 
-    position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])})
+    position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])})
 
 
 
@@ -136,7 +135,7 @@ def get():
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
     })
 
 
@@ -154,7 +153,7 @@ def use_item(id=None):
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
     })
 
 # this is an additional route because it shows a special screen
@@ -192,7 +191,7 @@ def drop_item(id=None):
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
     })
 
 @app.route('/target_confirm', methods = ["GET"])
@@ -219,5 +218,5 @@ def target_confirm(x=None, y=None):
         data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=arenamap.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
     })
