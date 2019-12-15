@@ -1,6 +1,8 @@
 import jsonpickle  # because we're lazy and don't want to manually serialize everything
+import random
 
 from . import esper # the one Python3 library we're using
+from . import esper_ext # ease of use extensions
 
 from .position import Position
 from .velocity import Velocity
@@ -33,11 +35,14 @@ from . import constants
 from . import ppfov
 from .tile_lookups import get_block_path
 
+from . import random_utils
+
 from . import game_vars
 
 def main():
     # Prepare world
-    world = esper.World()
+    # We're using some QoL extensions
+    world = esper_ext.WorldExt()
 
     # Initial FOV setup
     fov_map = [[0 for _ in range(constants.MAP_HEIGHT)] for _ in range(constants.MAP_WIDTH)]
@@ -76,50 +81,40 @@ def main():
     world.add_component(player, EquipmentComponent())
 
     # Create some npcs
-    world.create_entity(
-        Position(x=4, y=4),
-        RenderableComponent(char='h', color=(255, 255, 255)),
-        Velocity(),
-        TileBlocker(),
-        NPC_Component(),
-        StatsComponent(hp=11, power=2),
-        NameComponent("Human")
-    ) 
-    world.create_entity(
-        Position(x=12, y=6),
-        RenderableComponent(char='h', color=(255, 255, 255)),
-        Velocity(),
-        TileBlocker(),
-        NPC_Component(),
-        StatsComponent(hp=11, power=2),
-        NameComponent("Human")
-    ) 
+    for i in range(constants.NUM_NPC):
+        # random location
+        pos = (random.randint(1, constants.MAP_WIDTH-2), random.randint(1, constants.MAP_HEIGHT-2))
+
+        choice = random_utils.generate_random_NPC()
+        # the things that all NPCs share
+        npc = world.create_entity(Position(x=pos[0], y=pos[1]), Velocity(), TileBlocker(), NPC_Component())
+
+        if choice == "Human":
+            world.add_components(npc, RenderableComponent(char='h', color=(255, 255, 255)), NameComponent("Human"), StatsComponent(hp=6, power=2))
+        elif choice == "Cop":
+            world.add_components(npc, RenderableComponent(char='c', color=(0, 255, 0)), NameComponent("Cop"), StatsComponent(hp=11, power=3))
 
     # Some items
-    world.create_entity(
-        ItemComponent(),
-        Position(x=6, y=5),
-        RenderableComponent(char='!', color=(255, 0, 0)),
-        MedItemComponent(6),
-        NameComponent("Medkit")
-    )
+    for i in range(constants.NUM_ITEMS):
+        # random location
+        pos = (random.randint(1, constants.MAP_WIDTH-2), random.randint(1, constants.MAP_HEIGHT-2))
 
-    world.create_entity(
-        ItemComponent(),
-        Position(x=4, y=4),
-        RangedComponent(6),
-        RenderableComponent(char="/", color=(0, 255, 0)),
-        NameComponent("Pistol")
-    )
+        choice = random_utils.generate_random_item()
+        # things that all items share
+        it = world.create_entity(Position(x=pos[0], y=pos[1]), ItemComponent())
 
-    world.create_entity(
-        ItemComponent(),
-        Position(x=5, y=5),
-        RangedComponent(6),
-        AreaOfEffectComponent(3),
-        RenderableComponent(char="*", color=(255,255,0)),
-        NameComponent("Grenade")
-    )
+        if choice == "Medkit":
+            world.add_components(it, RenderableComponent(char='!', color=(255, 0, 0)), NameComponent("Medkit"),
+            MedItemComponent(6)
+        )
+        elif choice == "Pistol":
+            world.add_components(it, RenderableComponent(char="/", color=(0, 255, 0)), NameComponent("Pistol"),
+            RangedComponent(6)
+        )
+        elif choice == "Grenade":
+            world.add_components(it, RenderableComponent(char="*", color=(255,255,0)),  NameComponent("Grenade"),
+            RangedComponent(6), AreaOfEffectComponent(3),
+        )
 
     # Generate map
     mapa = arenamap.map_create([(10,10), (15,15)])
