@@ -1,15 +1,19 @@
 .explored {
     color: #b3b3b3;
     background-color: black;
+    font-weight:bold;
 }
 
 .normal {
     color: white;
     background-color: black;
+    font-weight:bold;
 }
 
 .cursor {
+    color: white;
     background-color: blue;
+    font-weight:bold;
 }
 
 /* Styling for modal */

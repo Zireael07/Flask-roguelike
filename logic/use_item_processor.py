@@ -10,6 +10,7 @@ from .want_to_use_item import WantToUseItem
 from .position import Position
 from .ranged_component import RangedComponent
 from .cursor_component import CursorComponent
+from .area_of_effect import AreaOfEffectComponent
 
 from . import game_vars
 from . import map_common
@@ -65,22 +66,38 @@ class UseItemProcessor(esper.Processor):
                         self.world.remove_component(ent, WantToUseItem)
 
                     else:
-                        # is there an entity?
-                        targeted = None
-                        for tg_ent, (pos, fighter) in self.world.get_components(Position, StatsComponent):
-                            if pos.x == tg_x and pos.y == tg_y:
-                                targeted = tg_ent
-                                fighter.hp -= 6 # dummy
+                        # single target
+                        if not self.world.has_component(item_ID, AreaOfEffectComponent):
+                            # is there an entity?
+                            targeted = None
+                            for tg_ent, (pos, fighter) in self.world.get_components(Position, StatsComponent):
+                                if pos.x == tg_x and pos.y == tg_y:
+                                    targeted = tg_ent
+                                    fighter.hp -= 6 # dummy
 
-                                # message
-                                name = self.world.component_for_entity(ent, NameComponent)
-                                tg_name = self.world.component_for_entity(tg_ent, NameComponent)
-                                game_vars.messages.append(name.name + " shoots " + tg_name.name + " for 6 damage!")
+                                    # message
+                                    name = self.world.component_for_entity(ent, NameComponent)
+                                    tg_name = self.world.component_for_entity(tg_ent, NameComponent)
+                                    game_vars.messages.append(name.name + " shoots " + tg_name.name + " for 6 damage!")
 
-                        if targeted is None:
-                            game_vars.messages.append("No target selected")
+                            if targeted is None:
+                                game_vars.messages.append("No target selected")
+                            else:
+                                # be nice, only take the item away if we selected a target
+                                self.world.add_component(item_ID, SkipComponent()) # using it to mark it as being removed
+                                self.world.delete_entity(item_ID)
                         else:
-                            # be nice, only take the item away if we selected a target
+                            radius = self.world.component_for_entity(item_ID, AreaOfEffectComponent).radius
+                            for tg_ent, (pos, fighter) in self.world.get_components(Position, StatsComponent):
+                                if map_common.tiles_distance_to((tg_x, tg_y), (pos.x, pos.y)) <= radius:
+                                    fighter.hp -= 6 # dummy
+
+                                    # message
+                                    name = self.world.component_for_entity(ent, NameComponent)
+                                    tg_name = self.world.component_for_entity(tg_ent, NameComponent)
+                                    game_vars.messages.append(name.name + " blasts " + tg_name.name + " for 6 damage!")
+
+                            # remove item
                             self.world.add_component(item_ID, SkipComponent()) # using it to mark it as being removed
                             self.world.delete_entity(item_ID)
 

@@ -16,6 +16,7 @@ from .equipment_component import EquipmentComponent
 from .item_component import ItemComponent
 from .meditem_component import MedItemComponent
 from .ranged_component import RangedComponent
+from .area_of_effect import AreaOfEffectComponent
 
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
@@ -109,6 +110,15 @@ def main():
         RangedComponent(6),
         RenderableComponent(char="/", color=(0, 255, 0)),
         NameComponent("Pistol")
+    )
+
+    world.create_entity(
+        ItemComponent(),
+        Position(x=5, y=5),
+        RangedComponent(6),
+        AreaOfEffectComponent(3),
+        RenderableComponent(char="*", color=(255,255,0)),
+        NameComponent("Grenade")
     )
 
     # Generate map
