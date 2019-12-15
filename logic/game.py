@@ -156,6 +156,9 @@ def act_and_update(world, action):
     world.get_processor(ActionProcessor).action = action
     world.process()
 
+def force_update(world):
+    world.process()
+
 def get_position(world):
     # we can get it straight from the world
     for ent, (player, pos) in world.get_components(Player, Position):

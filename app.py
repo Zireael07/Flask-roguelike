@@ -5,6 +5,7 @@ app = Flask(__name__)
 from logic import game
 from logic import game_vars
 from logic import constants
+from logic import game_loaders
 
 # more specific stuff we need
 from logic.player import Player
@@ -216,6 +217,28 @@ def target_confirm(x=None, y=None):
 
         game.act_and_update(game_vars.world, action)
         data = data_to_redraw()
+
+    return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
+    })
+
+@app.route('/save', methods = ["GET"])
+def save():
+    game_loaders.save_game()
+
+    data = data_to_redraw()
+
+    return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
+    })
+
+@app.route('/load', methods = ["GET"])
+def load():
+    game_loaders.load_game()
+
+    game.force_update(game_vars.world)
+
+    data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
     'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])

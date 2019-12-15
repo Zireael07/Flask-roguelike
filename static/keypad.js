@@ -178,7 +178,46 @@ $( document ).ready(function() {
         });
 
     });
-    
+
+    $("#save").click(function(e) {
+        console.log("Clicked save");
+        $.ajax({
+            url: "/save",
+            type: "GET",
+            success: function(response) {
+                $('#output').html(response.data);
+                $(".modal").html(response.inven);
+                //reattach click hook to close inventory button
+                //thanks to https://aiocollective.com/blog/click-doesn-t-work-after-ajax-load-jquery/
+                $("#close_btn").click(function(e) {
+                    console.log("Clicked close")
+                    $(".modal").attr("style", "display:none");
+                });
+            }
+        });
+
+    });
+
+    $("#load").click(function(e) {
+        console.log("Clicked load");
+        $.ajax({
+            url: "/load",
+            type: "GET",
+            success: function(response) {
+                $('#output').html(response.data);
+                $(".modal").html(response.inven);
+                //reattach click hook to close inventory button
+                //thanks to https://aiocollective.com/blog/click-doesn-t-work-after-ajax-load-jquery/
+                $("#close_btn").click(function(e) {
+                    console.log("Clicked close")
+                    $(".modal").attr("style", "display:none");
+                });
+            }
+        });
+
+    });
+
+    // inventory (doesn't fire off AJAX)
     $("#inven").click(function(e) {
         console.log("Clicked inven");
         $(".modal").attr("style", "display:block")
