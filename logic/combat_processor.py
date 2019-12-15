@@ -4,6 +4,10 @@ from .combat_component import CombatComponent
 from .combat_stats import StatsComponent
 from .name_component import NameComponent
 from .dead_component import DeadComponent
+
+from .equipped import EquippedComponent
+from .melee_bonus_component import MeleeBonusComponent
+
 from . import game_vars
 
 class CombatProcessor(esper.Processor):
@@ -19,7 +23,12 @@ class CombatProcessor(esper.Processor):
             attacker_stats = self.world.component_for_entity(attacker_ID, StatsComponent)
             target_stats = self.world.component_for_entity(target_ID, StatsComponent)
             # deal damage!
-            target_stats.hp -= attacker_stats.power
+            damage = attacker_stats.power
+            # any bonuses?
+            for item_ent, (equip, bonus) in self.world.get_components(EquippedComponent, MeleeBonusComponent):
+                damage += bonus.bonus
+
+            target_stats.hp -= damage
 
             # dead!
             if target_stats.hp <= 0:
@@ -29,4 +38,4 @@ class CombatProcessor(esper.Processor):
             # message
             attacker_name = self.world.component_for_entity(attacker_ID, NameComponent)
             target_name = self.world.component_for_entity(target_ID, NameComponent)
-            game_vars.messages.append(attacker_name.name + " attacks " + target_name.name + " for " + str(attacker_stats.power) + " damage!")
+            game_vars.messages.append(attacker_name.name + " attacks " + target_name.name + " for " + str(damage) + " damage!")

@@ -13,9 +13,10 @@ def generate_NPC_rarity():
 def generate_item_rarity():
     chances = []
 
-    chances.append(("Pistol", 25))
+    chances.append(("Combat Knife", 25))
+    chances.append(("Pistol", 15))
     chances.append(("Medkit", 50))
-    chances.append(("Grenade", 15))
+    chances.append(("Grenade", 10))
 
     return get_chance_roll_table(chances)
 

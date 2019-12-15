@@ -19,6 +19,8 @@ from .item_component import ItemComponent
 from .meditem_component import MedItemComponent
 from .ranged_component import RangedComponent
 from .area_of_effect import AreaOfEffectComponent
+from .wearable import WearableComponent
+from .melee_bonus_component import MeleeBonusComponent
 
 from .movement_processor import MovementProcessor
 from .action_processor import ActionProcessor
@@ -26,7 +28,7 @@ from .fov_processor import FovProcessor
 from .combat_processor import CombatProcessor
 from .death_processor import DeathProcessor
 from .AI_processor import AIProcessor
-from .equip_processor import EquipProcessor
+from .pickup_processor import PickupProcessor
 from .use_item_processor import UseItemProcessor
 from .drop_processor import DropProcessor
 
@@ -56,12 +58,12 @@ def main():
     fov_processor = FovProcessor()
     combat_processor = CombatProcessor()
     death_processor = DeathProcessor()
-    equip_processor = EquipProcessor()
+    pickup_processor = PickupProcessor()
     useitem_processor = UseItemProcessor()
     drop_processor = DropProcessor()
 
     world.add_processor(action_processor, 100)
-    world.add_processor(equip_processor, 52)
+    world.add_processor(pickup_processor, 52)
     world.add_processor(useitem_processor, 52)
     world.add_processor(drop_processor, 52)
     world.add_processor(movement_processor, 50)
@@ -108,12 +110,16 @@ def main():
             MedItemComponent(6)
         )
         elif choice == "Pistol":
-            world.add_components(it, RenderableComponent(char="/", color=(0, 255, 0)), NameComponent("Pistol"),
+            world.add_components(it, RenderableComponent(char=")", color=(0, 255, 0)), NameComponent("Pistol"),
             RangedComponent(6)
         )
         elif choice == "Grenade":
             world.add_components(it, RenderableComponent(char="*", color=(255,255,0)),  NameComponent("Grenade"),
             RangedComponent(6), AreaOfEffectComponent(3),
+        )
+        elif choice == "Combat Knife":
+            world.add_components(it, RenderableComponent(char="/", color=(100, 255, 0)), NameComponent("Combat Knife"),
+            WearableComponent("MAIN_HAND"), MeleeBonusComponent(2),
         )
 
     # Generate map

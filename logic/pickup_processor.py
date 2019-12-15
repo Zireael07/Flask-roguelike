@@ -10,12 +10,12 @@ from .want_to_pickup import WantToPickupComponent
 
 from . import game_vars
 
-class EquipProcessor(esper.Processor):
+class PickupProcessor(esper.Processor):
     def __init__(self):
         super().__init__()
 
     def process(self):
-        #print("Equip processor...")
+        #print("Pickup processor...")
         for ent, (pick, equip, pos) in self.world.get_components(WantToPickupComponent, EquipmentComponent, Position):
             for item_ent, (item, item_pos) in self.world.get_components(ItemComponent, Position):
                 if pos.x == item_pos.x and pos.y == item_pos.y:

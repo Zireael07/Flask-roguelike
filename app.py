@@ -13,6 +13,7 @@ from logic.cursor_component import CursorComponent
 from logic.position import Position
 from logic.renderable import RenderableComponent
 from logic.in_backpack import InBackpackComponent
+from logic.equipped import EquippedComponent
 from logic.name_component import NameComponent
 from logic.dead_component import DeadComponent
 from logic.skip_component import SkipComponent
@@ -40,6 +41,9 @@ def data_to_redraw():
             # skip
             continue
         if game_vars.world.has_component(ent, InBackpackComponent):
+            # skip
+            continue
+        if game_vars.world.has_component(ent, EquippedComponent):
             # skip
             continue
         # draw

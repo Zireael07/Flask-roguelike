@@ -12,6 +12,10 @@ from .ranged_component import RangedComponent
 from .cursor_component import CursorComponent
 from .area_of_effect import AreaOfEffectComponent
 
+from .in_backpack import InBackpackComponent
+from .equipped import EquippedComponent
+from .wearable import WearableComponent
+
 from . import game_vars
 from . import map_common
 
@@ -51,6 +55,36 @@ class UseItemProcessor(esper.Processor):
         for ent, (use) in self.world.get_component(WantToUseItem):
             item_ID = self.world.component_for_entity(ent, WantToUseItem).item_ID
             print("Item id to use: " + str(item_ID))
+
+            # equip/unequip
+            if self.world.has_component(item_ID, WearableComponent):
+                # if not equipped already
+                if not self.world.has_component(item_ID, EquippedComponent):
+                    slot = self.world.component_for_entity(item_ID, WearableComponent)
+
+                    # unequip anything we might have in the slot
+                    for item_ent, (equip, name) in self.world.get_components(EquippedComponent, NameComponent):
+                        if equip.slot == slot:
+                            ent_name = self.world.component_for_entity(ent, NameComponent)
+                            game_vars.messages.append(ent_name.name + " unequips " + name.name)
+                            self.world.remove_component(item_ent, EquippedComponent)
+                            self.world.add_component(item_ent, InBackpackComponent)
+
+                    # equip
+                    self.world.add_component(item_ID, EquippedComponent(slot=slot))
+                    self.world.remove_component(item_ID, InBackpackComponent)
+                    name = self.world.component_for_entity(ent, NameComponent)
+                    item_name = self.world.component_for_entity(item_ID, NameComponent)
+                    game_vars.messages.append(name.name + " equips " + item_name.name)
+                else:
+                    # unequip
+                    ent_name = self.world.component_for_entity(ent, NameComponent)
+                    game_vars.messages.append(ent_name.name + " unequips " + name.name)
+                    self.world.remove_component(item_ent, EquippedComponent)
+                    self.world.add_component(item_ent, InBackpackComponent)
+
+                # cleanup
+                self.world.remove_component(ent, WantToUseItem)
 
             # if item is a ranged item and we have a cursor
             if self.world.has_component(item_ID, RangedComponent):

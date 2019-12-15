@@ -8,6 +8,7 @@ from .turn_component import TurnComponent
 
 from .meditem_component import MedItemComponent
 from .ranged_component import RangedComponent
+from .wearable import WearableComponent
 from .cursor_component import CursorComponent
 
 from .want_to_pickup import WantToPickupComponent
@@ -55,6 +56,8 @@ class ActionProcessor(esper.Processor):
                     #self.world.add_component(ent, WantToUseItem(_use_item))
                     pos = self.world.component_for_entity(ent, Position)
                     self.world.add_component(ent, CursorComponent(pos.x, pos.y, _use_item))
+                if self.world.has_component(_use_item, WearableComponent):
+                    self.world.add_component(ent, WantToUseItem(_use_item))
 
             if _drop_item:
                 print("Drop item to execute...")

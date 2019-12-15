@@ -1,4 +1,5 @@
 ' Tags an item as equipped. '
 
 class EquippedComponent():
-    pass
+    def __init__(self, slot="BODY"):
+        self.slot = slot
