@@ -5,6 +5,7 @@ from .in_backpack import InBackpackComponent
 
 from .item_component import ItemComponent
 from .position import Position
+from .name_component import NameComponent
 
 from .want_to_pickup import WantToPickupComponent
 
@@ -22,6 +23,8 @@ class PickupProcessor(esper.Processor):
                     if not self.world.has_component(item_ent, InBackpackComponent):
                         equip.equipment.append(item_ent)
                         self.world.add_component(item_ent, InBackpackComponent())
-                        game_vars.messages.append("Player picked up item!")
+                        # message
+                        ent_name = self.world.component_for_entity(item_ent, NameComponent)
+                        game_vars.messages.append("Player picked up " + ent_name.name + "!")
             
             self.world.remove_component(ent, WantToPickupComponent)

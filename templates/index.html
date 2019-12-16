@@ -13,7 +13,6 @@
   <script  src="{{url_for('static', filename='jquery-3.3.1.js') }}" ></script>
   <script  src="{{url_for('static', filename='keypad.js') }}"></script>
   <div id="output">
-  <p>Position: x {{position.x }}  y {{ position.y }}</p>
   <table>
     <tbody>
       <tr>
@@ -33,6 +32,7 @@
         <td style="vertical-align: top;">
           <div> HP: 20/20 </div>
           <div style="background-color: red; width: 100px; height: 20px;"></div>
+          <p>Position: x {{position.x }}  y {{ position.y }}</p>
         </td>
       </tr>
     </tbody>

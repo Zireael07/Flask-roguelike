@@ -73,6 +73,15 @@ def data_to_redraw():
         inventory.append((chr(letter_index), name.name, ent))
         letter_index += 1
 
+    for ent, (name, equip) in game_vars.world.get_components(NameComponent, EquippedComponent):
+        # skips entities that are being removed
+        if game_vars.world.has_component(ent, SkipComponent):
+            continue
+
+        inventory.append((chr(letter_index), name.name + " (equipped)", ent))
+        letter_index += 1
+
+
     return { "position" : position, "console": console, "messages" : messages, "fighter" : fighter, "inventory" : inventory}
 
 
