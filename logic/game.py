@@ -118,7 +118,7 @@ def main():
             RangedComponent(6), AreaOfEffectComponent(3),
         )
         elif choice == "Combat Knife":
-            world.add_components(it, RenderableComponent(char="/", color=(100, 255, 0)), NameComponent("Combat Knife"),
+            world.add_components(it, RenderableComponent(char="/", color=(150, 255, 0)), NameComponent("Combat Knife"),
             WearableComponent("MAIN_HAND"), MeleeBonusComponent(2),
         )
 

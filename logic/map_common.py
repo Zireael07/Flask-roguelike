@@ -81,9 +81,9 @@ def map_to_draw(inc_map, fov, explored):
         for x in range(len(inc_map)):
             # visible or explored
             if fov[x][y] == 1 or explored[x][y]: 
-                mapa[x][y] = get_map_str(inc_map[x][y])
+                mapa[x][y] = (get_map_str(inc_map[x][y]), (255,255,255))
             else:
-                mapa[x][y] = "&nbsp;"
+                mapa[x][y] = ("&nbsp;", (255, 255, 255))
                 # blank span later escaped by |safe Jinja template markup
 
     return mapa

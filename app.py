@@ -47,10 +47,10 @@ def data_to_redraw():
             # skip
             continue
         # draw
-        console[pos.x][pos.y] = visual.char
+        console[pos.x][pos.y] = (visual.char, visual.color)
 
     # draw player at his position
-    console[position.x][position.y] = '@'
+    console[position.x][position.y] = ('@', (255, 255, 255))
 
     # messages
     if len(game_vars.messages) <= constants.NUM_MESSAGES:
