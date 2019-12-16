@@ -4,6 +4,7 @@ from .combat_component import CombatComponent
 from .combat_stats import StatsComponent
 from .name_component import NameComponent
 from .dead_component import DeadComponent
+from .player import Player
 
 from .equipped import EquippedComponent
 from .melee_bonus_component import MeleeBonusComponent
@@ -38,4 +39,13 @@ class CombatProcessor(esper.Processor):
             # message
             attacker_name = self.world.component_for_entity(attacker_ID, NameComponent)
             target_name = self.world.component_for_entity(target_ID, NameComponent)
-            game_vars.messages.append(attacker_name.name + " attacks " + target_name.name + " for " + str(damage) + " damage!")
+
+            # color
+            player_hit = self.world.has_component(target_ID, Player)
+            if player_hit:
+                color = (255, 0, 0)
+            else:
+                color = (127, 127, 127) # libtcod light gray
+                
+
+            game_vars.messages.append((attacker_name.name + " attacks " + target_name.name + " for " + str(damage) + " damage!", color))

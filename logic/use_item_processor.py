@@ -42,7 +42,7 @@ class UseItemProcessor(esper.Processor):
                 # message
                 name = self.world.component_for_entity(ent, NameComponent)
                 item_name = self.world.component_for_entity(item_ID, NameComponent)
-                game_vars.messages.append(name.name + " uses " + item_name.name + ", healing " + str(value) + " hp!")
+                game_vars.messages.append((name.name + " uses " + item_name.name + ", healing " + str(value) + " hp!", (0, 255, 0)))
             
             # generic message
             #game_vars.messages.append(name.name + " uses " + item_name.name + "!")
@@ -66,7 +66,7 @@ class UseItemProcessor(esper.Processor):
                     for item_ent, (equip, name) in self.world.get_components(EquippedComponent, NameComponent):
                         if equip.slot == slot:
                             ent_name = self.world.component_for_entity(ent, NameComponent)
-                            game_vars.messages.append(ent_name.name + " unequips " + name.name)
+                            game_vars.messages.append((ent_name.name + " unequips " + name.name, (255,255,255)))
                             self.world.remove_component(item_ent, EquippedComponent)
                             self.world.add_component(item_ent, InBackpackComponent)
 
@@ -75,11 +75,11 @@ class UseItemProcessor(esper.Processor):
                     self.world.remove_component(item_ID, InBackpackComponent)
                     name = self.world.component_for_entity(ent, NameComponent)
                     item_name = self.world.component_for_entity(item_ID, NameComponent)
-                    game_vars.messages.append(name.name + " equips " + item_name.name)
+                    game_vars.messages.append((name.name + " equips " + item_name.name,  (255,255,255)))
                 else:
                     # unequip
                     ent_name = self.world.component_for_entity(ent, NameComponent)
-                    game_vars.messages.append(ent_name.name + " unequips " + name.name)
+                    game_vars.messages.append((ent_name.name + " unequips " + name.name,  (255,255,255)))
                     self.world.remove_component(item_ent, EquippedComponent)
                     self.world.add_component(item_ent, InBackpackComponent)
 
@@ -112,7 +112,7 @@ class UseItemProcessor(esper.Processor):
                                     # message
                                     name = self.world.component_for_entity(ent, NameComponent)
                                     tg_name = self.world.component_for_entity(tg_ent, NameComponent)
-                                    game_vars.messages.append(name.name + " shoots " + tg_name.name + " for 6 damage!")
+                                    game_vars.messages.append((name.name + " shoots " + tg_name.name + " for 6 damage!",  (255,255,255)))
 
                             if targeted is None:
                                 game_vars.messages.append("No target selected")
@@ -129,7 +129,7 @@ class UseItemProcessor(esper.Processor):
                                     # message
                                     name = self.world.component_for_entity(ent, NameComponent)
                                     tg_name = self.world.component_for_entity(tg_ent, NameComponent)
-                                    game_vars.messages.append(name.name + " blasts " + tg_name.name + " for 6 damage!")
+                                    game_vars.messages.append((name.name + " blasts " + tg_name.name + " for 6 damage!",  (255,255,255)))
 
                             # remove item
                             self.world.add_component(item_ID, SkipComponent()) # using it to mark it as being removed

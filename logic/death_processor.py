@@ -16,7 +16,7 @@ class DeathProcessor(esper.Processor):
         for ent, (name, dead) in self.world.get_components(NameComponent, DeadComponent):
             if self.world.has_component(ent, Player):
                 #print("Player is dead!!!")
-                game_vars.messages.append("YOU DIED!!")
+                game_vars.messages.append(("YOU DIED!!", (255, 0, 0)))
                 # skip
                 continue
 
@@ -24,6 +24,6 @@ class DeathProcessor(esper.Processor):
             #     # skip
             #     continue
 
-            game_vars.messages.append(name.name + " is dead!")
+            game_vars.messages.append((name.name + " is dead!", (127, 127, 127)))
             # delete from ECS
             self.world.delete_entity(ent)
