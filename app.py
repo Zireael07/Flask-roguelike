@@ -97,14 +97,14 @@ def hello_world():
 
     console = map_common.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
     # draw player at his position
-    console[position.x][position.y] = '@'
+    console[position.x][position.y] = ('@', (255, 255, 255))
     # draw other entities
     for ent, (pos, visual) in game_vars.world.get_components(Position, RenderableComponent):
         if not game_vars.fov[pos.x][pos.y]:
             # skip
             continue
         # draw
-        console[pos.x][pos.y] = visual.char
+        console[pos.x][pos.y] = (visual.char, visual.color)
 
     return render_template('index.html', position = position, console=console, style=map_common.map_style)
     #return game.represent_world(game_vars.world, Position)
