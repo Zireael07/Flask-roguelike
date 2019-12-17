@@ -36,6 +36,7 @@ def save_game():
         # the rest
         data_file['map'] = game_vars.mapa
         data_file['fov'] = game_vars.fov
+        data_file['camera'] = game_vars.camera
         data_file['explored'] = game_vars.explored
         data_file['messages'] = game_vars.messages
 
@@ -52,6 +53,7 @@ def load_game():
         game_vars.world._entities = data_file['entities']
         # the rest
         game_vars.mapa = data_file['map']
+        game_vars.camera = data_file['camera']
         game_vars.fov = data_file['fov']
         game_vars.explored = data_file['explored']
         game_vars.messages = data_file['messages']

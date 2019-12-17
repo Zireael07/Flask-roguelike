@@ -35,6 +35,7 @@ from .drop_processor import DropProcessor
 from . import arenamap
 from . import constants
 from . import ppfov
+from . import camera
 from .tile_lookups import get_block_path
 
 from . import random_utils
@@ -130,9 +131,14 @@ def main():
     # Initial FOV
     ppfov.fieldOfView(1,1, constants.MAP_WIDTH, constants.MAP_HEIGHT, 6, explore, block_sight)
 
+    # Camera
+    cam = camera.obj_Camera()
+    cam.start_update()
+
     # Save state 
     game_vars.world = world
     game_vars.fov = fov_map
+    game_vars.camera = cam
     # Init messages
     game_vars.messages = []
 

@@ -77,11 +77,23 @@ def map_to_draw(inc_map, fov, explored):
     # dummy
     mapa = [[get_map_str(get_index(TileTypes.FLOOR)) for _ in range(constants.MAP_HEIGHT)] for _ in range(constants.MAP_WIDTH)]
 
+    # camera
+    cam = game_vars.camera
+    width_start = cam.get_width_start()
+    width_end = cam.get_width_end(game_vars.mapa)
+    height_start = cam.get_height_start()
+    height_end = cam.get_height_end(game_vars.mapa)
+
     for y in range(len(inc_map[0])):
         for x in range(len(inc_map)):
-            # visible or explored
-            if fov[x][y] == 1 or explored[x][y]: 
-                mapa[x][y] = (get_map_str(inc_map[x][y]), (255,255,255))
+            # if in camera
+            if x >= width_start and x <= width_end and y >= height_start and y <= height_end:
+                # visible or explored
+                if fov[x][y] == 1 or explored[x][y]: 
+                    mapa[x][y] = (get_map_str(inc_map[x][y]), (255,255,255))
+                else:
+                    mapa[x][y] = ("&nbsp;", (255, 255, 255))
+                    # blank span later escaped by |safe Jinja template markup
             else:
                 mapa[x][y] = ("&nbsp;", (255, 255, 255))
                 # blank span later escaped by |safe Jinja template markup

@@ -29,11 +29,26 @@ def data_to_redraw():
     # redraw
     ##data = game.represent_world(game_vars.world, Player)
     position = game.get_position(game_vars.world)
+
+    # cam
+    game_vars.camera.update(position)
+
     #console = map_common.get_map_glyphs(game_vars.mapa)
     console = map_common.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
 
+    # camera
+    cam = game_vars.camera
+    width_start = cam.get_width_start()
+    width_end = cam.get_width_end(game_vars.mapa)
+    height_start = cam.get_height_start()
+    height_end = cam.get_height_end(game_vars.mapa)
+
     # draw other entities
     for ent, (pos, visual) in game_vars.world.get_components(Position, RenderableComponent):
+        # if not in camera view
+        if pos.x < width_start or pos.x > width_end or pos.y < height_start or pos.y > height_end:
+            # skip
+            continue
         if not game_vars.fov[pos.x][pos.y]:
             # skip
             continue
@@ -98,8 +113,20 @@ def hello_world():
     console = map_common.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
     # draw player at his position
     console[position.x][position.y] = ('@', (255, 255, 255))
+
+    # camera
+    cam = game_vars.camera
+    width_start = cam.get_width_start()
+    width_end = cam.get_width_end(game_vars.mapa)
+    height_start = cam.get_height_start()
+    height_end = cam.get_height_end(game_vars.mapa)
+
     # draw other entities
     for ent, (pos, visual) in game_vars.world.get_components(Position, RenderableComponent):
+        # if not in camera view
+        if pos.x < width_start or pos.x > width_end or pos.y < height_start or pos.y > height_end:
+            # skip
+            continue
         if not game_vars.fov[pos.x][pos.y]:
             # skip
             continue
