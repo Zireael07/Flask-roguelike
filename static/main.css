@@ -16,6 +16,11 @@
     font-weight:bold;
 }
 
+
+body {
+    background-color: lightcyan;
+}
+
 /*https://stackoverflow.com/questions/2941189/how-to-overlay-one-div-over-another-div */
 
 /*
@@ -35,9 +40,19 @@
     position: absolute;
     top: 2px;
     left: 2px;
+    opacity: 0; /*hide ... */
 }
+
+.keypad:hover {
+    opacity: 1; /* unless hovered */
+}
+
+
+
 .keypad_btn {
-    background-color: transparent;
+    /*background-color: transparent; */
+    background-color: black;
+    opacity: 0.5;
     color: #42D6CA;
 }
 
