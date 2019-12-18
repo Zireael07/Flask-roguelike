@@ -19,7 +19,7 @@ from logic.dead_component import DeadComponent
 from logic.skip_component import SkipComponent
 
 
-from logic import map_common
+from logic import renderer_logic
 
 # helpers
 '''
@@ -27,14 +27,12 @@ Collects all the info that is needed for Flask internal API to redraw the game
 '''
 def data_to_redraw():
     # redraw
-    ##data = game.represent_world(game_vars.world, Player)
     position = game.get_position(game_vars.world)
 
     # cam
     game_vars.camera.update(position)
 
-    #console = map_common.get_map_glyphs(game_vars.mapa)
-    console = map_common.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
+    console = renderer_logic.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
 
     # camera
     cam = game_vars.camera
@@ -107,10 +105,9 @@ def hello_world():
     game.main()
 
     # Initial page draw
-    ##data = game.represent_world(game_vars.world, Player)
     position = game.get_position(game_vars.world)
 
-    console = map_common.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
+    console = renderer_logic.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
 
     # camera
     cam = game_vars.camera
@@ -134,7 +131,7 @@ def hello_world():
     # draw player at his position
     console[position.x-width_start][position.y-height_start] = ('@', (255, 255, 255))
 
-    return render_template('index.html', position = position, console=console, style=map_common.map_style)
+    return render_template('index.html', position = position, console=console, style=renderer_logic.map_style)
     #return game.represent_world(game_vars.world, Position)
     # dict is converted to JSON automatically
     #return {
@@ -159,7 +156,7 @@ def move(x=None, y=None):
     data = data_to_redraw()
 
     return jsonify({'data': render_template('response.html', 
-    position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])})
+    position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])})
 
 
 
@@ -177,7 +174,7 @@ def get():
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
     })
 
 
@@ -195,7 +192,7 @@ def use_item(id=None):
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
     })
 
 # this is an additional route because it shows a special screen
@@ -233,7 +230,7 @@ def drop_item(id=None):
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
     })
 
 @app.route('/target_confirm', methods = ["GET"])
@@ -260,7 +257,7 @@ def target_confirm(x=None, y=None):
         data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
     })
 
 @app.route('/save', methods = ["GET"])
@@ -270,7 +267,7 @@ def save():
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
     })
 
 @app.route('/load', methods = ["GET"])
@@ -282,5 +279,5 @@ def load():
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=map_common.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
     })
