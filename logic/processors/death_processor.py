@@ -1,12 +1,12 @@
-from . import esper
+from .. import esper
 
-from .player import Player
-from .name_component import NameComponent
-from .dead_component import DeadComponent
-from .combat_stats import StatsComponent
+from ..player import Player
+from ..name_component import NameComponent
+from ..dead_component import DeadComponent
+from ..combat_stats import StatsComponent
 
 
-from . import game_vars
+from .. import game_vars
 
 class DeathProcessor(esper.Processor):
     def __init__(self):

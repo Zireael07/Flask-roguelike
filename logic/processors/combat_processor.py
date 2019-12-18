@@ -1,15 +1,15 @@
-from . import esper
+from .. import esper
 
-from .combat_component import CombatComponent
-from .combat_stats import StatsComponent
-from .name_component import NameComponent
-from .dead_component import DeadComponent
-from .player import Player
+from ..combat_component import CombatComponent
+from ..combat_stats import StatsComponent
+from ..name_component import NameComponent
+from ..dead_component import DeadComponent
+from ..player import Player
 
-from .equipped import EquippedComponent
-from .melee_bonus_component import MeleeBonusComponent
+from ..equipped import EquippedComponent
+from ..melee_bonus_component import MeleeBonusComponent
 
-from . import game_vars
+from .. import game_vars
 
 class CombatProcessor(esper.Processor):
     def __init__(self):

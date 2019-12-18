@@ -1,23 +1,23 @@
-from . import esper
+from .. import esper
 
-from .want_to_use_med import WantToUseMed
-from .combat_stats import StatsComponent
-from .name_component import NameComponent
-from .meditem_component import MedItemComponent
-from .skip_component import SkipComponent
+from ..want_to_use_med import WantToUseMed
+from ..combat_stats import StatsComponent
+from ..name_component import NameComponent
+from ..meditem_component import MedItemComponent
+from ..skip_component import SkipComponent
 
-from .want_to_use_item import WantToUseItem
-from .position import Position
-from .ranged_component import RangedComponent
-from .cursor_component import CursorComponent
-from .area_of_effect import AreaOfEffectComponent
+from ..want_to_use_item import WantToUseItem
+from ..position import Position
+from ..ranged_component import RangedComponent
+from ..cursor_component import CursorComponent
+from ..area_of_effect import AreaOfEffectComponent
 
-from .in_backpack import InBackpackComponent
-from .equipped import EquippedComponent
-from .wearable import WearableComponent
+from ..in_backpack import InBackpackComponent
+from ..equipped import EquippedComponent
+from ..wearable import WearableComponent
 
-from . import game_vars
-from . import map_common
+from .. import game_vars
+from .. import map_common
 
 class UseItemProcessor(esper.Processor):
     def __init__(self):

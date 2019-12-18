@@ -1,14 +1,14 @@
-from . import esper
+from .. import esper
 
-from .position import Position
-from .velocity import Velocity
-from .blocks_tile import TileBlocker
-from .turn_component import TurnComponent
+from ..position import Position
+from ..velocity import Velocity
+from ..blocks_tile import TileBlocker
+from ..turn_component import TurnComponent
 
-from .combat_component import CombatComponent
+from ..combat_component import CombatComponent
 
-from .tile_lookups import get_block_path
-from . import game_vars
+from ..tile_lookups import get_block_path
+from .. import game_vars
 
 class MovementProcessor(esper.Processor):
 

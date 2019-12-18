@@ -1,16 +1,16 @@
-from . import esper
+from .. import esper
 
-from .NPC_component import NPC_Component
-from .turn_component import TurnComponent
-from .position import Position
-from .player import Player
-from .blocks_tile import TileBlocker
+from ..NPC_component import NPC_Component
+from ..turn_component import TurnComponent
+from ..position import Position
+from ..player import Player
+from ..blocks_tile import TileBlocker
 
-from .combat_component import CombatComponent
+from ..combat_component import CombatComponent
 
-from . import game_vars
-from .tile_lookups import TileTypes, get_index
-from . import astar
+from .. import game_vars
+from ..tile_lookups import TileTypes, get_index
+from .. import astar
 
 class AIProcessor(esper.Processor):
     def __init__(self):

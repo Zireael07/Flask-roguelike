@@ -1,13 +1,13 @@
-from . import esper
+from .. import esper
 
-from .player import Player
-from .position import Position
+from ..player import Player
+from ..position import Position
 
-from . import ppfov
-from . import constants
-from .tile_lookups import get_block_path
+from .. import ppfov
+from .. import constants
+from ..tile_lookups import get_block_path
 
-from . import game_vars
+from .. import game_vars
 
  # FOV interface
 def explore(x,y):

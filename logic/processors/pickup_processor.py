@@ -1,15 +1,15 @@
-from . import esper
+from .. import esper
 
-from .equipment_component import EquipmentComponent
-from .in_backpack import InBackpackComponent
+from ..equipment_component import EquipmentComponent
+from ..in_backpack import InBackpackComponent
 
-from .item_component import ItemComponent
-from .position import Position
-from .name_component import NameComponent
+from ..item_component import ItemComponent
+from ..position import Position
+from ..name_component import NameComponent
 
-from .want_to_pickup import WantToPickupComponent
+from ..want_to_pickup import WantToPickupComponent
 
-from . import game_vars
+from .. import game_vars
 
 class PickupProcessor(esper.Processor):
     def __init__(self):

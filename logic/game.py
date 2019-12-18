@@ -22,15 +22,15 @@ from .area_of_effect import AreaOfEffectComponent
 from .wearable import WearableComponent
 from .melee_bonus_component import MeleeBonusComponent
 
-from .movement_processor import MovementProcessor
-from .action_processor import ActionProcessor
-from .fov_processor import FovProcessor
-from .combat_processor import CombatProcessor
-from .death_processor import DeathProcessor
-from .AI_processor import AIProcessor
-from .pickup_processor import PickupProcessor
-from .use_item_processor import UseItemProcessor
-from .drop_processor import DropProcessor
+from .processors.movement_processor import MovementProcessor
+from .processors.action_processor import ActionProcessor
+from .processors.fov_processor import FovProcessor
+from .processors.combat_processor import CombatProcessor
+from .processors.death_processor import DeathProcessor
+from .processors.AI_processor import AIProcessor
+from .processors.pickup_processor import PickupProcessor
+from .processors.use_item_processor import UseItemProcessor
+from .processors.drop_processor import DropProcessor
 
 from . import arenamap
 from . import constants

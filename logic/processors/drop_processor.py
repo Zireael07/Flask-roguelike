@@ -1,12 +1,12 @@
-from . import esper
+from .. import esper
 
-from .want_to_drop import WantToDrop
-from .in_backpack import InBackpackComponent
-from .position import Position
-from .name_component import NameComponent
-from .equipped import EquippedComponent
+from ..want_to_drop import WantToDrop
+from ..in_backpack import InBackpackComponent
+from ..position import Position
+from ..name_component import NameComponent
+from ..equipped import EquippedComponent
 
-from . import game_vars
+from .. import game_vars
 
 class DropProcessor(esper.Processor):
     def __init__(self):

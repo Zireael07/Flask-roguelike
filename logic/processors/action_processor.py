@@ -1,20 +1,20 @@
-from . import esper
+from .. import esper
 
 from .AI_processor import AIProcessor
 
-from .velocity import Velocity
-from .position import Position
-from .turn_component import TurnComponent
+from ..velocity import Velocity
+from ..position import Position
+from ..turn_component import TurnComponent
 
-from .meditem_component import MedItemComponent
-from .ranged_component import RangedComponent
-from .wearable import WearableComponent
-from .cursor_component import CursorComponent
+from ..meditem_component import MedItemComponent
+from ..ranged_component import RangedComponent
+from ..wearable import WearableComponent
+from ..cursor_component import CursorComponent
 
-from .want_to_pickup import WantToPickupComponent
-from .want_to_use_med import WantToUseMed
-from .want_to_use_item import WantToUseItem
-from .want_to_drop import WantToDrop
+from ..want_to_pickup import WantToPickupComponent
+from ..want_to_use_med import WantToUseMed
+from ..want_to_use_item import WantToUseItem
+from ..want_to_drop import WantToDrop
 
 class ActionProcessor(esper.Processor):
 
