@@ -72,10 +72,10 @@ def get_map_glyphs(inc_map):
 
 
 def map_to_draw(inc_map, fov, explored):
-    mapa = get_map_glyphs(inc_map)
+    #mapa = get_map_glyphs(inc_map)
 
     # dummy
-    mapa = [[get_map_str(get_index(TileTypes.FLOOR)) for _ in range(constants.MAP_HEIGHT)] for _ in range(constants.MAP_WIDTH)]
+    mapa = [[("&nbsp;", (255, 255, 255)) for _ in range(constants.MAP_HEIGHT)] for _ in range(constants.MAP_WIDTH)]
 
     # camera
     cam = game_vars.camera
@@ -84,19 +84,29 @@ def map_to_draw(inc_map, fov, explored):
     height_start = cam.get_height_start()
     height_end = cam.get_height_end(game_vars.mapa)
 
-    for y in range(len(inc_map[0])):
-        for x in range(len(inc_map)):
-            # if in camera
-            if x >= width_start and x <= width_end and y >= height_start and y <= height_end:
+    # based on https://bfnightly.bracketproductions.com/rustbook/chapter_41.html
+    # x,y are screen coordinates, tx, ty are map (tile) coordinates
+    y = 0
+    for ty in range(height_start, height_end+1):
+    #for ty in range(len(inc_map[0])):
+        x = 0
+        #for tx in range(len(inc_map)):
+        for tx in range(width_start, width_end+1):
+            # if on map
+            if tx >= 0 and tx < len(inc_map) and ty >= 0 and ty < len(inc_map[0]):
+            #if tx >= width_start and tx <= width_end and ty >= height_start and ty <= height_end:
                 # visible or explored
-                if fov[x][y] == 1 or explored[x][y]: 
-                    mapa[x][y] = (get_map_str(inc_map[x][y]), (255,255,255))
+                if fov[tx][ty] == 1 or explored[tx][ty]: 
+                    mapa[x][y] = (get_map_str(inc_map[tx][ty]), (255,255,255))
                 else:
                     mapa[x][y] = ("&nbsp;", (255, 255, 255))
                     # blank span later escaped by |safe Jinja template markup
             else:
                 mapa[x][y] = ("&nbsp;", (255, 255, 255))
                 # blank span later escaped by |safe Jinja template markup
+            
+            x += 1
+        y += 1
 
     return mapa
 

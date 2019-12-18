@@ -61,11 +61,11 @@ def data_to_redraw():
         if game_vars.world.has_component(ent, EquippedComponent):
             # skip
             continue
-        # draw
-        console[pos.x][pos.y] = (visual.char, visual.color)
+        # draw (subtracting camera start to draw in screen space)
+        console[pos.x-width_start][pos.y-height_start] = (visual.char, visual.color)
 
     # draw player at his position
-    console[position.x][position.y] = ('@', (255, 255, 255))
+    console[position.x-width_start][position.y-height_start] = ('@', (255, 255, 255))
 
     # messages
     if len(game_vars.messages) <= constants.NUM_MESSAGES:
@@ -111,8 +111,6 @@ def hello_world():
     position = game.get_position(game_vars.world)
 
     console = map_common.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
-    # draw player at his position
-    console[position.x][position.y] = ('@', (255, 255, 255))
 
     # camera
     cam = game_vars.camera
@@ -131,7 +129,10 @@ def hello_world():
             # skip
             continue
         # draw
-        console[pos.x][pos.y] = (visual.char, visual.color)
+        console[pos.x-width_start][pos.y-height_start] = (visual.char, visual.color)
+
+    # draw player at his position
+    console[position.x-width_start][position.y-height_start] = ('@', (255, 255, 255))
 
     return render_template('index.html', position = position, console=console, style=map_common.map_style)
     #return game.represent_world(game_vars.world, Position)
