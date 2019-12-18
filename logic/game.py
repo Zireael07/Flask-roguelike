@@ -39,6 +39,7 @@ from . import camera
 from .tile_lookups import get_block_path
 
 from . import random_utils
+from . import generators
 
 from . import game_vars
 
@@ -89,13 +90,20 @@ def main():
         pos = (random.randint(1, constants.MAP_WIDTH-2), random.randint(1, constants.MAP_HEIGHT-2))
 
         choice = random_utils.generate_random_NPC()
+
         # the things that all NPCs share
         npc = world.create_entity(Position(x=pos[0], y=pos[1]), Velocity(), TileBlocker(), NPC_Component())
 
-        if choice == "Human":
-            world.add_components(npc, RenderableComponent(char='h', color=(255, 255, 255)), NameComponent("Human"), StatsComponent(hp=6, power=2))
-        elif choice == "Cop":
-            world.add_components(npc, RenderableComponent(char='c', color=(0, 255, 0)), NameComponent("Cop"), StatsComponent(hp=11, power=3))
+        # fill in the rest
+        add = generators.generate_npc(choice.lower())
+        # add them
+        for a in add:
+            world.add_component(npc, a)
+
+        # if choice == "Thug":
+        #     world.add_components(npc, RenderableComponent(char='h', color=(255, 255, 255)), NameComponent("Thug"), StatsComponent(hp=6, power=2))
+        # elif choice == "Cop":
+        #     world.add_components(npc, RenderableComponent(char='c', color=(0, 255, 0)), NameComponent("Cop"), StatsComponent(hp=11, power=3))
 
     # Some items
     for i in range(constants.NUM_ITEMS):

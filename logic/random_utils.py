@@ -5,7 +5,7 @@ import random
 def generate_NPC_rarity():
     chances = []
 
-    chances.append(("Human", 80))
+    chances.append(("Thug", 80))
     chances.append(("Cop", 20))
 
     return get_chance_roll_table(chances)

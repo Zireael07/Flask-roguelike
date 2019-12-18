@@ -1,0 +1,34 @@
+{
+    "cop" : {
+    "name" : "Cop",
+    "renderable": {
+        "glyph" : "c",
+        "fg" : [0, 0, 255],
+        "bg" : [0, 0, 0],
+        "order" : 1
+    },
+    "blocks_tile" : true,
+    "stats" : {
+        "hp" : 16,
+        "defense" : 1,
+        "power" : 4
+    }
+    },
+
+    "thug" : {
+    "name" : "Thug",
+    "renderable": {
+        "glyph" : "t",
+        "fg" : [255, 255, 255],
+        "bg" : [0, 0, 0],
+        "order" : 1
+    },
+    "blocks_tile" : true,
+    "stats" : {
+        "hp" : 8,
+        "defense" : 1,
+        "power" : 3
+
+    }
+    }
+}
