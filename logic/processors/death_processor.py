@@ -1,9 +1,9 @@
 from .. import esper
 
-from ..player import Player
-from ..name_component import NameComponent
-from ..dead_component import DeadComponent
-from ..combat_stats import StatsComponent
+from ..components.player import Player
+from ..components.name_component import NameComponent
+from ..components.dead_component import DeadComponent
+from ..components.combat_stats import StatsComponent
 
 
 from .. import game_vars

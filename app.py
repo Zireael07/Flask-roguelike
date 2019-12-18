@@ -8,15 +8,15 @@ from logic import constants
 from logic import game_loaders
 
 # more specific stuff we need
-from logic.player import Player
-from logic.cursor_component import CursorComponent
-from logic.position import Position
-from logic.renderable import RenderableComponent
-from logic.in_backpack import InBackpackComponent
-from logic.equipped import EquippedComponent
-from logic.name_component import NameComponent
-from logic.dead_component import DeadComponent
-from logic.skip_component import SkipComponent
+from logic.components.player import Player
+from logic.components.cursor_component import CursorComponent
+from logic.components.position import Position
+from logic.components.renderable import RenderableComponent
+from logic.components.in_backpack import InBackpackComponent
+from logic.components.equipped import EquippedComponent
+from logic.components.name_component import NameComponent
+from logic.components.dead_component import DeadComponent
+from logic.components.skip_component import SkipComponent
 
 
 from logic import renderer_logic

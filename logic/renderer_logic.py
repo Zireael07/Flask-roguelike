@@ -7,8 +7,8 @@ from .tile_lookups import get_map_str
 
 # for styling function
 from . import game_vars
-from .player import Player
-from .cursor_component import CursorComponent
+from .components.player import Player
+from .components.cursor_component import CursorComponent
 
 def map_to_draw(inc_map, fov, explored):
     #mapa = map_common.get_map_glyphs(inc_map)

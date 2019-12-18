@@ -5,7 +5,7 @@ import os
 
 from . import game_vars
 
-from .player import Player
+from .components.player import Player
 
 # save/load
 def save_game():

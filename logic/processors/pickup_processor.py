@@ -1,13 +1,13 @@
 from .. import esper
 
-from ..equipment_component import EquipmentComponent
-from ..in_backpack import InBackpackComponent
+from ..components.equipment_component import EquipmentComponent
+from ..components.in_backpack import InBackpackComponent
 
-from ..item_component import ItemComponent
-from ..position import Position
-from ..name_component import NameComponent
+from ..components.item_component import ItemComponent
+from ..components.position import Position
+from ..components.name_component import NameComponent
 
-from ..want_to_pickup import WantToPickupComponent
+from ..components.want_to_pickup import WantToPickupComponent
 
 from .. import game_vars
 

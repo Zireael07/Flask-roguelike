@@ -4,23 +4,23 @@ import random
 from . import esper # the one Python3 library we're using
 from . import esper_ext # ease of use extensions
 
-from .position import Position
-from .velocity import Velocity
-from .player import Player
-from .turn_component import TurnComponent
-from .renderable import RenderableComponent
-from .NPC_component import NPC_Component
-from .blocks_tile import TileBlocker
-from .combat_stats import StatsComponent
-from .name_component import NameComponent
-from .dead_component import DeadComponent
-from .equipment_component import EquipmentComponent
-from .item_component import ItemComponent
-from .meditem_component import MedItemComponent
-from .ranged_component import RangedComponent
-from .area_of_effect import AreaOfEffectComponent
-from .wearable import WearableComponent
-from .melee_bonus_component import MeleeBonusComponent
+from .components.position import Position
+from .components.velocity import Velocity
+from .components.player import Player
+from .components.turn_component import TurnComponent
+from .components.renderable import RenderableComponent
+from .components.NPC_component import NPC_Component
+from .components.blocks_tile import TileBlocker
+from .components.combat_stats import StatsComponent
+from .components.name_component import NameComponent
+from .components.dead_component import DeadComponent
+from .components.equipment_component import EquipmentComponent
+from .components.item_component import ItemComponent
+from .components.meditem_component import MedItemComponent
+from .components.ranged_component import RangedComponent
+from .components.area_of_effect import AreaOfEffectComponent
+from .components.wearable import WearableComponent
+from .components.melee_bonus_component import MeleeBonusComponent
 
 from .processors.movement_processor import MovementProcessor
 from .processors.action_processor import ActionProcessor

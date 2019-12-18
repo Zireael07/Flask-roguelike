@@ -1,20 +1,20 @@
 from .. import esper
 
-from ..want_to_use_med import WantToUseMed
-from ..combat_stats import StatsComponent
-from ..name_component import NameComponent
-from ..meditem_component import MedItemComponent
-from ..skip_component import SkipComponent
+from ..components.want_to_use_med import WantToUseMed
+from ..components.combat_stats import StatsComponent
+from ..components.name_component import NameComponent
+from ..components.meditem_component import MedItemComponent
+from ..components.skip_component import SkipComponent
 
-from ..want_to_use_item import WantToUseItem
-from ..position import Position
-from ..ranged_component import RangedComponent
-from ..cursor_component import CursorComponent
-from ..area_of_effect import AreaOfEffectComponent
+from ..components.want_to_use_item import WantToUseItem
+from ..components.position import Position
+from ..components.ranged_component import RangedComponent
+from ..components.cursor_component import CursorComponent
+from ..components.area_of_effect import AreaOfEffectComponent
 
-from ..in_backpack import InBackpackComponent
-from ..equipped import EquippedComponent
-from ..wearable import WearableComponent
+from ..components.in_backpack import InBackpackComponent
+from ..components.equipped import EquippedComponent
+from ..components.wearable import WearableComponent
 
 from .. import game_vars
 from .. import map_common

@@ -1,7 +1,7 @@
 from .. import esper
 
-from ..player import Player
-from ..position import Position
+from ..components.player import Player
+from ..components.position import Position
 
 from .. import ppfov
 from .. import constants

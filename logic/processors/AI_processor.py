@@ -1,12 +1,12 @@
 from .. import esper
 
-from ..NPC_component import NPC_Component
-from ..turn_component import TurnComponent
-from ..position import Position
-from ..player import Player
-from ..blocks_tile import TileBlocker
+from ..components.NPC_component import NPC_Component
+from ..components.turn_component import TurnComponent
+from ..components.position import Position
+from ..components.player import Player
+from ..components.blocks_tile import TileBlocker
 
-from ..combat_component import CombatComponent
+from ..components.combat_component import CombatComponent
 
 from .. import game_vars
 from ..tile_lookups import TileTypes, get_index

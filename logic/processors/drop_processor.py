@@ -1,10 +1,10 @@
 from .. import esper
 
-from ..want_to_drop import WantToDrop
-from ..in_backpack import InBackpackComponent
-from ..position import Position
-from ..name_component import NameComponent
-from ..equipped import EquippedComponent
+from ..components.want_to_drop import WantToDrop
+from ..components.in_backpack import InBackpackComponent
+from ..components.position import Position
+from ..components.name_component import NameComponent
+from ..components.equipped import EquippedComponent
 
 from .. import game_vars
 

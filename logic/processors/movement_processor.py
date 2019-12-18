@@ -1,11 +1,11 @@
 from .. import esper
 
-from ..position import Position
-from ..velocity import Velocity
-from ..blocks_tile import TileBlocker
-from ..turn_component import TurnComponent
+from ..components.position import Position
+from ..components.velocity import Velocity
+from ..components.blocks_tile import TileBlocker
+from ..components.turn_component import TurnComponent
 
-from ..combat_component import CombatComponent
+from ..components.combat_component import CombatComponent
 
 from ..tile_lookups import get_block_path
 from .. import game_vars

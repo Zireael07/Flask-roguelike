@@ -1,13 +1,13 @@
 from .. import esper
 
-from ..combat_component import CombatComponent
-from ..combat_stats import StatsComponent
-from ..name_component import NameComponent
-from ..dead_component import DeadComponent
-from ..player import Player
+from ..components.combat_component import CombatComponent
+from ..components.combat_stats import StatsComponent
+from ..components.name_component import NameComponent
+from ..components.dead_component import DeadComponent
+from ..components.player import Player
 
-from ..equipped import EquippedComponent
-from ..melee_bonus_component import MeleeBonusComponent
+from ..components.equipped import EquippedComponent
+from ..components.melee_bonus_component import MeleeBonusComponent
 
 from .. import game_vars
 
