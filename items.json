@@ -1,0 +1,64 @@
+{
+    "medkit":    {
+            "name" : "Medkit",
+            "renderable": {
+                "glyph" : "!",
+                "fg" : [255, 0, 0],
+                "bg" : [0, 0, 0],
+                "order" : 2
+            },
+            "consumable" : {
+                "effects" : { "med_item" : "8" }
+            }
+
+        },
+    
+    "pistol":    {
+            "name" : "Pistol",
+            "renderable": {
+                "glyph" : ")",
+                "fg" : [0, 255, 255],
+                "bg" : [0, 0, 0],
+                "order" : 2
+            },
+            "consumable" : {
+                "effects" : { 
+                    "ranged" : "6",
+                    "damage" : "8"
+                }
+            }
+        },
+
+    "grenade":    {
+            "name" : "Grenade",
+            "renderable": {
+                "glyph" : "*",
+                "fg" : [255, 165, 0],
+                "bg" : [0, 0, 0],
+                "order" : 2
+            },
+            "consumable" : {
+                "effects" : { 
+                    "ranged" : "6",
+                    "damage" : "10",
+                    "area_of_effect" : "3"
+                }
+            }
+        },
+
+
+    "combat knife":    {
+            "name" : "Combat Knife",
+            "renderable": {
+                "glyph" : "/",
+                "fg" : [255, 170, 170],
+                "bg" : [0, 0, 0],
+                "order" : 2
+            },
+            "wearable" : {
+                "slot" : "main_hand"
+            },
+            "melee_bonus": 2
+        }
+
+}

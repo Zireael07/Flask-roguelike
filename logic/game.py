@@ -16,11 +16,6 @@ from .components.name_component import NameComponent
 from .components.dead_component import DeadComponent
 from .components.equipment_component import EquipmentComponent
 from .components.item_component import ItemComponent
-from .components.meditem_component import MedItemComponent
-from .components.ranged_component import RangedComponent
-from .components.area_of_effect import AreaOfEffectComponent
-from .components.wearable import WearableComponent
-from .components.melee_bonus_component import MeleeBonusComponent
 
 from .processors.movement_processor import MovementProcessor
 from .processors.action_processor import ActionProcessor
@@ -100,10 +95,6 @@ def main():
         for a in add:
             world.add_component(npc, a)
 
-        # if choice == "Thug":
-        #     world.add_components(npc, RenderableComponent(char='h', color=(255, 255, 255)), NameComponent("Thug"), StatsComponent(hp=6, power=2))
-        # elif choice == "Cop":
-        #     world.add_components(npc, RenderableComponent(char='c', color=(0, 255, 0)), NameComponent("Cop"), StatsComponent(hp=11, power=3))
 
     # Some items
     for i in range(constants.NUM_ITEMS):
@@ -114,23 +105,13 @@ def main():
         # things that all items share
         it = world.create_entity(Position(x=pos[0], y=pos[1]), ItemComponent())
 
-        if choice == "Medkit":
-            world.add_components(it, RenderableComponent(char='!', color=(255, 0, 0)), NameComponent("Medkit"),
-            MedItemComponent(6)
-        )
-        elif choice == "Pistol":
-            world.add_components(it, RenderableComponent(char=")", color=(0, 255, 0)), NameComponent("Pistol"),
-            RangedComponent(6)
-        )
-        elif choice == "Grenade":
-            world.add_components(it, RenderableComponent(char="*", color=(255,255,0)),  NameComponent("Grenade"),
-            RangedComponent(6), AreaOfEffectComponent(3),
-        )
-        elif choice == "Combat Knife":
-            world.add_components(it, RenderableComponent(char="/", color=(150, 255, 0)), NameComponent("Combat Knife"),
-            WearableComponent("MAIN_HAND"), MeleeBonusComponent(2),
-        )
+        # fill in the rest
+        add = generators.generate_item(choice.lower())
 
+        # add them
+        for a in add:
+            world.add_component(it, a)
+        
     # Generate map
     mapa = arenamap.map_create([(10,10), (15,15)])
     #arenamap.print_map_string(mapa)
