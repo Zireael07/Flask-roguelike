@@ -27,7 +27,9 @@ class CombatProcessor(esper.Processor):
             damage = attacker_stats.power
             # any bonuses?
             for item_ent, (equip, bonus) in self.world.get_components(EquippedComponent, MeleeBonusComponent):
-                damage += bonus.bonus
+                # only add bonuses for items actually equipped by attacker
+                if equip.owner == attacker_ID:
+                    damage += bonus.bonus
 
             target_stats.hp -= damage
 

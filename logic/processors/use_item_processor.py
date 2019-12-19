@@ -64,14 +64,14 @@ class UseItemProcessor(esper.Processor):
 
                     # unequip anything we might have in the slot
                     for item_ent, (equip, name) in self.world.get_components(EquippedComponent, NameComponent):
-                        if equip.slot == slot:
+                        if equip.slot == slot and equip.owner == ent:
                             ent_name = self.world.component_for_entity(ent, NameComponent)
                             game_vars.messages.append((ent_name.name + " unequips " + name.name, (255,255,255)))
                             self.world.remove_component(item_ent, EquippedComponent)
                             self.world.add_component(item_ent, InBackpackComponent)
 
                     # equip
-                    self.world.add_component(item_ID, EquippedComponent(slot=slot))
+                    self.world.add_component(item_ID, EquippedComponent(slot=slot, owner=ent))
                     self.world.remove_component(item_ID, InBackpackComponent)
                     name = self.world.component_for_entity(ent, NameComponent)
                     item_name = self.world.component_for_entity(item_ID, NameComponent)
