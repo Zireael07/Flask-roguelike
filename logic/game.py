@@ -1,21 +1,7 @@
 import jsonpickle  # because we're lazy and don't want to manually serialize everything
-import random
 
 from . import esper # the one Python3 library we're using
 from . import esper_ext # ease of use extensions
-
-from .components.position import Position
-from .components.velocity import Velocity
-from .components.player import Player
-from .components.turn_component import TurnComponent
-from .components.renderable import RenderableComponent
-from .components.NPC_component import NPC_Component
-from .components.blocks_tile import TileBlocker
-from .components.combat_stats import StatsComponent
-from .components.name_component import NameComponent
-from .components.dead_component import DeadComponent
-from .components.equipment_component import EquipmentComponent
-from .components.item_component import ItemComponent
 
 from .processors.movement_processor import MovementProcessor
 from .processors.action_processor import ActionProcessor
@@ -27,14 +13,18 @@ from .processors.pickup_processor import PickupProcessor
 from .processors.use_item_processor import UseItemProcessor
 from .processors.drop_processor import DropProcessor
 
+from .components.player import Player
+from .components.position import Position
+from .components.dead_component import DeadComponent
+from .components.combat_stats import StatsComponent
+
 from . import arenamap
 from . import constants
 from . import ppfov
 from . import camera
 from .tile_lookups import get_block_path
 
-from . import random_utils
-from . import generators
+from . import spawner
 
 from . import game_vars
 
@@ -70,47 +60,16 @@ def main():
     world.add_processor(fov_processor, 15)
 
     # Create entities and assign components
-    player = world.create_entity()
-    world.add_component(player, Player())
-    world.add_component(player, TurnComponent())
-    world.add_component(player, Position(x=1, y=1))
-    world.add_component(player, Velocity())
-    world.add_component(player, StatsComponent(hp=20, power=4))
-    world.add_component(player, NameComponent("Player"))
-    world.add_component(player, EquipmentComponent())
+    spawner.spawn_player(world)
 
     # Create some npcs
     for i in range(constants.NUM_NPC):
-        # random location
-        pos = (random.randint(1, constants.MAP_WIDTH-2), random.randint(1, constants.MAP_HEIGHT-2))
-
-        choice = random_utils.generate_random_NPC()
-
-        # the things that all NPCs share
-        npc = world.create_entity(Position(x=pos[0], y=pos[1]), Velocity(), TileBlocker(), NPC_Component())
-
-        # fill in the rest
-        add = generators.generate_npc(choice.lower())
-        # add them
-        for a in add:
-            world.add_component(npc, a)
+        spawner.spawn_npc(world)
 
 
     # Some items
     for i in range(constants.NUM_ITEMS):
-        # random location
-        pos = (random.randint(1, constants.MAP_WIDTH-2), random.randint(1, constants.MAP_HEIGHT-2))
-
-        choice = random_utils.generate_random_item()
-        # things that all items share
-        it = world.create_entity(Position(x=pos[0], y=pos[1]), ItemComponent())
-
-        # fill in the rest
-        add = generators.generate_item(choice.lower())
-
-        # add them
-        for a in add:
-            world.add_component(it, a)
+        spawner.spawn_item(world)
         
     # Generate map
     mapa = arenamap.map_create([(10,10), (15,15)])
