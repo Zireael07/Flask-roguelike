@@ -1,5 +1,3 @@
-import jsonpickle  # because we're lazy and don't want to manually serialize everything
-
 from . import esper # the one Python3 library we're using
 from . import esper_ext # ease of use extensions
 
@@ -128,28 +126,3 @@ def is_player_alive(world):
         alive = not world.has_component(ent, DeadComponent)
         #print("Alive? " + str(alive))
         return alive
-
-# debugging
-def json_info(comp):
-    return jsonpickle.encode(comp)
-    #return str(comp)
-    #return str(type(comp))
-
-
-def represent_world(world, *with_components):
-    data = {} 
-
-    for ent, _ in world.get_components(*with_components):
-
-        components = world.components_for_entity(ent)
-
-        data.update({"ent": ent})
-        list = []
-        for c in components:
-            list.append(json_info(c))
- 
-        data.update({"list" : list})
-
-    return data
-#    print(tabulate.tabulate(data))
-
