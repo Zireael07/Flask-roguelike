@@ -14,7 +14,7 @@ def map_to_draw(inc_map, fov, explored):
     #mapa = map_common.get_map_glyphs(inc_map)
 
     # dummy
-    mapa = [[("&nbsp;", (255, 255, 255)) for _ in range(constants.MAP_HEIGHT)] for _ in range(constants.MAP_WIDTH)]
+    mapa = [[("&nbsp;", (255, 255, 255)) for _ in range(constants.MAP_HEIGHT+1)] for _ in range(constants.MAP_WIDTH+1)]
 
     # camera
     cam = game_vars.camera

@@ -15,22 +15,23 @@ from .components.item_component import ItemComponent
 
 from . import constants
 from . import random_utils
+from . import map_common
 from . import generators
 
-def spawn_player(world):
+def spawn_player(world, loc):
     player = world.create_entity()
     world.add_component(player, Player())
     world.add_component(player, TurnComponent())
-    world.add_component(player, Position(x=1, y=1))
+    world.add_component(player, Position(x=loc[0], y=loc[1]))
     world.add_component(player, Velocity())
     world.add_component(player, StatsComponent(hp=20, power=4))
     world.add_component(player, NameComponent("Player"))
     world.add_component(player, EquipmentComponent())
 
 
-def spawn_npc(world):
+def spawn_npc(world, pos):
     # random location
-    pos = (random.randint(1, constants.MAP_WIDTH-2), random.randint(1, constants.MAP_HEIGHT-2))
+    #pos = (random.randint(1, constants.MAP_WIDTH-2), random.randint(1, constants.MAP_HEIGHT-2))
 
     choice = random_utils.generate_random_NPC()
 
@@ -43,9 +44,9 @@ def spawn_npc(world):
     for a in add:
         world.add_component(npc, a)
 
-def spawn_item(world):
+def spawn_item(world, pos):
     # random location
-    pos = (random.randint(1, constants.MAP_WIDTH-2), random.randint(1, constants.MAP_HEIGHT-2))
+    #pos = (random.randint(1, constants.MAP_WIDTH-2), random.randint(1, constants.MAP_HEIGHT-2))
 
     choice = random_utils.generate_random_item()
     # things that all items share

@@ -2,8 +2,8 @@ from . import game_vars
 
 class obj_Camera(object):
     def __init__(self):
-        self.width = 10  # 80
-        self.height = 10  # 25
+        self.width = 20  # 80
+        self.height = 20  # 25
         self.x, self.y = (0, 0)
         self.top_x, self.top_y = (0, 0)
         self.offset = (0, 0)

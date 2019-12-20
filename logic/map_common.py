@@ -1,7 +1,31 @@
 import sys
+import random
 
 from . import constants
-from .tile_lookups import TileTypes, get_index, get_map_str
+from .tile_lookups import TileTypes, get_index, get_map_str, get_block_path
+
+def get_free_tiles(inc_map):
+    free_tiles = []
+    for y in range(len(inc_map[0])):
+        for x in range(len(inc_map)):
+            if not get_block_path(inc_map[x][y]):
+                free_tiles.append((x,y))
+    return free_tiles
+
+def random_free_tile(inc_map):
+    free_tiles = get_free_tiles(inc_map)
+
+    index = random.randint(0, len(free_tiles)-1)
+
+    #print("Index is " + str(index))
+
+    x = free_tiles[index][0]
+    y = free_tiles[index][1]
+
+    print("Coordinates are " + str(x) + " " + str(y))
+
+    return x, y
+
 
 def tiles_distance_to(start, target):
     x_diff = start[0] - target[0]

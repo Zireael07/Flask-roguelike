@@ -16,7 +16,10 @@ from .components.position import Position
 from .components.dead_component import DeadComponent
 from .components.combat_stats import StatsComponent
 
+from . import map_common
 from . import arenamap
+from . import noisemap
+
 from . import constants
 from . import ppfov
 from . import camera
@@ -57,25 +60,31 @@ def main():
     world.add_processor(death_processor, 20)
     world.add_processor(fov_processor, 15)
 
-    # Create entities and assign components
-    spawner.spawn_player(world)
 
-    # Create some npcs
-    for i in range(constants.NUM_NPC):
-        spawner.spawn_npc(world)
-
-
-    # Some items
-    for i in range(constants.NUM_ITEMS):
-        spawner.spawn_item(world)
-        
     # Generate map
-    mapa = arenamap.map_create([(10,10), (15,15)])
+    mapa = noisemap.map_create()
+    #mapa = arenamap.map_create([(10,10), (15,15)])
     #arenamap.print_map_string(mapa)
     game_vars.mapa = mapa
 
+    # Create some npcs
+    for i in range(constants.NUM_NPC):
+        loc = map_common.random_free_tile(mapa)
+        spawner.spawn_npc(world, loc)
+
+    # Some items
+    for i in range(constants.NUM_ITEMS):
+        loc = map_common.random_free_tile(mapa)
+        spawner.spawn_item(world, loc)
+
+    # Player start location
+    loc = map_common.random_free_tile(mapa)
+
+    # Create entities and assign components
+    spawner.spawn_player(world, loc)        
+
     # Initial FOV
-    ppfov.fieldOfView(1,1, constants.MAP_WIDTH, constants.MAP_HEIGHT, 6, explore, block_sight)
+    ppfov.fieldOfView(loc[0],loc[1], constants.MAP_WIDTH, constants.MAP_HEIGHT, 6, explore, block_sight)
 
     # Camera
     cam = camera.obj_Camera()
