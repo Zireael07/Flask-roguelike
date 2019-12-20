@@ -7,16 +7,18 @@ from ..components.dead_component import DeadComponent
 from ..components.player import Player
 
 from ..components.equipped import EquippedComponent
+from ..components.weapon import WeaponComponent
 from ..components.melee_bonus_component import MeleeBonusComponent
 
 from .. import game_vars
+from .. import random_utils
 
 class CombatProcessor(esper.Processor):
     def __init__(self):
         super().__init__()
 
     def process(self):
-        print("Combat processor...")
+        #print("Combat processor...")
         for ent, (com) in self.world.get_component(CombatComponent):
             attacker_ID = ent
             target_ID = self.world.component_for_entity(attacker_ID, CombatComponent).target_ID
@@ -24,7 +26,21 @@ class CombatProcessor(esper.Processor):
             attacker_stats = self.world.component_for_entity(attacker_ID, StatsComponent)
             target_stats = self.world.component_for_entity(target_ID, StatsComponent)
             # deal damage!
-            damage = attacker_stats.power
+            #damage = attacker_stats.power
+            
+            # if no weapon, deal 1d6
+            roll = (1,6)
+            # use equipped weapon's data
+            for item_ent, (equip, weapon) in self.world.get_components(EquippedComponent, WeaponComponent):
+                print(str(equip.slot))
+                if equip.owner == attacker_ID and equip.slot == "MAIN_HAND":
+                    print("Use weapon dice")
+                    roll = (weapon.num_dice, weapon.dam_dice)
+
+            # deal damage!
+            damage = random_utils.roll(roll[0], roll[1])
+
+            
             # any bonuses?
             for item_ent, (equip, bonus) in self.world.get_components(EquippedComponent, MeleeBonusComponent):
                 # only add bonuses for items actually equipped by attacker

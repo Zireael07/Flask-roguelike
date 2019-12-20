@@ -10,6 +10,7 @@ from .components.ranged_component import RangedComponent
 from .components.area_of_effect import AreaOfEffectComponent
 from .components.wearable import WearableComponent
 from .components.melee_bonus_component import MeleeBonusComponent
+from .components.weapon import WeaponComponent
 
 def generate_npc(m_id):
     if m_id == 'None' or m_id == None:
@@ -56,12 +57,21 @@ def generate_item(_id):
             if 'ranged' in items_data[_id]['consumable']['effects']:
                 comps.append(RangedComponent(int(items_data[_id]['consumable']['effects']['ranged'])))
             if 'area_of_effect' in items_data[_id]['consumable']['effects']:
-                comps.append(AreaOfEffect(int(items_data[_id]['consumable']['effects']['area_of_effect'])))
+                comps.append(AreaOfEffectComponent(int(items_data[_id]['consumable']['effects']['area_of_effect'])))
 
     if 'wearable' in items_data[_id]:
         comps.append(WearableComponent(items_data[_id]['wearable']['slot'].upper()))
     if 'melee_bonus' in items_data[_id]:
         comps.append(MeleeBonusComponent(int(items_data[_id]['melee_bonus'])))
+    if 'weapon' in items_data[_id]:
+        num = None
+        dam = None
+        if 'damage_number_dice' in items_data[_id]['weapon']:
+            num = int(items_data[_id]['weapon']['damage_number_dice'])
+        if 'damage_dice' in items_data[_id]['weapon']:
+            dam = int(items_data[_id]['weapon']['damage_dice'])
+        
+        comps.append(WeaponComponent(num_dice=num, dam_dice=dam))
 
     return comps
 

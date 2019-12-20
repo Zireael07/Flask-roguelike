@@ -58,7 +58,10 @@
             "wearable" : {
                 "slot" : "main_hand"
             },
-            "melee_bonus": 2
+            "weapon" : {
+                "damage_dice": 8,
+                "damage_number_dice": 1
+            }
         }
 
 }

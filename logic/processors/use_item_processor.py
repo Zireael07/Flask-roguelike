@@ -60,7 +60,7 @@ class UseItemProcessor(esper.Processor):
             if self.world.has_component(item_ID, WearableComponent):
                 # if not equipped already
                 if not self.world.has_component(item_ID, EquippedComponent):
-                    slot = self.world.component_for_entity(item_ID, WearableComponent)
+                    slot = self.world.component_for_entity(item_ID, WearableComponent).slot
 
                     # unequip anything we might have in the slot
                     for item_ent, (equip, name) in self.world.get_components(EquippedComponent, NameComponent):
