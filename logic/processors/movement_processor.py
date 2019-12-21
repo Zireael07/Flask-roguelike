@@ -29,7 +29,7 @@ class MovementProcessor(esper.Processor):
             vel.dy = 0
 
             # don't walk out of map
-            if tx < 0 or tx > 19 or ty < 0 or tx > 19:
+            if tx < 0 or tx > len(game_vars.mapa) or ty < 0 or ty > len(game_vars.mapa[0]):
                 continue
             # check for unwalkable tiles
             if get_block_path(game_vars.mapa[tx][ty]):

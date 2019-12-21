@@ -88,7 +88,7 @@ def main():
 
     # Camera
     cam = camera.obj_Camera()
-    cam.start_update()
+    cam.start_update(loc)
 
     # Save state 
     game_vars.world = world

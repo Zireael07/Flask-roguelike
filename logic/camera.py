@@ -8,8 +8,8 @@ class obj_Camera(object):
         self.top_x, self.top_y = (0, 0)
         self.offset = (0, 0)
 
-    def start_update(self):
-        target_pos = (1, 1)
+    def start_update(self, loc):
+        target_pos = (loc[0], loc[1])
         self.offset = (target_pos[0] - self.x, target_pos[1] - self.y)
 
     def update(self, position):
