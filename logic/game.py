@@ -19,6 +19,7 @@ from .components.combat_stats import StatsComponent
 from . import map_common
 from . import arenamap
 from . import noisemap
+from . import bsp_townmap
 
 from . import constants
 from . import ppfov
@@ -62,7 +63,8 @@ def main():
 
 
     # Generate map
-    mapa = noisemap.map_create()
+    mapa = bsp_townmap.map_create()
+    #mapa = noisemap.map_create()
     #mapa = arenamap.map_create([(10,10), (15,15)])
     #arenamap.print_map_string(mapa)
     game_vars.mapa = mapa

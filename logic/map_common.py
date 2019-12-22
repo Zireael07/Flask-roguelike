@@ -4,6 +4,25 @@ import random
 from . import constants
 from .tile_lookups import TileTypes, get_index, get_map_str, get_block_path
 
+
+class Rect:
+	def __init__(self, x, y, w, h):
+		self.x1 = x
+		self.y1 = y
+		self.x2 = x+w
+		self.y2 = y+h
+
+	def center(self):
+		centerX = (self.x1 + self.x2)/2
+		centerY = (self.y1 + self.y2)/2
+		return (centerX, centerY)
+
+	def intersect(self, other):
+		#returns true if this rectangle intersects with another one
+		return (self.x1 <= other.x2 and self.x2 >= other.x1 and
+			self.y1 <= other.y2 and self.y2 >= other.y1)
+
+
 def get_free_tiles(inc_map):
     free_tiles = []
     for y in range(len(inc_map[0])):
