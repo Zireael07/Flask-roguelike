@@ -72,11 +72,13 @@ def main():
     # trick from http://hack.limbicmedia.ca/signal-chaining-in-python/
     mapgen_chain = [
         {'function': noisemap.map_create},
-        {'function': rectangle_detect.apply_rectangle_detection} ]
+        {'function': rectangle_detect.apply_rectangle_detection},
+        {'function': bsp_townmap.map_create}
+     ]
 
     init_mapa = [[ get_index(TileTypes.WALL) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
     init_lvl = level.obj_Level(init_mapa) 
-
+   
     lvl = chain(init_lvl, mapgen_chain)
     mapa = lvl.mapa
 
@@ -139,7 +141,11 @@ def explore(x,y):
     game_vars.explored[x][y] = 1
 
 def block_sight(x,y):
-    return get_block_path(game_vars.mapa[x][y])
+    # paranoia
+    if x < 0 or y < 0 or y > len(game_vars.mapa[0]) or x > len(game_vars.mapa):
+        return False
+    else:
+        return get_block_path(game_vars.mapa[x][y])
 
 # Functions called by the Flask API
 def act_and_update(world, action):
