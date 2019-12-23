@@ -17,6 +17,7 @@ from .components.dead_component import DeadComponent
 from .components.combat_stats import StatsComponent
 
 from . import map_common
+from .map import level
 from .map import arenamap
 from .map import noisemap
 from .map import bsp_townmap
@@ -73,9 +74,11 @@ def main():
         {'function': noisemap.map_create},
         {'function': rectangle_detect.apply_rectangle_detection} ]
 
-    init_map = [[ get_index(TileTypes.WALL) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
+    init_mapa = [[ get_index(TileTypes.WALL) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
+    init_lvl = level.obj_Level(init_mapa) 
 
-    mapa = chain(init_map, mapgen_chain)
+    lvl = chain(init_lvl, mapgen_chain)
+    mapa = lvl.mapa
 
     #mapa = bsp_townmap.map_create()
     #mapa = noisemap.map_create()

@@ -143,14 +143,21 @@ def fill_big_rect(rect, mapa):
             mapa[x][y] = get_index(TileTypes.DEBUG)
 
 # kwargs are there for chaining to work (see game.py 75 and 125)
-def apply_rectangle_detection(mapa, **kwargs):
-    rect = run_rectangle_detection(mapa)
+def apply_rectangle_detection(level, **kwargs):
+    rect = run_rectangle_detection(level.mapa)
+
+    # add to submaps list
+    level.submaps.append(rect)
 
     #print_map_string(mapa)
 
-    fill_big_rect(rect, mapa)
+    fill_big_rect(rect, level.mapa)
 
     # debug
-    print_map_string(mapa)
+    print_map_string(level.mapa)
 
-    return mapa # for chaining
+    # debug
+    for s in level.submaps:
+        print(str(s))
+
+    return level # for chaining
