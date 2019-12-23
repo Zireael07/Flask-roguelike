@@ -173,7 +173,8 @@ def fill_big_rect(rect, mapa):
             # it's just for debugging purposes
             mapa[x][y] = get_index(TileTypes.DEBUG)
 
-def apply_rectangle_detection(mapa):
+# kwargs are there for chaining to work (see game.py 75 and 125)
+def apply_rectangle_detection(mapa, **kwargs):
     rect = run_rectangle_detection(mapa)
 
     #print_map_string(mapa)

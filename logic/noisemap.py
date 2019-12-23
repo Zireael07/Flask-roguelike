@@ -3,7 +3,8 @@ from .tile_lookups import TileTypes, get_index
 
 from . import noise_ext
 
-def map_create():
+# kwargs are there for chaining to work (see game.py 75 and 125)
+def map_create(new_map, **kwargs):
     new_map = [[ get_index(TileTypes.WALL) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
 
     # perlin visualization

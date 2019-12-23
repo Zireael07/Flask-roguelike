@@ -20,11 +20,12 @@ from . import map_common
 from . import arenamap
 from . import noisemap
 from . import bsp_townmap
+from .rectangle_detect import apply_rectangle_detection
 
 from . import constants
 from . import ppfov
 from . import camera
-from .tile_lookups import get_block_path
+from .tile_lookups import TileTypes, get_block_path, get_index
 
 from . import spawner
 
@@ -63,7 +64,20 @@ def main():
 
 
     # Generate map
-    mapa = bsp_townmap.map_create()
+
+    # this doesn't work (sad face)
+    #mapa = noisemap.map_create().apply_rectangle_detection()
+    
+    # trick from http://hack.limbicmedia.ca/signal-chaining-in-python/
+    mapgen_chain = [
+        {'function': noisemap.map_create},
+        {'function': apply_rectangle_detection} ]
+
+    init_map = [[ get_index(TileTypes.WALL) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
+
+    mapa = chain(init_map, mapgen_chain)
+
+    #mapa = bsp_townmap.map_create()
     #mapa = noisemap.map_create()
     #mapa = arenamap.map_create([(10,10), (15,15)])
     #arenamap.print_map_string(mapa)
@@ -106,6 +120,15 @@ def main():
     #    while True:
     #        world.process()
     #        time.sleep(1)
+
+
+# Chaining functions
+def chain(input_, operations):  
+    for operation in operations:
+        input_ = operation['function'](input_, **operation)
+
+    return input_
+
 
 # FOV interface
 def explore(x,y):
