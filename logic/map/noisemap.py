@@ -1,7 +1,7 @@
-from . import constants
-from .tile_lookups import TileTypes, get_index
+from .. import constants
+from ..tile_lookups import TileTypes, get_index
 
-from . import noise_ext
+from .. import noise_ext
 
 # kwargs are there for chaining to work (see game.py 75 and 125)
 def map_create(new_map, **kwargs):

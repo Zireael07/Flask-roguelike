@@ -1,7 +1,7 @@
 
-from . import constants
-from .tile_lookups import TileTypes, get_index
-from .map_common import print_map_string
+from .. import constants
+from ..tile_lookups import TileTypes, get_index
+from ..map_common import print_map_string
 
 def map_create(pillars):
     #new_map = [[struc_Tile(False) for y in range(0, constants.MAP_HEIGHT)] for x in range(0, constants.MAP_WIDTH)]

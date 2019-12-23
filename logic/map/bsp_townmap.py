@@ -1,7 +1,7 @@
-from . import constants
-from .tile_lookups import TileTypes, get_index
+from .. import constants
+from ..tile_lookups import TileTypes, get_index
 
-from . import bsp
+from .. import bsp
 
 
 

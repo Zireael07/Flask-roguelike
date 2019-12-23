@@ -1,5 +1,5 @@
-from .map_common import print_map_string, Directions, Rect
-from .tile_lookups import TileTypes, get_index
+from ..map_common import print_map_string, Directions, Rect
+from ..tile_lookups import TileTypes, get_index
 
 # for histogram
 from collections import namedtuple

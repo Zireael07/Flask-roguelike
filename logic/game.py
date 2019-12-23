@@ -17,10 +17,10 @@ from .components.dead_component import DeadComponent
 from .components.combat_stats import StatsComponent
 
 from . import map_common
-from . import arenamap
-from . import noisemap
-from . import bsp_townmap
-from .rectangle_detect import apply_rectangle_detection
+from .map import arenamap
+from .map import noisemap
+from .map import bsp_townmap
+from .map import rectangle_detect
 
 from . import constants
 from . import ppfov
@@ -71,7 +71,7 @@ def main():
     # trick from http://hack.limbicmedia.ca/signal-chaining-in-python/
     mapgen_chain = [
         {'function': noisemap.map_create},
-        {'function': apply_rectangle_detection} ]
+        {'function': rectangle_detect.apply_rectangle_detection} ]
 
     init_map = [[ get_index(TileTypes.WALL) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
 
