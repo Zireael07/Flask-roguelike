@@ -27,6 +27,7 @@ def get_block_path(i):
 
 TileTypes = Tile_Lookups(WALL=(1,struc_Tile("wall", "#", True)),
                          FLOOR=(2, struc_Tile("floor", ".", False)),
+                         DEBUG=(3, struc_Tile("debug", ">", False)),
                       )
 
 

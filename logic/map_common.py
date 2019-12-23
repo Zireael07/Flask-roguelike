@@ -3,7 +3,19 @@ import random
 
 from . import constants
 from .tile_lookups import TileTypes, get_index, get_map_str, get_block_path
+from .enum_constants import Constants
 
+Directions = Constants(
+    NORTH = (0, -1),
+    SOUTH = (0, 1),
+    EAST = (1, 0),
+    WEST = (-1, 0),
+    NORTHEAST = (1, -1),
+    NORTHWEST = (-1, -1),
+    SOUTHEAST = (1, 1),
+    SOUTHWEST = (-1, 1),
+    CENTER = (0,0),
+)
 
 class Rect:
 	def __init__(self, x, y, w, h):
