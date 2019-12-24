@@ -1,4 +1,7 @@
+import random
+
 from .. import constants
+from ..map_common import print_map_string
 from ..tile_lookups import TileTypes, get_index
 
 from .. import bsp
@@ -7,15 +10,15 @@ from .. import bsp
 
 def room_func(room, mapa):
     # set all tiles within a rectangle to wall
-    for x in range(room.x1 + 1, room.x2):
-        for y in range(room.y1+1, room.y2):
+    for x in range(room.x1, room.x2):
+        for y in range(room.y1, room.y2):
             # paranoia
             if y < len(mapa[0]) and x < len(mapa):
                 mapa[x][y] = get_index(TileTypes.WALL)
 
     # Build Interior
-    for x in range(room.x1+2,room.x2-1):
-        for y in range(room.y1+2,room.y2-1):
+    for x in range(room.x1+1,room.x2-1):
+        for y in range(room.y1+1,room.y2-1):
             # paranoia
             if y < len(mapa[0]) and x < len(mapa):
                 mapa[x][y] = get_index(TileTypes.FLOOR)
@@ -27,7 +30,6 @@ def map_create(level, **kwargs):
     start_y = 0
     end_y = constants.MAP_HEIGHT
     end_x = constants.MAP_WIDTH
-
 
     # if level has submap, we only act within submap borders
     if len(level.submaps) > 0:
@@ -49,5 +51,69 @@ def map_create(level, **kwargs):
     bsp_t = bsp.BSPTree(width/2)
     bsp_t.generateLevel(start_x, start_y, width, height, room_func, level.mapa)
 
+    create_doors(bsp_t, level.mapa)
+
+    # debug
+    print_map_string(level.mapa)
 
     return level # for chaining
+
+
+def create_doors(bsp, mapa):
+    for room in bsp.rooms:
+        (x, y) = room.center()
+        print("Creating door for " + str(x) + " " + str(y))
+
+        choices = ["north", "south", "east", "west"]
+
+        # copy the list so that we don't modify it while iterating (caused some directions to be missed)
+        sel_choices = list(choices)
+
+        # check if the door leads anywhere
+        for choice in choices:
+            #print(str(choice)+"...")
+            if choice == "north":
+                checkX = x
+                checkY = room.y1-1
+
+            if choice == "south":
+                checkX = x
+                checkY = room.y2
+
+            if choice == "east":
+                checkX = room.x2
+                checkY = y
+
+            if choice == "west":
+                checkX = room.x1-1
+                checkY = y
+
+            # if it leads to a wall, remove it from list of choices
+            #print("Checking dir " + str(choice) + ": x:" + str(checkX) + " y:" + str(checkY) + " " + str(self._map[checkX][checkY]))
+
+            if mapa[checkX][checkY] == get_index(TileTypes.WALL): #0:
+                #print("Removing direction from list" + str(choice))
+                sel_choices.remove(choice)
+
+        #print("Choices: " + str(sel_choices))
+        if len(sel_choices) > 0:
+            wall = random.choice(sel_choices)
+
+            #print(str(wall))
+            if wall == "north":
+                wallX = x
+                wallY = room.y1
+
+            elif wall == "south":
+                wallX = x
+                wallY = room.y2 - 1
+
+            elif wall == "east":
+                wallX = room.x2 - 1
+                wallY = y
+
+            elif wall == "west":
+                wallX = room.x1
+                wallY = y
+
+            mapa[wallX][wallY] = get_index(TileTypes.FLOOR)

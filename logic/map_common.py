@@ -25,8 +25,8 @@ class Rect:
         self.y2 = y+h
 
     def center(self):
-        centerX = (self.x1 + self.x2)/2
-        centerY = (self.y1 + self.y2)/2
+        centerX = (self.x1 + self.x2)//2 #integer division
+        centerY = (self.y1 + self.y2)//2
         return (centerX, centerY)
 
     def intersect(self, other):

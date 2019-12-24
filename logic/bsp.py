@@ -8,7 +8,7 @@ from .map_common import Rect
 class BSPTree:
 	def __init__(self, m_leaf=24):
 		self.level = []
-		self.room = None
+		self.rooms = []
 		self.MAX_LEAF_SIZE = m_leaf
 		# used by create rooms below
 		self.ROOM_MAX_SIZE = m_leaf-2
@@ -128,10 +128,11 @@ class Leaf:
 			if self.x == self.x+(self.width-1)-w:
 				x = self.x
 			elif self.x+(self.width-1)-w > self.x:
-			x = random.randint(self.x, self.x+(self.width-1)-w)
+				x = random.randint(self.x, self.x+(self.width-1)-w)
 			else:
 				x = random.randint(self.x+(self.width-1)-w, self.x)
 
 			y = random.randint(self.y, self.y+(self.height-1)-h)
-			self.room = Rect(x,y,w,h)
-			createRoom(self.room, mapa)
+			room = Rect(x,y,w,h)
+			bspTree.rooms.append(room)
+			createRoom(room, mapa)
