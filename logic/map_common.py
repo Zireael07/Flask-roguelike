@@ -75,10 +75,29 @@ def tiles_distance_to(start, target):
     return max(x_diff, y_diff)
 
 # based on RLTK-rs tutorial
+glyph_lookup = {
+    0: "○", #pillar
+    1: "║", # wall only to the north
+    2: "║", # wall only to the south
+    3: "║", # wall only to the north and south
+    4: "═", # wall only to the west
+    5: "╝", # wall to north and west
+    6: "╗", # wall to south and west
+    7: "╣", # wall to the north, south and west
+    8: "═", # wall only to the east
+    9: "╚", # wall to the north and east
+    10: "╔", # wall to the south and east
+    11: "╠", # wall to the south, north and east
+    12: "═", # wall to the east and west
+    13: "╩", # wall to the east, west and south
+    14: "╦", # wall to the east, west and north
+}
+
+
 def drawn_wall_glyph(inc_map, x,y):
     # don't check if we would go past map borders
     if x < 1 or y < 1 or x > len(inc_map)-1 or y > len(inc_map[0])-1:
-        return "#" #get_index(TileTypes.WALL) # '#'
+        return "#"
 
     # bitmask
     mask = 0
@@ -92,38 +111,10 @@ def drawn_wall_glyph(inc_map, x,y):
         mask += 8
 
     # assign tiles
-    if mask == 0:
-        return "○" #get_index(TileTypes.WALL_PILLAR) # pillar
-    elif mask == 1:
-        return "║" #get_index(TileTypes.WALL_V) # wall only to the north
-    elif mask == 2:
-        return "║" #get_index(TileTypes.WALL_V) # wall only to the south
-    elif mask == 3:
-        return "║" #get_index(TileTypes.WALL_V) # wall only to the north and south
-    elif mask == 4:
-        return "═" #get_index(TileTypes.WALL_H) # wall only to the west
-    elif mask == 5:
-        return "╝" #get_index(TileTypes.WALL_SE_C) # wall to north and west
-    elif mask == 6:
-        return "╗" #get_index(TileTypes.WALL_NE_C) # wall to south and west
-    elif mask == 7:
-        return "╣" #get_index(TileTypes.WALL_TE) # wall to the north, south and west
-    elif mask == 8:
-        return "═" #get_index(TileTypes.WALL_H) # wall only to the east
-    elif mask == 9:
-        return "╚" #get_index(TileTypes.WALL_SW_C) # wall to the north and east
-    elif mask == 10:
-        return "╔" #get_index(TileTypes.WALL_NW_C) # wall to the south and east
-    elif mask == 11:
-        return "╠" #get_index(TileTypes.WALL_TW) # wall to the south, north and east
-    elif mask == 12:
-        return "═" #get_index(TileTypes.WALL_H) # wall to the east and west
-    elif mask == 13:
-        return "╩" #get_index(TileTypes.WALL_TS) # wall to the east, west and south
-    elif mask == 14:
-        return "╦" #get_index(TileTypes.WALL_TN) # wall to the east, west and north
+    if mask in glyph_lookup:
+        return glyph_lookup[mask]
     else:
-        return "#" #get_index(TileTypes.WALL) # "#"
+        return "#"
 
 
 def is_wall(inc_map, x,y):
