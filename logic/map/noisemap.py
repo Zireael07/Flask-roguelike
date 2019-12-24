@@ -5,7 +5,7 @@ from .. import noise_ext
 
 # kwargs are there for chaining to work (see game.py 75 and 125)
 def map_create(level, **kwargs):
-    new_map = [[ get_index(TileTypes.WALL) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
+    new_map = [[ get_index(TileTypes.TREE) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
 
     # perlin visualization
     noise = [[ 0 for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
@@ -33,7 +33,7 @@ def map_create(level, **kwargs):
             if n < 0.45:
                 new_map[x][y] = get_index(TileTypes.FLOOR)
             else:
-                new_map[x][y] = get_index(TileTypes.WALL)
+                new_map[x][y] = get_index(TileTypes.TREE)
 
     level.mapa = new_map
     return level # for chaining
