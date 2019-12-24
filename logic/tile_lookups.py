@@ -26,6 +26,18 @@ def get_block_path(i):
 
 
 TileTypes = Tile_Lookups(WALL=(1,struc_Tile("wall", "#", True)),
+                        # if they ever are needed outside of drawing glyphs...
+                        #  WALL_V = (2, struc_Tile("wall", "║", True)),
+                        #  WALL_H = (3, struc_Tile("wall", "═", True)),
+                        #  WALL_SE_C = (4, struc_Tile("wall", "╝", True)),
+                        #  WALL_NE_C = (5, struc_Tile("wall", "╗", True)),
+                        #  WALL_SW_C = (6, struc_Tile("wall", "╚", True)),
+                        #  WALL_NW_C = (7, struc_Tile("wall", "╔", True)),
+                        #  WALL_TE = (8, struc_Tile("wall", "╣", True)),
+                        #  WALL_TW = (9, struc_Tile("wall", "╠", True)),
+                        #  WALL_TS = (10, struc_Tile("wall", "╩", True)),
+                        #  WALL_TN = (11, struc_Tile("wall", "╦", True)),
+                        #  WALL_PILLAR = (12, struc_Tile("wall", "○", True)),
                          FLOOR=(2, struc_Tile("floor", ".", False)),
                          DEBUG=(3, struc_Tile("debug", ">", False)),
                       )
