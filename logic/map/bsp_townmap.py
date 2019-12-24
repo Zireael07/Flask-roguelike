@@ -28,8 +28,6 @@ def map_create(level, **kwargs):
     end_y = constants.MAP_HEIGHT
     end_x = constants.MAP_WIDTH
 
-    width = end_x - start_x
-    height = end_y - start_y
 
     # if level has submap, we only act within submap borders
     if len(level.submaps) > 0:
@@ -38,6 +36,10 @@ def map_create(level, **kwargs):
         start_y = level.submaps[0].y1
         end_y = level.submaps[0].y2+1
 
+
+    width = end_x - start_x
+    height = end_y - start_y
+
     #level.mapa = [[ get_index(TileTypes.FLOOR) for _ in range(start_y, end_y)] for _ in range(start_x, end_x)]
     for x in range(start_x, end_x):
         for y in range(start_y, end_y):
@@ -45,9 +47,7 @@ def map_create(level, **kwargs):
 
     # BSP
     bsp_t = bsp.BSPTree(width/2)
-    bsp_t.generateLevel(width, height, room_func, level.mapa)
+    bsp_t.generateLevel(start_x, start_y, width, height, room_func, level.mapa)
 
 
     return level # for chaining
-
-

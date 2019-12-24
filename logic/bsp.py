@@ -14,9 +14,10 @@ class BSPTree:
 		self.ROOM_MAX_SIZE = m_leaf-2
 		self.ROOM_MIN_SIZE = 5
 
-	def generateLevel(self, mapWidth, mapHeight, roomHook, mapa):
+	def generateLevel(self, x,y, mapWidth, mapHeight, roomHook, mapa):
 		self._leafs = []
-		rootLeaf = Leaf(0,0,mapWidth,mapHeight)
+		rootLeaf = Leaf(x,y,mapWidth,mapHeight)
+		#print("root: " + str(rootLeaf.x) + " " + str(rootLeaf.y) + ' : ' + str(rootLeaf.width) + " " + str(rootLeaf.height))
 		self._leafs.append(rootLeaf)
 
 		splitSuccessfully = True
@@ -47,6 +48,7 @@ class Leaf:
 		self.MIN_LEAF_SIZE = 8 #10
 		self.child_1 = None
 		self.child_2 = None
+		#print("Leaf: " + str(self.x) + " " + str(self.y) + ' : ' + str(self.width) + " " + str(self.height))
 
 	def splitLeaf(self):
 		# begin splitting the leaf into two children
