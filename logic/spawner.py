@@ -11,6 +11,7 @@ from .components.combat_stats import StatsComponent
 from .components.name_component import NameComponent
 from .components.equipment_component import EquipmentComponent
 from .components.item_component import ItemComponent
+from .components.faction_component import FactionComponent
 
 
 from . import constants
@@ -27,6 +28,7 @@ def spawn_player(world, loc):
     world.add_component(player, StatsComponent(hp=20, power=4))
     world.add_component(player, NameComponent("Player"))
     world.add_component(player, EquipmentComponent())
+    world.add_component(player, FactionComponent("player"))
 
 
 def spawn_npc(world, pos):

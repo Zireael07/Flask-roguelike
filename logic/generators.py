@@ -11,6 +11,7 @@ from .components.area_of_effect import AreaOfEffectComponent
 from .components.wearable import WearableComponent
 from .components.melee_bonus_component import MeleeBonusComponent
 from .components.weapon import WeaponComponent
+from .components.faction_component import FactionComponent
 
 def generate_npc(m_id):
     if m_id == 'None' or m_id == None:
@@ -29,6 +30,10 @@ def generate_npc(m_id):
     comps.append(RenderableComponent(char=npc_data[m_id]['renderable']['glyph'], color=tuple(npc_data[m_id]['renderable']['fg'])))
     comps.append(NameComponent(npc_data[m_id]['name']))
     comps.append(StatsComponent(hp=npc_data[m_id]['stats']['hp'], power=npc_data[m_id]['stats']['power']))
+    if 'faction' in npc_data[m_id]:
+        comps.append(FactionComponent(npc_data[m_id]['faction'].lower()))
+    else:
+        comps.append(FactionComponent("enemy"))
 
     return comps
 

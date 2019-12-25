@@ -11,3 +11,5 @@ explored = None
 camera = None
 
 messages = None
+
+factions = None

@@ -12,7 +12,8 @@
         "hp" : 16,
         "defense" : 1,
         "power" : 4
-    }
+    },
+    "faction": "Cop"
     },
 
     "thug" : {

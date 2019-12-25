@@ -88,6 +88,14 @@ def main():
     #arenamap.print_map_string(mapa)
     game_vars.mapa = mapa
 
+
+    # Factions
+    game_vars.factions = []
+    add_faction(("player", "enemy", -100))
+    add_faction(("player", "neutral", 0))
+    add_faction(("player", "cop", 0))
+    add_faction(("cop", "enemy", -100))
+
     # Create some npcs
     for i in range(constants.NUM_NPC):
         loc = map_common.random_free_tile(mapa)
@@ -133,6 +141,15 @@ def chain(input_, operations):
         input_ = operation['function'](input_, **operation)
 
     return input_
+
+# Factions
+def add_faction(faction_data):
+    game_vars.factions.append(faction_data)
+    print ("Added faction " + str(faction_data))
+
+    # add the reverse mapping, too
+    game_vars.factions.append((faction_data[1], faction_data[0], faction_data[2]))
+    print ("Added reverse faction " + str((faction_data[1], faction_data[0], faction_data[2])))
 
 
 # FOV interface
