@@ -42,7 +42,11 @@ def data_to_redraw():
     height_end = cam.get_height_end(game_vars.mapa)
 
     # draw other entities
-    for ent, (pos, visual) in game_vars.world.get_components(Position, RenderableComponent):
+    matches = game_vars.world.get_components(Position, RenderableComponent)
+    # sort by render order
+    matches.sort(key=lambda item: item[1][1].render_order.value)
+
+    for ent, (pos, visual) in matches:
         # if not in camera view
         if pos.x < width_start or pos.x > width_end or pos.y < height_start or pos.y > height_end:
             # skip

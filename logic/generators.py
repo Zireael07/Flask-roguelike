@@ -1,6 +1,6 @@
 import json
 
-from .components.renderable import RenderableComponent
+from .components.renderable import RenderableComponent, RenderOrder
 from .components.combat_stats import StatsComponent
 from .components.name_component import NameComponent
 
@@ -46,7 +46,7 @@ def generate_item(_id):
 
     comps = []
     # Components we want
-    comps.append(RenderableComponent(char=items_data[_id]['renderable']['glyph'], color=tuple(items_data[_id]['renderable']['fg'])))
+    comps.append(RenderableComponent(char=items_data[_id]['renderable']['glyph'], color=tuple(items_data[_id]['renderable']['fg']), render_order=RenderOrder.ITEM))
     comps.append(NameComponent(items_data[_id]['name']))
     # optional components
     if 'consumable' in items_data[_id]:
