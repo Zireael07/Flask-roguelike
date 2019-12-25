@@ -151,6 +151,14 @@ def add_faction(faction_data):
     game_vars.factions.append((faction_data[1], faction_data[0], faction_data[2]))
     print ("Added reverse faction " + str((faction_data[1], faction_data[0], faction_data[2])))
 
+def get_faction_reaction(faction, target_faction):
+    if faction == target_faction:
+        return 100
+
+    for fact in game_vars.factions:
+        if fact[0] == faction and fact[1] == target_faction:
+            print("Faction reaction of " + fact[0] + " to " + fact[1] + " is " + str(fact[2]))
+            return fact[2]
 
 # FOV interface
 def explore(x,y):

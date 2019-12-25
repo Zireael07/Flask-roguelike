@@ -15,7 +15,7 @@ def map_to_draw(inc_map, fov, explored):
     #mapa = map_common.get_map_glyphs(inc_map)
 
     # dummy
-    mapa = [[("&nbsp;", (255, 255, 255)) for _ in range(constants.MAP_HEIGHT+1)] for _ in range(constants.MAP_WIDTH+1)]
+    mapa = [[("&nbsp;", (255, 255, 255), None) for _ in range(constants.MAP_HEIGHT+1)] for _ in range(constants.MAP_WIDTH+1)]
 
     # camera
     cam = game_vars.camera
@@ -39,14 +39,14 @@ def map_to_draw(inc_map, fov, explored):
                 if fov[tx][ty] == 1 or explored[tx][ty]:
                     # special case for walls
                     if inc_map[tx][ty] == get_index(TileTypes.WALL):
-                        mapa[x][y] = (drawn_wall_glyph(inc_map, tx,ty), get_color(inc_map[tx][ty]))
+                        mapa[x][y] = (drawn_wall_glyph(inc_map, tx,ty), get_color(inc_map[tx][ty]), None)
                     else:
-                        mapa[x][y] = (get_map_str(inc_map[tx][ty]), get_color(inc_map[tx][ty]))
+                        mapa[x][y] = (get_map_str(inc_map[tx][ty]), get_color(inc_map[tx][ty]), None)
                 else:
-                    mapa[x][y] = ("&nbsp;", (255, 255, 255))
+                    mapa[x][y] = ("&nbsp;", (255, 255, 255), None)
                     # blank span later escaped by |safe Jinja template markup
             else:
-                mapa[x][y] = ("&nbsp;", (255, 255, 255))
+                mapa[x][y] = ("&nbsp;", (255, 255, 255), None)
                 # blank span later escaped by |safe Jinja template markup
             
             x += 1
