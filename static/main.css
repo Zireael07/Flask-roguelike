@@ -16,6 +16,27 @@
     font-weight:bold;
 }
 
+/* Run the gamut from red to cyan */
+.hostile {
+    background-color: red;
+}
+
+.unfriendly {
+    background-color: orange;
+}
+
+.neutral {
+    background-color: yellow;
+}
+
+.friendly {
+    background-color: skyblue;
+}
+
+.helpful {
+    background-color: cyan;
+}
+
 
 body {
     background-color: lightcyan;
@@ -52,7 +73,7 @@ body {
 .keypad_btn {
     /*background-color: transparent; */
     background-color: black;
-    opacity: 0.5;
+    opacity: 0.75;
     color: #42D6CA;
 }
 
