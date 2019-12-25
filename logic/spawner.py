@@ -12,6 +12,7 @@ from .components.name_component import NameComponent
 from .components.equipment_component import EquipmentComponent
 from .components.item_component import ItemComponent
 from .components.faction_component import FactionComponent
+from .components.attributes_component import AttributesComponent
 
 
 from . import constants
@@ -29,6 +30,7 @@ def spawn_player(world, loc):
     world.add_component(player, NameComponent("Player"))
     world.add_component(player, EquipmentComponent())
     world.add_component(player, FactionComponent("player"))
+    world.add_component(player, AttributesComponent(15, 14, 13, 12, 8, 10))
 
 
 def spawn_npc(world, pos):
@@ -38,7 +40,7 @@ def spawn_npc(world, pos):
     choice = random_utils.generate_random_NPC()
 
     # the things that all NPCs share
-    npc = world.create_entity(Position(x=pos[0], y=pos[1]), Velocity(), TileBlocker(), NPC_Component())
+    npc = world.create_entity(Position(x=pos[0], y=pos[1]), Velocity(), TileBlocker(), NPC_Component(), AttributesComponent())
 
     # fill in the rest
     add = generators.generate_npc(choice.lower())

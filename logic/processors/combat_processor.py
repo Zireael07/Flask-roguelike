@@ -1,3 +1,4 @@
+import math
 from .. import esper
 
 from ..components.combat_component import CombatComponent
@@ -10,6 +11,7 @@ from ..components.faction_component import FactionComponent
 from ..components.equipped import EquippedComponent
 from ..components.weapon import WeaponComponent
 from ..components.melee_bonus_component import MeleeBonusComponent
+from ..components.attributes_component import AttributesComponent
 
 from .. import game_vars
 from .. import random_utils
@@ -65,6 +67,13 @@ class CombatProcessor(esper.Processor):
                 # deal damage!
                 damage = random_utils.roll(roll[0], roll[1])
 
+                # Strength bonus
+                attacker_attributes = self.world.component_for_entity(attacker_ID, AttributesComponent)
+                str_bonus = int(math.floor(((attacker_attributes.strength - 10) / 2)))
+
+                damage = damage + str_bonus
+                # prevent negative damage
+                damage = max(0, damage)
                 
                 # any bonuses?
                 for item_ent, (equip, bonus) in self.world.get_components(EquippedComponent, MeleeBonusComponent):
@@ -91,4 +100,4 @@ class CombatProcessor(esper.Processor):
                     color = (127, 127, 127) # libtcod light gray
                     
 
-                game_vars.messages.append((attacker_name.name + " attacks " + target_name.name + " for " + str(damage) + " damage!", color))
+                game_vars.messages.append((attacker_name.name + " attacks " + target_name.name + " for " + str(damage) + " (" + str(str_bonus) + " STR) damage!", color))
