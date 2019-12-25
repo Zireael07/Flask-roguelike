@@ -3,7 +3,7 @@ The backend things that are ultimately used by the frontend to render the game
 """
 
 from . import constants
-from .tile_lookups import TileTypes, get_map_str, get_index
+from .tile_lookups import TileTypes, get_map_str, get_index, get_color
 from .map_common import drawn_wall_glyph
 
 # for styling function
@@ -39,9 +39,9 @@ def map_to_draw(inc_map, fov, explored):
                 if fov[tx][ty] == 1 or explored[tx][ty]:
                     # special case for walls
                     if inc_map[tx][ty] == get_index(TileTypes.WALL):
-                        mapa[x][y] = (drawn_wall_glyph(inc_map, tx,ty), (255, 255, 255))
+                        mapa[x][y] = (drawn_wall_glyph(inc_map, tx,ty), get_color(inc_map[tx][ty]))
                     else:
-                        mapa[x][y] = (get_map_str(inc_map[tx][ty]), (255,255,255))
+                        mapa[x][y] = (get_map_str(inc_map[tx][ty]), get_color(inc_map[tx][ty]))
                 else:
                     mapa[x][y] = ("&nbsp;", (255, 255, 255))
                     # blank span later escaped by |safe Jinja template markup

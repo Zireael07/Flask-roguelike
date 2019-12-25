@@ -1,10 +1,11 @@
 from .enum_constants import Tile_Lookups
 
 class struc_Tile(object):
-    def __init__(self, name, map_str, block_path):
+    def __init__(self, name, map_str, block_path, color=(255,255,255)):
         self.block_path = block_path
         self.name = name
         self.map_str = map_str
+        self.color = color
 
 
 # outside of both classes
@@ -23,9 +24,11 @@ def get_map_str(i):
 def get_block_path(i):
     return TileTypes.test[i].block_path
 
+def get_color(i):
+    return TileTypes.test[i].color
 
 
-TileTypes = Tile_Lookups(WALL=(1,struc_Tile("wall", "#", True)),
+TileTypes = Tile_Lookups(WALL=(1,struc_Tile("wall", "#", True, (159, 159, 159))),
                         # if they ever are needed outside of drawing glyphs...
                         #  WALL_V = (2, struc_Tile("wall", "║", True)),
                         #  WALL_H = (3, struc_Tile("wall", "═", True)),
@@ -38,8 +41,8 @@ TileTypes = Tile_Lookups(WALL=(1,struc_Tile("wall", "#", True)),
                         #  WALL_TS = (10, struc_Tile("wall", "╩", True)),
                         #  WALL_TN = (11, struc_Tile("wall", "╦", True)),
                         #  WALL_PILLAR = (12, struc_Tile("wall", "○", True)),
-                         FLOOR=(2, struc_Tile("floor", ".", False)),
-                         TREE=(3, struc_Tile("tree", "♣", True)),
+                         FLOOR=(2, struc_Tile("floor", ".", False, (128, 120, 115))),
+                         TREE=(3, struc_Tile("tree", "♣", True, (0, 153, 0))),
                          DEBUG=(4, struc_Tile("debug", ">", False)),
                       )
 
