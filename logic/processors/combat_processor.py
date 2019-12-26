@@ -12,17 +12,59 @@ from ..components.equipped import EquippedComponent
 from ..components.weapon import WeaponComponent
 from ..components.melee_bonus_component import MeleeBonusComponent
 from ..components.attributes_component import AttributesComponent
+from ..components.skills_component import SkillsComponent
 
 from .. import game_vars
 from .. import random_utils
 
 def get_faction_reaction(faction, target_faction):
-    print("Faction reaction check: " + faction + " " + target_faction)
+    #print("Faction reaction check: " + faction + " " + target_faction)
     for fact in game_vars.factions:
         #print(fact)
         if fact[0] == faction and fact[1] == target_faction:
             print("Faction reaction of " + fact[0] + " to " + fact[1] + " is " + str(fact[2]))
             return fact[2]
+
+
+'''
+Makes a skill test for "skill", where "skill" is a string
+'''
+def skill_test(skill, ent, world):
+    sk = getattr(world.component_for_entity(ent, SkillsComponent), skill)
+    game_vars.messages.append(("Making a test for " + skill + " " + str(sk), (0, 255, 0)))
+    result = random_utils.roll(1, 100)
+    player = world.has_component(ent, Player)
+    if result < sk:
+        if player:
+            # check how much we gain in the skill
+            tick = random_utils.roll(1, 100)
+
+            # roll OVER the current skill
+            if tick > getattr(world.component_for_entity(ent, SkillsComponent), skill):
+
+                # +1d4 if we succeeded
+                gain = random_utils.roll(1, 4)
+                setattr(world.component_for_entity(ent, SkillsComponent), skill, getattr(world.component_for_entity(ent, SkillsComponent), skill) + gain)
+
+                game_vars.messages.append(("You gain " + str(gain) + " skill points!", (115, 255, 115))) # libtcod light green
+
+            else:
+                # +1 if we didn't
+                setattr(world.component_for_entity(ent, SkillsComponent), skill, getattr(world.component_for_entity(ent, SkillsComponent), skill) + 1)
+                game_vars.messages.append(("You gain 1 skill point", (115, 255, 115)))
+        return True
+    else:
+        if player:
+            # if we failed, the check for gain is different
+            tick = random_utils.roll(1,100)
+
+            # roll OVER the current skill
+            if tick > sk:
+                # +1 if we succeeded, else nothing
+                setattr(world.component_for_entity(ent, SkillsComponent), skill, getattr(world.component_for_entity(ent, SkillsComponent), skill) + 1)
+                game_vars.messages.append(("You learn from your failure and gain 1 skill point", (115, 255, 115))) # libtcod light green
+
+        return False
 
 
 class CombatProcessor(esper.Processor):
@@ -57,13 +99,15 @@ class CombatProcessor(esper.Processor):
 
                 # roll attack
                 attack_roll = random_utils.roll(1, 100)
+                attack_skill = self.world.component_for_entity(attacker_ID, SkillsComponent).melee
+
                 # d100 roll under
-                if attack_roll < 55:
+                if skill_test("melee", attacker_ID, self.world):
+                #if attack_roll < attack_skill:
                     # target hit!
                     attacker_stats = self.world.component_for_entity(attacker_ID, StatsComponent)
                     target_stats = self.world.component_for_entity(target_ID, StatsComponent)
                     # deal damage!
-                    #damage = attacker_stats.power
                     
                     # if no weapon, deal 1d6
                     roll = (1,6)
@@ -109,4 +153,4 @@ class CombatProcessor(esper.Processor):
                     game_vars.messages.append((attacker_name.name + " attacks " + target_name.name + " for " + str(damage) + " (" + str(str_bonus) + " STR) damage!", color))
                 else:
                     # miss
-                    game_vars.messages.append((attacker_name.name + " attacks " + target_name.name + " but misses!", (115, 115, 255)))
+                    game_vars.messages.append((attacker_name.name + " attacks " + target_name.name + " but misses!", (115, 115, 255))) # libtcod light blue
