@@ -135,6 +135,9 @@ def hello_world():
     # Initial page draw
     position = game.get_position(game_vars.world)
 
+    # cam
+    game_vars.camera.update(position)
+
     console = renderer_logic.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
 
     player_ent = None
