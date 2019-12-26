@@ -11,8 +11,9 @@ class BSPTree:
 		self.rooms = []
 		self.MAX_LEAF_SIZE = m_leaf
 		# used by create rooms below
-		self.ROOM_MAX_SIZE = m_leaf-2
+		self.ROOM_MAX_SIZE = self.MAX_LEAF_SIZE-1
 		self.ROOM_MIN_SIZE = 4
+		#print("Leaf size: " + str(self.MAX_LEAF_SIZE) + " room max: " + str(self.ROOM_MAX_SIZE))
 
 	def generateLevel(self, x,y, mapWidth, mapHeight, roomHook, mapa):
 		self._leafs = []
@@ -105,25 +106,30 @@ class Leaf:
 
 		else:
 		# Create rooms in the end branches of the bsp tree
+			#print("[Leaf] width: " + str(self.width) + " height: " + str(self.height))
 			# Some convoluted math to ensure we always try to make a room
-			minw = min(bspTree.ROOM_MAX_SIZE, self.width-1)
-			minw = max(4, minw)
+			#print("min: " + str(bspTree.ROOM_MIN_SIZE) + " max: " + str(bspTree.ROOM_MAX_SIZE))
+			minw = min(max(bspTree.ROOM_MAX_SIZE, bspTree.ROOM_MIN_SIZE), max(bspTree.ROOM_MIN_SIZE, self.width-1))
+
 			if bspTree.ROOM_MIN_SIZE == minw:
-				w = minw
-			elif bspTree.ROOM_MIN_SIZE < minw:
-				w = random.randint(bspTree.ROOM_MIN_SIZE, minw)
+			 	w = minw
+			# can sometimes happen due to eg. very small working area
+			elif bspTree.ROOM_MAX_SIZE < bspTree.ROOM_MIN_SIZE:
+			 	w = random.randint(bspTree.ROOM_MIN_SIZE, minw)
 			else:
-				w = random.randint(minw, bspTree.ROOM_MIN_SIZE)
-			minh = min(bspTree.ROOM_MAX_SIZE,self.height-1)
-			minh = max(4, minh)
+			 	w = random.randint(minw, bspTree.ROOM_MAX_SIZE)
+
+			minh = min(max(bspTree.ROOM_MAX_SIZE, bspTree.ROOM_MIN_SIZE), max(bspTree.ROOM_MIN_SIZE, self.height-1))
+
 			if bspTree.ROOM_MIN_SIZE == minh:
 				h = minh
-			elif bspTree.ROOM_MIN_SIZE < minh:
-				h = random.randint(bspTree.ROOM_MIN_SIZE, minh)
+			# can sometimes happen due to eg. very small working area
+			elif bspTree.ROOM_MAX_SIZE < bspTree.ROOM_MIN_SIZE:
+			 	h = random.randint(bspTree.ROOM_MIN_SIZE, minh)
 			else:
-				h = random.randint(minh, bspTree.ROOM_MIN_SIZE)
+				h = random.randint(minh, bspTree.ROOM_MAX_SIZE)
 			
-			#print("w" + str(w) + " h " + str(h))
+			print("w" + str(w) + " h " + str(h))
 
 			if self.x == self.x+(self.width-1)-w:
 				x = self.x
