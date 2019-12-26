@@ -41,6 +41,7 @@ def map_create(level, **kwargs):
 
     width = end_x - start_x
     height = end_y - start_y
+    print("Map width: " + str(width) + " map height" + str(height))
 
     #level.mapa = [[ get_index(TileTypes.FLOOR) for _ in range(start_y, end_y)] for _ in range(start_x, end_x)]
     for x in range(start_x, end_x):
@@ -48,7 +49,8 @@ def map_create(level, **kwargs):
             level.mapa[x][y] = get_index(TileTypes.FLOOR)
 
     # BSP
-    bsp_t = bsp.BSPTree(width/2)
+    bsp_leaf = int(width/2) if width > 8 else width
+    bsp_t = bsp.BSPTree(bsp_leaf)
     bsp_t.generateLevel(start_x, start_y, width, height, room_func, level.mapa)
 
     create_doors(bsp_t, level.mapa)

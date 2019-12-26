@@ -30,7 +30,7 @@ def map_create(level, **kwargs):
             noise[x][y] = n
 
             # map
-            if n < 0.45:
+            if n < 0.65:
                 new_map[x][y] = get_index(TileTypes.FLOOR)
             else:
                 new_map[x][y] = get_index(TileTypes.TREE)
