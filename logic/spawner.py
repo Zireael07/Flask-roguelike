@@ -14,7 +14,9 @@ from .components.item_component import ItemComponent
 from .components.faction_component import FactionComponent
 from .components.attributes_component import AttributesComponent
 from .components.skills_component import SkillsComponent
-
+# for equippable items
+from .components.wearable import WearableComponent
+from .components.equipped import EquippedComponent
 
 from . import constants
 from . import random_utils
@@ -45,10 +47,13 @@ def spawn_npc(world, pos):
     npc = world.create_entity(Position(x=pos[0], y=pos[1]), Velocity(), TileBlocker(), NPC_Component(), AttributesComponent(), SkillsComponent())
 
     # fill in the rest
-    add = generators.generate_npc(choice.lower())
+    add, equip_list = generators.generate_npc(choice.lower())
     # add them
     for a in add:
         world.add_component(npc, a)
+
+    for e in equip_list:
+        spawn_named_item(world, pos, e, npc)
 
 def spawn_item(world, pos):
     # random location
@@ -64,3 +69,21 @@ def spawn_item(world, pos):
     # add them
     for a in add:
         world.add_component(it, a)
+
+def spawn_named_item(world, pos, _id, ent_equipped=None):
+    # things that all items share
+    it = world.create_entity(Position(x=pos[0], y=pos[1]), ItemComponent())
+
+    # fill in the rest
+    add = generators.generate_item(_id)
+
+    # add them
+    for a in add:
+        world.add_component(it, a)
+
+    if ent_equipped:
+        world.add_component(it, EquippedComponent(slot=world.component_for_entity(it, WearableComponent).slot, owner=ent_equipped))
+        print("Spawned an equipped item... " + str(world.component_for_entity(it, NameComponent).name))
+
+
+        

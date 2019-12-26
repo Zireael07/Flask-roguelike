@@ -62,6 +62,91 @@
                 "damage_dice": 8,
                 "damage_number_dice": 1
             }
-        }
+        },
 
+    "t-shirt":    {
+            "name" : "T-shirt",
+            "renderable": {
+                "glyph" : "]",
+                "fg" : [0, 170, 255],
+                "bg" : [0,0,0],
+                "order" : 2
+            },
+            "wearable" : {
+                "defense_bonus" : 0.15,
+                "slot" : "Torso"
+            }
+        },
+
+    "jeans":    {
+            "name" : "Jeans",
+            "renderable": {
+                "glyph" : "]",
+                "fg" : [0, 23, 255],
+                "bg" : [0,0,0],
+                "order" : 2
+            },
+            "wearable" : {
+                "defense_bonus" : 0.1,
+                "slot" : "Legs"
+            }
+        },
+
+    "boots":    {
+            "name" : "Boots",
+            "renderable": {
+                "glyph" : "]",
+                "fg" : [130, 77, 4],
+                "bg" : [0,0,0],
+                "order" : 2
+            },
+            "wearable" : {
+                "defense_bonus" : 0.15,
+                "slot" : "Feet"
+            }
+        },
+
+    "sneakers":    {
+            "name" : "Sneakers",
+            "renderable": {
+                "glyph" : "]",
+                "fg" : [0, 21, 255],
+                "bg" : [0,0,0],
+                "order" : 2
+            },
+            "wearable" : {
+                "defense_bonus" : 0.1,
+                "slot" : "Feet"
+            }
+        },
+
+    "sheriff's shirt":    {
+            "name" : "Sheriff's shirt",
+            "renderable": {
+                "glyph" : "]",
+                "fg" : [43, 0, 255],
+                "bg" : [0,0,0],
+                "order" : 2
+            },
+            "wearable" : {
+                "defense_bonus" : 0.15,
+                "slot" : "Torso"
+            }
+
+        },
+
+    "leather jacket":    {
+            "name" : "Leather jacket",
+            "renderable": {
+                "glyph" : "]",
+                "fg" : "#FF7C00",
+                "bg" : [0,0,0],
+                "order" : 2
+            },
+            "wearable" : {
+                "defense_bonus" : 0.15,
+                "slot" : "Torso"
+
+            }
+        }
 }

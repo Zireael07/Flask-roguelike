@@ -35,7 +35,14 @@ def generate_npc(m_id):
     else:
         comps.append(FactionComponent("enemy"))
 
-    return comps
+    # equip equipment
+    equip_list = []
+    if 'equipment' in npc_data[m_id]:
+        for e_id in npc_data[m_id]['equipment']:
+            npc_equip_id = e_id.lower()
+            equip_list.append(npc_equip_id)
+
+    return [comps, equip_list]
 
 def generate_item(_id):
     if _id == 'None' or _id == None:
@@ -84,8 +91,8 @@ def generate_item(_id):
 # this is triggered by merely importing this module
 with open("npcs.json") as json_data:
         npc_data = json.load(json_data)
-        print(npc_data)
+        #print(npc_data)
 
 with open("items.json") as json_data:
     items_data = json.load(json_data)
-    print(items_data)
+    #print(items_data)

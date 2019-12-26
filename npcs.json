@@ -13,7 +13,8 @@
         "defense" : 1,
         "power" : 4
     },
-    "faction": "Cop"
+    "faction": "Cop",
+    "equipment": [ "Sheriff's shirt", "Jeans", "Boots"]
     },
 
     "thug" : {
@@ -30,6 +31,7 @@
         "defense" : 1,
         "power" : 3
 
-    }
+    },
+    "equipment": [ "Leather jacket", "Jeans", "Boots" ]
     }
 }
