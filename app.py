@@ -10,14 +10,11 @@ from logic import game_loaders
 # more specific stuff we need
 from logic.components.player import Player
 from logic.components.cursor_component import CursorComponent
-from logic.components.position import Position
-from logic.components.renderable import RenderableComponent
+# inventory
 from logic.components.in_backpack import InBackpackComponent
 from logic.components.equipped import EquippedComponent
 from logic.components.name_component import NameComponent
-from logic.components.dead_component import DeadComponent
 from logic.components.skip_component import SkipComponent
-from logic.components.faction_component import FactionComponent
 
 from logic import renderer_logic
 
@@ -29,69 +26,7 @@ def data_to_redraw():
     # redraw
     position = game.get_position(game_vars.world)
 
-    # cam
-    game_vars.camera.update(position)
-
-    console = renderer_logic.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
-
-    player_ent = None
-    for ent, (player) in game_vars.world.get_component(Player):
-        player_ent = ent
-
-    # camera
-    cam = game_vars.camera
-    width_start = cam.get_width_start()
-    width_end = cam.get_width_end(game_vars.mapa)
-    height_start = cam.get_height_start()
-    height_end = cam.get_height_end(game_vars.mapa)
-
-    # draw other entities
-    matches = game_vars.world.get_components(Position, RenderableComponent)
-    # sort by render order
-    matches.sort(key=lambda item: item[1][1].render_order.value)
-
-    for ent, (pos, visual) in matches:
-        # if not in camera view
-        if pos.x < width_start or pos.x > width_end or pos.y < height_start or pos.y > height_end:
-            # skip
-            continue
-        if not game_vars.fov[pos.x][pos.y]:
-            # skip
-            continue
-        if game_vars.world.has_component(ent, DeadComponent):
-            # skip
-            continue
-        if game_vars.world.has_component(ent, InBackpackComponent):
-            # skip
-            continue
-        if game_vars.world.has_component(ent, EquippedComponent):
-            # skip
-            continue
-
-        ret = None
-        # check faction
-        if game_vars.world.has_component(ent, FactionComponent):
-            player_f = game_vars.world.component_for_entity(player_ent, FactionComponent).faction
-            fact = game_vars.world.component_for_entity(ent, FactionComponent)
-            react = game.get_faction_reaction(player_f, fact.faction)
-            #print("react: " + str(react))
-        
-            if react < -50:
-                ret = "hostile"
-            elif react < 0:
-                ret = "unfriendly"
-            elif react == 0:
-                ret = "neutral"
-            elif react > 50:
-                ret = "helpful"
-            elif react > 0:
-                ret = "friendly"
-
-        # draw (subtracting camera start to draw in screen space)
-        console[pos.x-width_start][pos.y-height_start] = (visual.char, visual.color, ret)
-
-    # draw player at his position
-    console[position.x-width_start][position.y-height_start] = ('@', (255, 255, 255), "friendly")
+    console = renderer_logic.redraw_console(position)
 
     # messages
     if len(game_vars.messages) <= constants.NUM_MESSAGES:
@@ -135,64 +70,9 @@ def hello_world():
     # Initial page draw
     position = game.get_position(game_vars.world)
 
-    # cam
-    game_vars.camera.update(position)
-
-    console = renderer_logic.map_to_draw(game_vars.mapa, game_vars.fov, game_vars.explored)
-
-    player_ent = None
-    for ent, (player) in game_vars.world.get_component(Player):
-        player_ent = ent
-
-    # camera
-    cam = game_vars.camera
-    width_start = cam.get_width_start()
-    width_end = cam.get_width_end(game_vars.mapa)
-    height_start = cam.get_height_start()
-    height_end = cam.get_height_end(game_vars.mapa)
-
-    # draw other entities
-    for ent, (pos, visual) in game_vars.world.get_components(Position, RenderableComponent):
-        # if not in camera view
-        if pos.x < width_start or pos.x > width_end or pos.y < height_start or pos.y > height_end:
-            # skip
-            continue
-        if not game_vars.fov[pos.x][pos.y]:
-            # skip
-            continue
-        
-        ret = None
-        # check faction
-        if game_vars.world.has_component(ent, FactionComponent):
-            player_f = game_vars.world.component_for_entity(player_ent, FactionComponent).faction
-            fact = game_vars.world.component_for_entity(ent, FactionComponent)
-            react = game.get_faction_reaction(player_f, fact.faction)
-            #print("react: " + str(react))
-        
-            if react < -50:
-                ret = "hostile"
-            elif react < 0:
-                ret = "unfriendly"
-            elif react == 0:
-                ret = "neutral"
-            elif react > 50:
-                ret = "helpful"
-            elif react > 0:
-                ret = "friendly"
-
-        # draw
-        console[pos.x-width_start][pos.y-height_start] = (visual.char, visual.color, ret)
-
-    # draw player at his position
-    console[position.x-width_start][position.y-height_start] = ('@', (255, 255, 255), "friendly")
+    console = renderer_logic.redraw_console(position)
 
     return render_template('index.html', position = position, console=console, style=renderer_logic.map_style)
-    #return game.represent_world(game_vars.world, Position)
-    # dict is converted to JSON automatically
-    #return {
-    #    "location": (1,1)
-    #}
-    #return 'Hello, World!'
 
 
 # Thanks to https://repl.it/@EthanGoldman/Python-Flask-Website-with-Ajax-and-Jquery for figuring this out!
