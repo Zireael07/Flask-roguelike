@@ -145,7 +145,7 @@ class CombatProcessor(esper.Processor):
                         # dead!
                         if target_stats.hp <= 0:
                             self.world.add_component(target_ID, DeadComponent())
-                            self.world.remove_component(ent, CombatComponent)
+                            #self.world.remove_component(ent, CombatComponent)
 
                         # color
                         player_hit = self.world.has_component(target_ID, Player)
@@ -159,3 +159,6 @@ class CombatProcessor(esper.Processor):
                 else:
                     # miss
                     game_vars.messages.append((attacker_name.name + " attacks " + target_name.name + " but misses!", (115, 115, 255))) # libtcod light blue
+
+            # cleanup
+            self.world.remove_component(ent, CombatComponent)
