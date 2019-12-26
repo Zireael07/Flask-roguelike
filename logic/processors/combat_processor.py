@@ -105,52 +105,57 @@ class CombatProcessor(esper.Processor):
                 if skill_test("melee", attacker_ID, self.world):
                 #if attack_roll < attack_skill:
                     # target hit!
-                    attacker_stats = self.world.component_for_entity(attacker_ID, StatsComponent)
-                    target_stats = self.world.component_for_entity(target_ID, StatsComponent)
-                    # deal damage!
-                    
-                    # if no weapon, deal 1d6
-                    roll = (1,6)
-                    # use equipped weapon's data
-                    for item_ent, (equip, weapon) in self.world.get_components(EquippedComponent, WeaponComponent):
-                        #print(str(equip.slot))
-                        if equip.owner == attacker_ID and equip.slot == "MAIN_HAND":
-                            print("Use weapon dice")
-                            roll = (weapon.num_dice, weapon.dam_dice)
-
-                    # deal damage!
-                    damage = random_utils.roll(roll[0], roll[1])
-
-                    # Strength bonus
-                    attacker_attributes = self.world.component_for_entity(attacker_ID, AttributesComponent)
-                    str_bonus = int(math.floor(((attacker_attributes.strength - 10) / 2)))
-
-                    damage = damage + str_bonus
-                    # prevent negative damage
-                    damage = max(0, damage)
-                    
-                    # any bonuses?
-                    for item_ent, (equip, bonus) in self.world.get_components(EquippedComponent, MeleeBonusComponent):
-                        # only add bonuses for items actually equipped by attacker
-                        if equip.owner == attacker_ID:
-                            damage += bonus.bonus
-
-                    target_stats.hp -= damage
-
-                    # dead!
-                    if target_stats.hp <= 0:
-                        self.world.add_component(target_ID, DeadComponent())
-                        self.world.remove_component(ent, CombatComponent)
-
-                    # color
-                    player_hit = self.world.has_component(target_ID, Player)
-                    if player_hit:
-                        color = (255, 0, 0)
+                    # assume target can try to dodge
+                    if skill_test("dodge", target_ID, self.world):
+                        game_vars.messages.append((target_name.name + " dodges!", (0, 191, 0))) # libtcod dark green
                     else:
-                        color = (127, 127, 127) # libtcod light gray
+                        # no dodge
+                        attacker_stats = self.world.component_for_entity(attacker_ID, StatsComponent)
+                        target_stats = self.world.component_for_entity(target_ID, StatsComponent)
+                        # deal damage!
                         
+                        # if no weapon, deal 1d6
+                        roll = (1,6)
+                        # use equipped weapon's data
+                        for item_ent, (equip, weapon) in self.world.get_components(EquippedComponent, WeaponComponent):
+                            #print(str(equip.slot))
+                            if equip.owner == attacker_ID and equip.slot == "MAIN_HAND":
+                                print("Use weapon dice")
+                                roll = (weapon.num_dice, weapon.dam_dice)
 
-                    game_vars.messages.append((attacker_name.name + " attacks " + target_name.name + " for " + str(damage) + " (" + str(str_bonus) + " STR) damage!", color))
+                        # deal damage!
+                        damage = random_utils.roll(roll[0], roll[1])
+
+                        # Strength bonus
+                        attacker_attributes = self.world.component_for_entity(attacker_ID, AttributesComponent)
+                        str_bonus = int(math.floor(((attacker_attributes.strength - 10) / 2)))
+
+                        damage = damage + str_bonus
+                        # prevent negative damage
+                        damage = max(0, damage)
+                        
+                        # any bonuses?
+                        for item_ent, (equip, bonus) in self.world.get_components(EquippedComponent, MeleeBonusComponent):
+                            # only add bonuses for items actually equipped by attacker
+                            if equip.owner == attacker_ID:
+                                damage += bonus.bonus
+
+                        target_stats.hp -= damage
+
+                        # dead!
+                        if target_stats.hp <= 0:
+                            self.world.add_component(target_ID, DeadComponent())
+                            self.world.remove_component(ent, CombatComponent)
+
+                        # color
+                        player_hit = self.world.has_component(target_ID, Player)
+                        if player_hit:
+                            color = (255, 0, 0)
+                        else:
+                            color = (127, 127, 127) # libtcod light gray
+                            
+
+                        game_vars.messages.append((attacker_name.name + " attacks " + target_name.name + " for " + str(damage) + " (" + str(str_bonus) + " STR) damage!", color))
                 else:
                     # miss
                     game_vars.messages.append((attacker_name.name + " attacks " + target_name.name + " but misses!", (115, 115, 255))) # libtcod light blue
