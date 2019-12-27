@@ -1,5 +1,21 @@
 $( document ).ready(function() {
 
+    $("#go_wait").click(function(e) {
+
+        //console.log("Clicked wait button");
+        $.ajax({
+            url: "/move/0/0",
+            type: "GET",
+            success: function(response){
+                console.log("Success");
+                $('#output').html(response.data);
+                //this does update the page but buttons no longer work
+                //document.write(html)
+            }
+        });
+
+    });
+
     $("#go_s").click(function(e) {
 
         //console.log("Clicked a button 1");
