@@ -26,5 +26,6 @@ class PickupProcessor(esper.Processor):
                         # message
                         ent_name = self.world.component_for_entity(item_ent, NameComponent)
                         game_vars.messages.append(("Player picked up " + ent_name.name + "!", (255,255, 255)))
+                        break # only pick up one item
             
             self.world.remove_component(ent, WantToPickupComponent)
