@@ -21,7 +21,7 @@ def room_func(room, mapa):
         for y in range(room.y1+1,room.y2-1):
             # paranoia
             if y < len(mapa[0]) and x < len(mapa):
-                mapa[x][y] = get_index(TileTypes.FLOOR)
+                mapa[x][y] = get_index(TileTypes.FLOOR_INDOOR)
 
 # kwargs are there for chaining to work (see game.py 75 and 125)
 def map_create(level, **kwargs):
@@ -64,7 +64,7 @@ def map_create(level, **kwargs):
 def create_doors(bsp, mapa):
     for room in bsp.rooms:
         (x, y) = room.center()
-        print("Creating door for " + str(x) + " " + str(y))
+        #print("Creating door for " + str(x) + " " + str(y))
 
         choices = ["north", "south", "east", "west"]
 

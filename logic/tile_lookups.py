@@ -42,8 +42,9 @@ TileTypes = Tile_Lookups(WALL=(1,struc_Tile("wall", "#", True, (159, 159, 159)))
                         #  WALL_TN = (11, struc_Tile("wall", "╦", True)),
                         #  WALL_PILLAR = (12, struc_Tile("wall", "○", True)),
                          FLOOR=(2, struc_Tile("floor", ".", False, (128, 120, 115))),
-                         TREE=(3, struc_Tile("tree", "♣", True, (0, 153, 0))),
-                         DEBUG=(4, struc_Tile("debug", ">", False)),
+                         FLOOR_INDOOR=(3, struc_Tile("floor", ".", False, (0, 128, 128))),
+                         TREE=(4, struc_Tile("tree", "♣", True, (0, 153, 0))),
+                         DEBUG=(5, struc_Tile("debug", ">", False)),
                       )
 
 
