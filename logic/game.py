@@ -157,7 +157,7 @@ def get_faction_reaction(faction, target_faction):
 
     for fact in game_vars.factions:
         if fact[0] == faction and fact[1] == target_faction:
-            print("Faction reaction of " + fact[0] + " to " + fact[1] + " is " + str(fact[2]))
+            #print("Faction reaction of " + fact[0] + " to " + fact[1] + " is " + str(fact[2]))
             return fact[2]
 
 # FOV interface
@@ -183,7 +183,7 @@ def force_update(world):
 def get_position(world):
     # we can get it straight from the world
     for ent, (player, pos) in world.get_components(Player, Position):
-        return pos
+        return pos, ent
 
 def get_stats(world):
     for ent, (player, fighter) in world.get_components(Player, StatsComponent):

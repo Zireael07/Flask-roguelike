@@ -24,7 +24,7 @@ Collects all the info that is needed for Flask internal API to redraw the game
 '''
 def data_to_redraw():
     # redraw
-    position = game.get_position(game_vars.world)
+    position, player_ent = game.get_position(game_vars.world)
 
     console = renderer_logic.redraw_console(position)
 
@@ -50,12 +50,13 @@ def data_to_redraw():
         letter_index += 1
 
     for ent, (name, equip) in game_vars.world.get_components(NameComponent, EquippedComponent):
-        # skips entities that are being removed
-        if game_vars.world.has_component(ent, SkipComponent):
-            continue
+        if equip.owner == player_ent:
+            # skips entities that are being removed
+            if game_vars.world.has_component(ent, SkipComponent):
+                continue
 
-        inventory.append((chr(letter_index), name.name + " (equipped)", ent))
-        letter_index += 1
+            inventory.append((chr(letter_index), name.name + " (equipped)", ent))
+            letter_index += 1
 
 
     return { "position" : position, "console": console, "messages" : messages, "fighter" : fighter, "inventory" : inventory}
@@ -68,7 +69,7 @@ def hello_world():
     game.main()
 
     # Initial page draw
-    position = game.get_position(game_vars.world)
+    position, player_ent = game.get_position(game_vars.world)
 
     console = renderer_logic.redraw_console(position)
 
