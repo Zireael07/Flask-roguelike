@@ -93,7 +93,7 @@ class Leaf:
 		return True
 
 
-	def room_dimensions(self, bspTree):
+	def room_dimensions_complex(self, bspTree):
 		#print("[Leaf] width: " + str(self.width) + " height: " + str(self.height))
 		# Some convoluted math to ensure we always try to make a room
 		#print("min: " + str(bspTree.ROOM_MIN_SIZE) + " max: " + str(bspTree.ROOM_MAX_SIZE))
@@ -117,7 +117,7 @@ class Leaf:
 		else:
 			h = random.randint(minh, bspTree.ROOM_MAX_SIZE)
 		
-		print("w" + str(w) + " h " + str(h))
+		#print("w" + str(w) + " h " + str(h))
 
 		if self.x == self.x+(self.width-1)-w:
 			x = self.x
@@ -131,6 +131,14 @@ class Leaf:
 			y = random.randint(self.y+1, self.y+(self.height-1)-h-1)
 		else:
 			y = random.randint(self.y+(self.height-1)-h-1, self.y+1)
+
+		return x,y,w,h
+
+	def room_dimensions(self, bspTree):
+		x = self.x + 1
+		y = self.y + 1
+		w = self.width-1
+		h = self.height-1
 
 		return x,y,w,h
 
@@ -148,6 +156,8 @@ class Leaf:
 
 		else:
 		# Create rooms in the end branches of the bsp tree
+			# debug - just fill the leaf
+			#x,y,w,h = self.x, self.y, self.width, self.height
 			x,y,w,h = self.room_dimensions(bspTree)
 			
 			room = Rect(x,y,w,h)
