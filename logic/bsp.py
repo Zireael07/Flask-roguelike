@@ -109,7 +109,7 @@ class Leaf:
 			#print("[Leaf] width: " + str(self.width) + " height: " + str(self.height))
 			# Some convoluted math to ensure we always try to make a room
 			#print("min: " + str(bspTree.ROOM_MIN_SIZE) + " max: " + str(bspTree.ROOM_MAX_SIZE))
-			minw = min(max(bspTree.ROOM_MAX_SIZE, bspTree.ROOM_MIN_SIZE), max(bspTree.ROOM_MIN_SIZE, self.width-1))
+			minw = min(max(bspTree.ROOM_MAX_SIZE, bspTree.ROOM_MIN_SIZE), max(bspTree.ROOM_MIN_SIZE, self.width-3))
 
 			if bspTree.ROOM_MIN_SIZE == minw:
 			 	w = minw
@@ -119,7 +119,7 @@ class Leaf:
 			else:
 			 	w = random.randint(minw, bspTree.ROOM_MAX_SIZE)
 
-			minh = min(max(bspTree.ROOM_MAX_SIZE, bspTree.ROOM_MIN_SIZE), max(bspTree.ROOM_MIN_SIZE, self.height-1))
+			minh = min(max(bspTree.ROOM_MAX_SIZE, bspTree.ROOM_MIN_SIZE), max(bspTree.ROOM_MIN_SIZE, self.height-3))
 
 			if bspTree.ROOM_MIN_SIZE == minh:
 				h = minh
@@ -133,12 +133,17 @@ class Leaf:
 
 			if self.x == self.x+(self.width-1)-w:
 				x = self.x
-			elif self.x+(self.width-1)-w > self.x:
-				x = random.randint(self.x, self.x+(self.width-1)-w)
+			elif self.x+(self.width-1)-w-1 > self.x+1:
+				x = random.randint(self.x+1, self.x+(self.width-1)-w-1)
 			else:
-				x = random.randint(self.x+(self.width-1)-w, self.x)
-
-			y = random.randint(self.y, self.y+(self.height-1)-h)
+				x = random.randint(self.x+(self.width-1)-w-1, self.x+1)
+			if self.y == self.y+(self.height-1)-h:
+				y = self.y
+			elif self.y+(self.height-1)-h-1 > self.y+1:
+				y = random.randint(self.y+1, self.y+(self.height-1)-h-1)
+			else:
+				y = random.randint(self.y+(self.height-1)-h-1, self.y+1)
+			
 			room = Rect(x,y,w,h)
 			bspTree.rooms.append(room)
 			createRoom(room, mapa)
