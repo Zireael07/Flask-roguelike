@@ -90,12 +90,17 @@ def create_doors(bsp, mapa):
                 checkX = room.x1-1
                 checkY = y
 
-            # if it leads to a wall, remove it from list of choices
+            
             #print("Checking dir " + str(choice) + ": x:" + str(checkX) + " y:" + str(checkY) + " " + str(self._map[checkX][checkY]))
-
-            if mapa[checkX][checkY] == get_index(TileTypes.WALL): #0:
-                #print("Removing direction from list" + str(choice))
+            
+            # if going out of map, not an option
+            if checkX > len(mapa)-1 or checkY > len(mapa[0])-1:
                 sel_choices.remove(choice)
+            else:
+                # if it leads to a wall, remove it from list of choices
+                if mapa[checkX][checkY] == get_index(TileTypes.WALL): #0:
+                    #print("Removing direction from list" + str(choice))
+                    sel_choices.remove(choice)
 
         #print("Choices: " + str(sel_choices))
         if len(sel_choices) > 0:
