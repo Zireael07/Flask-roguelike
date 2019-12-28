@@ -1,5 +1,6 @@
 from .. import constants
 from ..tile_lookups import TileTypes, get_index
+from ..map_common import apply_paint, print_map_string
 
 from .. import noise_ext
 
@@ -8,7 +9,7 @@ def map_create(level, **kwargs):
     new_map = [[ get_index(TileTypes.TREE) for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
 
     # perlin visualization
-    noise = [[ 0 for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
+    ##noise = [[ 0 for _ in range(0, constants.MAP_HEIGHT)] for _ in range(0, constants.MAP_WIDTH)]
 
 	# make actual map
     for x in range (constants.MAP_WIDTH):
@@ -27,13 +28,19 @@ def map_create(level, **kwargs):
             # noise
             #n = noise.noise_2d(i,j)
             n = noise_ext.octave_perlin(i,j, 4, 2)
-            noise[x][y] = n
+            #noise[x][y] = n
 
             # map
             if n < 0.65:
-                new_map[x][y] = get_index(TileTypes.FLOOR)
-            else:
-                new_map[x][y] = get_index(TileTypes.TREE)
+                apply_paint(new_map, x, y, 2, get_index(TileTypes.FLOOR))
+                #new_map[x][y] = get_index(TileTypes.FLOOR)
+            #else:
+            #    apply_paint(new_map, x, y, 2, get_index(TileTypes.TREE))
+            #    new_map[x][y] = get_index(TileTypes.TREE)
 
     level.mapa = new_map
+
+    #print_map_string(level.mapa)
+
+
     return level # for chaining

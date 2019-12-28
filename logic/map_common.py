@@ -96,7 +96,7 @@ glyph_lookup = {
 
 def drawn_wall_glyph(inc_map, x,y):
     # don't check if we would go past map borders
-    if x < 1 or y < 1 or x > len(inc_map)-1 or y > len(inc_map[0])-1:
+    if x < 2 or y < 2 or x > len(inc_map)-2 or y > len(inc_map[0])-2:
         return "#"
 
     # bitmask
@@ -119,6 +119,21 @@ def drawn_wall_glyph(inc_map, x,y):
 
 def is_wall(inc_map, x,y):
     return inc_map[x][y] == get_index(TileTypes.WALL)
+
+def apply_paint(inc_map, x, y, size, tile):
+    half_size = size//2
+    #print("Hsize: " + str(half_size))
+    #print("Tile: " + str(tile))
+    for brush_y in range((y-half_size), (y+half_size+1)):
+        for brush_x in range((x-half_size), (y+half_size+1)):
+            # paranoia
+            if brush_x < 1 or brush_y < 1 or brush_x > len(inc_map)-1 or brush_y > len(inc_map[0])-1:
+                # skip
+                continue
+            else:
+                inc_map[brush_x][brush_y] = tile
+                #print(inc_map[brush_x][brush_y])
+
 
 # this is for debugging
 def print_map_string(inc_map):
