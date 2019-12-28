@@ -98,7 +98,7 @@ def create_doors(bsp, mapa):
                 sel_choices.remove(choice)
             else:
                 # if it leads to a wall, remove it from list of choices
-                if mapa[checkX][checkY] == get_index(TileTypes.WALL): #0:
+                if mapa[checkX][checkY] in [get_index(TileTypes.WALL), get_index(TileTypes.TREE)]: #0:
                     #print("Removing direction from list" + str(choice))
                     sel_choices.remove(choice)
 
