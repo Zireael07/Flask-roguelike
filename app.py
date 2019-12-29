@@ -10,6 +10,7 @@ from logic import game_loaders
 # more specific stuff we need
 from logic.components.player import Player
 from logic.components.cursor_component import CursorComponent
+
 # inventory
 from logic.components.in_backpack import InBackpackComponent
 from logic.components.equipped import EquippedComponent
@@ -23,6 +24,7 @@ from logic import renderer_logic
 Collects all the info that is needed for Flask internal API to redraw the game
 '''
 def data_to_redraw():
+    #print("Collect data for redraw...")
     # redraw
     position, player_ent = game.get_position(game_vars.world)
 
@@ -37,6 +39,8 @@ def data_to_redraw():
 
     # HUD
     fighter = game.get_stats(game_vars.world)
+    cursor_pos = game.get_cursor_position(game_vars.world)
+    look_list = renderer_logic.get_look_list(cursor_pos)
 
     # inventory
     inventory = []
@@ -59,7 +63,7 @@ def data_to_redraw():
             letter_index += 1
 
 
-    return { "position" : position, "console": console, "messages" : messages, "fighter" : fighter, "inventory" : inventory}
+    return { "position" : position, "console": console, "messages" : messages, "fighter" : fighter, "look_list": look_list, "inventory" : inventory}
 
 
 
@@ -92,7 +96,7 @@ def move(x=None, y=None):
     data = data_to_redraw()
 
     return jsonify({'data': render_template('response.html', 
-    position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])})
+    position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], look=data['look_list'])})
 
 
 
@@ -205,7 +209,7 @@ def target_confirm(x=None, y=None):
         print("Confirmed target: " + str(x) + " " + str(y))
 
         if cursor.item is not None:
-        action = {'target': (int(x), int(y))}
+            action = {'target': (int(x), int(y))}
 
         game.act_and_update(game_vars.world, action)
         data = data_to_redraw()

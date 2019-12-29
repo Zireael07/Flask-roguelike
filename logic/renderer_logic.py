@@ -155,3 +155,44 @@ def map_style(x, y):
         return "explored"
     else:
         return "normal"
+
+def get_look_list(cursor_pos):
+    look_list = []
+
+    # items under cursor
+    if cursor_pos is not None:
+        for ent, (pos, vis) in game_vars.world.get_components(Position, RenderableComponent):
+            if game_vars.world.has_component(ent, DeadComponent):
+                # skip
+                continue
+            if game_vars.world.has_component(ent, InBackpackComponent):
+                # skip
+                continue
+            if game_vars.world.has_component(ent, EquippedComponent):
+                # skip
+                continue
+
+            if pos.x == cursor_pos.x and pos.y == cursor_pos.y:
+                name = game_vars.world.component_for_entity(ent, NameComponent).name
+
+                ret = None
+                # check faction
+                if game_vars.world.has_component(ent, FactionComponent):
+                    player_f = game_vars.world.component_for_entity(player_ent, FactionComponent).faction
+                    fact = game_vars.world.component_for_entity(ent, FactionComponent)
+                    react = game.get_faction_reaction(player_f, fact.faction)
+                    #print("react: " + str(react))
+                
+                    if react < -50:
+                        ret = "hostile"
+                    elif react < 0:
+                        ret = "unfriendly"
+                    elif react == 0:
+                        ret = "neutral"
+                    elif react > 50:
+                        ret = "helpful"
+                    elif react > 0:
+                        ret = "friendly"
+                look_list.append([name, vis.char, vis.color, ret])
+
+    return look_list

@@ -15,6 +15,7 @@ from .components.player import Player
 from .components.position import Position
 from .components.dead_component import DeadComponent
 from .components.combat_stats import StatsComponent
+from .components.cursor_component import CursorComponent
 
 from . import map_common
 from .map import level
@@ -184,6 +185,14 @@ def get_position(world):
     # we can get it straight from the world
     for ent, (player, pos) in world.get_components(Player, Position):
         return pos, ent
+
+def get_cursor_position(world):
+    ret = None
+    for ent, (player, pos, cursor) in world.get_components(Player, Position, CursorComponent):
+        ret = cursor
+
+    return ret
+
 
 def get_stats(world):
     for ent, (player, fighter) in world.get_components(Player, StatsComponent):

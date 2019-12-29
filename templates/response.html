@@ -19,6 +19,11 @@
           <div> HP: {{stats.hp}}/{{stats.hp_max}} </div>
           <div style="background-color: red; height: 20px; width: {{ stats.hp*5 if stats.hp > 0 else 0 }}px"></div>
           <p>Position: x {{position.x }}  y {{ position.y }}</p>
+          {%for e in look %}
+          <div> {{e[0]}} </div>
+          <div><span style="color:rgb{{e[2] }};">{{e[1]}}</span></div>
+          {% if e[3] is not none %} <div class="{{ e[3] }} ">{{e[3]}}</div> {%endif%}
+          {%endfor%}
         </td>
     </tbody>
   </table>
