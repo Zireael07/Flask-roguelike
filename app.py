@@ -169,6 +169,23 @@ def drop_item(id=None):
     'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
     })
 
+@app.route('/look', methods = ["GET"])
+def look():
+    if not game.is_player_alive(game_vars.world):
+        print("Abort early, player dead")
+        # This is a crash in Flask code, but it doesn't matter as we're dead either way
+        return
+    print("Look action!")
+
+    action = {'look': True}
+
+    game.act_and_update(game_vars.world, action)
+    data = data_to_redraw()
+
+    return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], look=data['look_list'])
+    })
+
 @app.route('/target_confirm', methods = ["GET"])
 def target_confirm(x=None, y=None):
     if not game.is_player_alive(game_vars.world):
@@ -187,6 +204,7 @@ def target_confirm(x=None, y=None):
         y = cursor.y
         print("Confirmed target: " + str(x) + " " + str(y))
 
+        if cursor.item is not None:
         action = {'target': (int(x), int(y))}
 
         game.act_and_update(game_vars.world, action)

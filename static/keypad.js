@@ -176,6 +176,19 @@ $( document ).ready(function() {
 
     });
 
+    $("#look").click(function(e) {
+        console.log("Clicked look");
+        $.ajax({
+            url: "/look",
+            type: "GET",
+            success: function(response) {
+                $('#output').html(response.data);
+            }
+        });
+
+    });
+
+
     $("#enter").click(function(e) {
         console.log("Clicked enter");
         $.ajax({

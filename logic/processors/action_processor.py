@@ -31,6 +31,7 @@ class ActionProcessor(esper.Processor):
         _use_item = self.action.get('use_item')
         _drop_item = self.action.get('drop_item')
         _target = self.action.get('target')
+        _look = self.action.get('look')
 
         for ent, (turn) in self.world.get_components(TurnComponent):
             #print("Entity has turn...")
@@ -66,9 +67,19 @@ class ActionProcessor(esper.Processor):
             if _target:
                 print("Target to execute....")
                 cur = self.world.component_for_entity(ent, CursorComponent)
-                self.world.add_component(ent, WantToUseItem(cur.item))
+                if cur.item is not None:
+                    self.world.add_component(ent, WantToUseItem(cur.item))
                 # remove cursor
                 #self.world.remove_component(ent, CursorComponent)
+
+            if _look:
+                print("Look to execute....")
+                if not self.world.has_component(ent, CursorComponent):
+                    pos = self.world.component_for_entity(ent, Position)
+                    self.world.add_component(ent, CursorComponent(pos.x, pos.y, None))
+                else:
+                    # toggle it off
+                    self.world.remove_component(ent, CursorComponent)
 
             # if not targeting:
             if not self.world.has_component(ent, CursorComponent):
