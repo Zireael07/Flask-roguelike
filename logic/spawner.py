@@ -24,18 +24,16 @@ from . import map_common
 from . import generators
 
 def spawn_player(world, loc):
-    player = world.create_entity()
-    world.add_component(player, Player())
-    world.add_component(player, TurnComponent())
-    world.add_component(player, Position(x=loc[0], y=loc[1]))
-    world.add_component(player, Velocity())
-    world.add_component(player, StatsComponent(hp=20, power=4))
-    world.add_component(player, NameComponent("Player"))
-    world.add_component(player, EquipmentComponent())
-    world.add_component(player, FactionComponent("player"))
-    world.add_component(player, AttributesComponent(15, 14, 13, 12, 8, 10))
-    world.add_component(player, SkillsComponent())
+    player = world.create_entity(Position(x=loc[0], y=loc[1]), Velocity(), SkillsComponent(), NameComponent("Player") )
+    add = [ Player(), TurnComponent(), StatsComponent(hp=20, power=4), AttributesComponent(15, 14, 13, 12, 8, 10),
+    EquipmentComponent(), FactionComponent("player") ]
 
+    for a in add:
+        world.add_component(player, a)
+
+    equip_list = ["T-shirt", "Jeans", "Boots"]
+    for e in equip_list:
+        spawn_named_item(world, loc, e.lower(), player)
 
 def spawn_npc(world, pos):
     # random location
