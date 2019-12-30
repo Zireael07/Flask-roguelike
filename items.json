@@ -156,7 +156,7 @@
             "name" : "Leather jacket",
             "renderable": {
                 "glyph" : "]",
-                "fg" : "#FF7C00",
+                "fg" : [255, 124, 0],
                 "bg" : [0,0,0],
                 "order" : 2
             },
