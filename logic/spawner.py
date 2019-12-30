@@ -31,7 +31,7 @@ def spawn_player(world, loc):
     for a in add:
         world.add_component(player, a)
 
-    equip_list = ["T-shirt", "Jeans", "Boots"]
+    equip_list = ["Baton", "T-shirt", "Jeans", "Boots"]
     for e in equip_list:
         spawn_named_item(world, loc, e.lower(), player)
 

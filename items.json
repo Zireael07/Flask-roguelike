@@ -64,6 +64,23 @@
             }
         },
 
+    "baton":    {
+            "name" : "Baton",
+            "renderable": {
+                "glyph" : "/",
+                "fg" : [170, 255, 255],
+                "bg" : [0,0,0],
+                "order" : 2
+            },
+            "wearable": {
+                "slot": "main_hand"
+            },
+            "weapon" : {
+                "damage_dice" : 4,
+                "damage_number_dice": 1
+            }
+        },
+
     "t-shirt":    {
             "name" : "T-shirt",
             "renderable": {
