@@ -79,6 +79,16 @@ def hello_world():
 
     return render_template('index.html', position = position, console=console, style=renderer_logic.map_style)
 
+# Game is immediately refreshed upon page load because we need starting inventory displayed properly
+@app.route('/refresh')
+def refresh():
+    data = data_to_redraw()
+
+    return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
+        'data': render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], look=data['look_list'])
+        })
+
+
 
 # Thanks to https://repl.it/@EthanGoldman/Python-Flask-Website-with-Ajax-and-Jquery for figuring this out!
 #When HTML button is clicked, execute the function

@@ -1,5 +1,22 @@
 $( document ).ready(function() {
 
+    // perform an ajax request immediately upon page load
+    $.ajax({
+        url: "/refresh",
+        type: "GET",
+        success: function(response){
+            console.log("Success");
+            $('#output').html(response.data);
+            $(".modal").html(response.inven);
+                //reattach click hook to close inventory button
+                //thanks to https://aiocollective.com/blog/click-doesn-t-work-after-ajax-load-jquery/
+                $("#close_btn").click(function(e) {
+                    console.log("Clicked close")
+                    $(".modal").attr("style", "display:none");
+                });
+        }
+    });
+
     $("#go_wait").click(function(e) {
 
         //console.log("Clicked wait button");
