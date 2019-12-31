@@ -147,7 +147,7 @@ def use_item(id=None):
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], equipped=data['equipped'])
     })
 
 # this is an additional route because it shows a special screen
@@ -157,6 +157,8 @@ def drop_view():
         print("Abort early, player dead")
         # This is a crash in Flask code, but it doesn't matter as we're dead either way
         return
+
+    position, player_ent = game.get_position(game_vars.world)
 
     # inventory data
     inventory = []
@@ -168,6 +170,16 @@ def drop_view():
 
         inventory.append((chr(letter_index), name.name, ent))
         letter_index += 1
+
+    for ent, (name, equip) in game_vars.world.get_components(NameComponent, EquippedComponent):
+        if equip.owner == player_ent:
+            # skips entities that are being removed
+            if game_vars.world.has_component(ent, SkipComponent):
+                continue
+
+            inventory.append((chr(letter_index), name.name + " (equipped)", ent))
+            letter_index += 1
+
 
     return jsonify({'inven': render_template('drop_inventory.html', inventory=inventory)})
 

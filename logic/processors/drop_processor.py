@@ -18,20 +18,22 @@ class DropProcessor(esper.Processor):
             item_ID = self.world.component_for_entity(ent, WantToDrop).item_ID 
             print("Item id to drop: " + str(item_ID))
 
-            self.world.remove_component(item_ID, InBackpackComponent)
+            # message
+            name = self.world.component_for_entity(ent, NameComponent)
+            item_name = self.world.component_for_entity(item_ID, NameComponent)
+
+            if self.world.has_component(item_ID, InBackpackComponent):
+                self.world.remove_component(item_ID, InBackpackComponent)
             # if equipped, unequip
             if self.world.has_component(item_ID, EquippedComponent):
-                ent_name = self.world.component_for_entity(ent, NameComponent)
-                game_vars.messages.append((ent_name.name + " unequips " + name.name, (255, 255, 255)))
-                self.world.remove_component(item_ent, EquippedComponent)
+                game_vars.messages.append((name.name + " unequips " + item_name.name, (255, 255, 255)))
+                self.world.remove_component(item_ID, EquippedComponent)
             
             pos_item = self.world.component_for_entity(item_ID, Position)
             pos_item.x, pos_item.y = pos.x, pos.y
             
 
-            # message
-            name = self.world.component_for_entity(ent, NameComponent)
-            item_name = self.world.component_for_entity(item_ID, NameComponent)
+
             
             # generic message
             game_vars.messages.append((name.name + " drops " + item_name.name + "!", (255, 255, 255)))
