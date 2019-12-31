@@ -24,6 +24,9 @@
           <div><span style="color:rgb{{e[2] }};">{{e[1]}}</span></div>
           {% if e[3] is not none %} <div class="{{ e[3] }} ">{{e[3]}}</div> {%endif%}
           {%endfor%}
+          {% for name in equipped %}
+          <div><strong>{{name}}</strong></div>
+          {%endfor%}
         </td>
     </tbody>
   </table>

@@ -53,17 +53,22 @@ def data_to_redraw():
         inventory.append((chr(letter_index), name.name, ent))
         letter_index += 1
 
+    # equipped
+    equipped = []
+
     for ent, (name, equip) in game_vars.world.get_components(NameComponent, EquippedComponent):
         if equip.owner == player_ent:
             # skips entities that are being removed
             if game_vars.world.has_component(ent, SkipComponent):
                 continue
 
+            equipped.append(name.name)
             inventory.append((chr(letter_index), name.name + " (equipped)", ent))
             letter_index += 1
 
 
-    return { "position" : position, "console": console, "messages" : messages, "fighter" : fighter, "look_list": look_list, "inventory" : inventory}
+
+    return { "position" : position, "console": console, "messages" : messages, "fighter" : fighter, "look_list": look_list, "inventory" : inventory, "equipped": equipped}
 
 
 
@@ -85,7 +90,7 @@ def refresh():
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-        'data': render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], look=data['look_list'])
+        'data': render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], look=data['look_list'], equipped=data['equipped'])
         })
 
 
@@ -106,7 +111,7 @@ def move(x=None, y=None):
     data = data_to_redraw()
 
     return jsonify({'data': render_template('response.html', 
-    position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], look=data['look_list'])})
+    position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], look=data['look_list'], equipped=data['equipped'])})
 
 
 
@@ -124,7 +129,7 @@ def get():
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], equipped=data['equipped'])
     })
 
 
@@ -180,7 +185,7 @@ def drop_item(id=None):
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], equipped=data['equipped'])
     })
 
 @app.route('/look', methods = ["GET"])
@@ -235,7 +240,7 @@ def save():
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], equipped=data['equipped'])
     })
 
 @app.route('/load', methods = ["GET"])
@@ -247,5 +252,5 @@ def load():
     data = data_to_redraw()
 
     return jsonify({'inven': render_template('inventory.html', inventory=data['inventory']),
-    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'])
+    'data' : render_template('response.html', position=data['position'], console=data['console'], style=renderer_logic.map_style, messages=data['messages'], stats=data['fighter'], equipped=data['equipped'])
     })
