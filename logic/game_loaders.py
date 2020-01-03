@@ -28,7 +28,11 @@ def save_game():
 
     # shelve is backed by pickle
     # however, if it's secure enough for my day job, it's also secure enough for my hobby project xDDD
-     with shelve.open('savegame', 'n') as data_file:
+    # Fix to work on Python Anywhere
+    import os
+    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+    save_file = os.path.join(THIS_FOLDER, '../savegame')
+    with shelve.open(save_file, 'n') as data_file:
         # serialize the world
         data_file['next_entity_id'] = game_vars.world._next_entity_id
         data_file['components'] = game_vars.world._components
@@ -43,10 +47,14 @@ def save_game():
 def load_game():
     print("Loading game...")
 
-    if not os.path.isfile('savegame.dat'):
+    import os
+    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+    save_file = os.path.join(THIS_FOLDER, '../savegame')
+    my_file = os.path.join(THIS_FOLDER, '../savegame.dat')
+    if not os.path.isfile(my_file):
         raise FileNotFoundError
 
-    with shelve.open('savegame', 'r') as data_file:
+    with shelve.open(save_file, 'r') as data_file:
         # load the world
         game_vars.world._next_entity_id = data_file['next_entity_id']
         game_vars.world._components = data_file['components']

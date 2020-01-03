@@ -89,10 +89,15 @@ def generate_item(_id):
 
 # Load JSON
 # this is triggered by merely importing this module
-with open("npcs.json") as json_data:
+# Fix to work on Python Anywhere
+import os
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+npc_file = os.path.join(THIS_FOLDER, '../npcs.json')
+with open(npc_file) as json_data:
         npc_data = json.load(json_data)
         #print(npc_data)
 
-with open("items.json") as json_data:
+items_file = os.path.join(THIS_FOLDER, '../items.json')
+with open(items_file) as json_data:
     items_data = json.load(json_data)
     #print(items_data)
